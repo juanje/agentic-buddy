@@ -180,6 +180,14 @@ Skills are reusable procedures in `agent_brain/skills/`. Create a new `.md` file
 
 The agent creates new directories inside `agent_brain/` as needed based on use. You can also create them manually — just add the new directory to the "Where to find things" section in `AGENTS.md` with a description of when the agent should look there.
 
+### Writing effective AGENTS.md entries
+
+Two gotchas discovered through production use:
+
+**Don't put instructions in HTML comments.** Claude Code strips HTML comments (`<!-- -->`) from `CLAUDE.md` during auto-injection (since v2.1.72). Since `CLAUDE.md` is a symlink to `AGENTS.md`, any instruction inside an HTML comment will be invisible to the agent at session start. HTML comments in *other* files (skills, observations, identity) are fine — those are read on demand with the Read tool, which preserves comments. Only `AGENTS.md` is affected because it's auto-injected.
+
+**Use trigger patterns, not passive references.** The agent treats the "Where to find things" section as structural documentation — it registers what exists but doesn't act on it. If you want the agent to *do* something in response to user behavior, put it in the Skills section with explicit trigger patterns (e.g., "Use when the user says X, Y, or Z"). Without triggers, the agent sees the reference but doesn't associate it with the user's request.
+
 ## Design principles: why this works
 
 Most AI coding assistants are stateless. Each conversation starts from zero. You repeat your context, re-explain your priorities, and lose the thread of what you were doing yesterday. This system gives the agent a persistent memory that grows with use.
