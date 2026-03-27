@@ -1,0 +1,166 @@
+---
+last_accessed: YYYY-MM-DD
+access_count: 0
+created: YYYY-MM-DD
+---
+
+# Skill: Process conversation
+
+## When to use
+
+Triggered by the user via the `/reflect` command, or at the end of a work session.
+
+## Procedure
+
+### 1. Review the conversation
+
+Read the current or most recent conversation. Identify:
+- Decisions and their reasoning
+- Tasks mentioned or captured
+- Ideas discussed
+- Meeting context or situational notes
+- Lessons learned or patterns discovered
+- Open threads (discussed but unresolved)
+
+### 2. Update today's log
+
+Open `logs/YYYY-MM-DD.md` (today's date). If it exists, append new content
+under the existing sections (avoid duplicating information already logged earlier
+in the day). If it doesn't exist, create it with this structure:
+
+```markdown
+---
+date: YYYY-MM-DD
+last_updated: YYYY-MM-DDTHH:MM
+---
+
+# Log — YYYY-MM-DD
+
+## Decisions
+- [Decision and reasoning, with enough context for future reference]
+
+## Tasks captured
+- [What was captured and where it was filed]
+
+## Ideas
+- [Ideas discussed, whether filed or not]
+
+## Context
+- [Meetings, conversations, situational context]
+
+## Lessons
+- [Patterns discovered, errors and fixes, things learned]
+
+## Open threads
+- [Discussed but unresolved — to pick up later]
+```
+
+Always update the `last_updated` timestamp in the frontmatter.
+
+### 3. Verify captures
+
+Check that everything actionable from the conversation has been properly captured:
+- Action items, tasks → `user/` (appropriate file or structure)
+- Concrete improvement ideas → `user/` or `agent_brain/ideas/`
+- Unformed ideas / project concepts / draft proposals → `agent_brain/ideas/`
+- Decisions → `agent_brain/projects/` or `agent_brain/concepts/`
+- Lessons → `agent_brain/concepts/`
+
+If anything was missed, capture it now.
+
+### 4. Detect observations
+
+Review the conversation looking for signals that the system itself should
+evolve, or that new knowledge is emerging. This is the detection step — flag
+what *might* matter. The `/daily` cycle will decide what to act on.
+
+Look for the following categories. For each, decide: is this a real signal or
+noise? Only record genuine observations.
+
+**Skill candidates — a reusable procedure is emerging:**
+- The user asked for a multi-step procedure not covered by an existing skill.
+- You performed a sequence of 3+ steps that could be reused in similar
+  situations.
+- The user said something like "do what you did last time with X" — implies
+  a repeatable pattern.
+- NOT a candidate: one-time instructions ("format this as a table"), or
+  procedures too specific to reuse.
+
+**Rule candidates — a behavioral correction or preference:**
+
+Two paths depending on how the signal was detected:
+
+- **Explicit user correction** (the user directly told you to change behavior:
+  "don't do X", "always do Y", or pointed out a mistake): **fast-track**.
+  Propose the rule to the user immediately in this conversation. If approved,
+  add it to AGENTS.md Rules now and log it as resolved in the observation
+  journal. Don't wait for the 2+ threshold — a direct correction is a strong
+  signal.
+
+- **Inferred rule candidate** (you noticed a pattern: an assumption that
+  turned out wrong, a preference expressed indirectly, a SOUL.md principle
+  you violated and self-corrected): log it in the observation journal as
+  usual. The `/daily` cycle acts on it when seen 2+ times.
+
+- NOT a candidate: preferences already captured in USER.md, or one-off
+  requests for this conversation only.
+
+**Concept candidates — new knowledge worth retaining:**
+- A lesson or pattern that could apply beyond the specific situation discussed.
+- A principle or heuristic the user articulated that generalizes.
+- A connection between today's topic and something previously discussed or
+  captured in `agent_brain/`.
+- NOT a candidate: content-specific decisions (which tech to use for
+  project X) — those go in project files, not as observations.
+
+**Structure candidates — information doesn't fit the current layout:**
+- A file was created in a directory that doesn't quite fit (e.g., a team
+  reference saved as a "concept").
+- The user mentioned a category of information that has no home yet.
+- Multiple files of a similar type exist in a generic directory.
+
+**Staleness signals — memory was wrong:**
+- You used information from memory that turned out to be outdated. Note
+  which file was stale and update it now (don't wait for daily).
+
+If there are observations, write them to **both** the daily log and the
+observation journal:
+
+**In the log** (`logs/YYYY-MM-DD.md`), append:
+
+```markdown
+## System observations
+- **Skill candidate:** [description of repeated procedure]
+- **Rule candidate:** [proposed rule and why]
+- **Concept candidate:** [pattern or connection detected]
+- **Structure candidate:** [proposed directory and what would go there]
+- **Stale data fixed:** [file updated and what changed]
+```
+
+**In the journal** (`agent_brain/observations.md`), add each observation
+under its category. If an existing entry describes the same pattern, don't
+duplicate it — increment its count and add the new date:
+
+```markdown
+- **YYYY-MM-DD:** [description] (seen: 1)
+  - YYYY-MM-DD: seen again in [context] (seen: 2)
+```
+
+If there are no observations, skip this section — don't force it.
+
+### 5. Git commit
+
+```bash
+git add logs/ agent_brain/observations.md && git commit -m "reflect: YYYY-MM-DD" 2>/dev/null || true
+```
+
+## Quality criteria
+
+- **Be specific.** "Discussed CI/CD" is useless. "Decided to migrate from Jenkins to
+  Tekton because of X" is useful.
+- **Focus on reasoning.** Decisions and their "why" are the most valuable content.
+- **Don't inflate.** If the conversation was trivial, the log can be minimal.
+- **Think of future you.** The log is for someone without today's context who needs
+  to understand when and why something was decided.
+- **Append, don't overwrite.** If the log already has content from an earlier
+  processing pass, add new information without duplicating.
