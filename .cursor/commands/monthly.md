@@ -1,0 +1,1 @@
+Read `agent_brain/skills/monthly-maintenance.md` and execute all phases in order. This is the deep monthly maintenance cycle — pruning, generalization, contradiction detection, and structural cleanup.

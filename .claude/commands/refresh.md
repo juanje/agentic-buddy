@@ -1,0 +1,1 @@
+../../.cursor/commands/refresh.md
