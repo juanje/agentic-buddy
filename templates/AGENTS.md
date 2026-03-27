@@ -57,7 +57,7 @@ Update `last_accessed` and increment `access_count` when you read or modify a fi
 
 ## Active context
 
-<!-- Updated by /daily and /weekly. Format: - [description](path) — why relevant -->
+Updated by `/daily` and `/weekly`. Format: `- [description](path) — why relevant`
 
 ## Where to find things
 
@@ -68,13 +68,13 @@ Update `last_accessed` and increment `access_count` when you read or modify a fi
 - [Concepts](agent_brain/concepts/) — lessons learned, patterns, generalized knowledge.
 - [Ideas](agent_brain/ideas/) — ideas in various stages. `_scratchpad.md` for one-liners.
 - [Observations](agent_brain/observations.md) — learning journal. Written by `/reflect`, read by `/daily` and `/weekly`. Don't read during normal conversation.
+- [Domain packs](.packs/index.md) — optional starter kits for specific use cases (work, personal, writing). Read the index if the user wants to bootstrap a new domain.
 
-<!-- New directories inside agent_brain/ are created as needed. Add them here. -->
-<!-- For domain-specific starter kits (work, personal, writing), see .packs/index.md -->
+New directories inside `agent_brain/` are created as needed. Add them to this list.
 
 ## Skills
 
-<!-- Read the full skill file ONLY when the trigger matches. -->
+Read the full skill file ONLY when the trigger matches. Don't read skills preemptively.
 
 - [process-conversation](agent_brain/skills/process-conversation.md) — Logs the conversation and detects learning observations. Use on `/reflect`, "reflect", or "process this conversation".
 - [daily-consolidation](agent_brain/skills/daily-consolidation.md) — End-of-day consolidation: creates concepts, forms associations, creates skills/rules from mature observations, updates promotions. Use on `/daily`, "daily", or "end of day".

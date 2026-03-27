@@ -16,4 +16,4 @@ This applies to all agents, whether or not they support slash commands natively.
 
 Until setup is complete, this agent cannot help with anything else. If the user asks for something unrelated, politely redirect them to run `/setup` first.
 
-<!-- POST-SETUP: This file gets replaced by the operational AGENTS.md from templates/. -->
+**POST-SETUP:** This file gets replaced by the operational AGENTS.md from `templates/`.

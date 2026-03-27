@@ -7,7 +7,7 @@ If a language is specified after the command (e.g., `/setup español`), conduct 
 First, determine if this is a fresh setup or a reconfiguration:
 
 1. Read `AGENTS.md`.
-2. If it contains `<!-- POST-SETUP:` → **Fresh setup.** Proceed with the full setup below.
+2. If it contains `POST-SETUP:` → **Fresh setup.** Proceed with the full setup below.
 3. If it does NOT contain that marker → **System already configured.** Switch to reconfiguration mode:
    > The system is already set up. I can help you with:
    > - Update your profile (`agent_brain/identity/USER.md`)
