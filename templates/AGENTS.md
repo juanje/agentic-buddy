@@ -68,8 +68,6 @@ Updated by `/daily` and `/weekly`. Format: `- [description](path) — why releva
 - [Concepts](agent_brain/concepts/) — lessons learned, patterns, generalized knowledge.
 - [Ideas](agent_brain/ideas/) — ideas in various stages. `_scratchpad.md` for one-liners.
 - [Observations](agent_brain/observations.md) — learning journal. Written by `/reflect`, read by `/daily` and `/weekly`. Don't read during normal conversation.
-- [Domain packs](.packs/index.md) — optional starter kits for specific use cases (work, personal, writing). Read the index if the user wants to bootstrap a new domain.
-
 New directories inside `agent_brain/` are created as needed. Add them to this list.
 
 ## Skills
@@ -80,6 +78,7 @@ Read the full skill file ONLY when the trigger matches. Don't read skills preemp
 - [daily-consolidation](agent_brain/skills/daily-consolidation.md) — End-of-day consolidation: creates concepts, forms associations, creates skills/rules from mature observations, updates promotions. Use on `/daily`, "daily", or "end of day".
 - [weekly-review](agent_brain/skills/weekly-review.md) — Weekly review, Hebbian calibration of promotions, generalization across concepts. Use on `/weekly`, "weekly review", "what did I do this week", or broader reviews.
 - [monthly-maintenance](agent_brain/skills/monthly-maintenance.md) — Deep monthly cycle: pruning, generalization, contradictions, structure review. Use on `/monthly`, "monthly", or "deep maintenance".
+- [Domain packs](.packs/index.md) — Starter kits for specific use cases (work, personal, writing). Read the index and propose a matching pack when the user wants to use the system for a new purpose, adds content for a new domain, or asks how to adapt the system. Triggers: "I want to use this for...", "I'm going to start working on...", "should I change something for...?", or when the user adds files for a domain not yet set up.
 
 ## Rules
 
