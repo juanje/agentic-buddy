@@ -25,7 +25,9 @@ and don't consume context until activated.
 3. Add any new skills to the Skills section of `AGENTS.md`.
 4. If the pack includes commands, create the corresponding files in
    `.cursor/commands/` and symlinks in `.claude/commands/`.
-5. Commit: `git add AGENTS.md agent_brain/ user/ .cursor/ .claude/ && git commit -m "pack: apply <name>"`
+5. If the pack includes scripts (`.sh` files), help the user install them
+   (make executable, link to `~/.local/bin/`).
+6. Commit: `git add AGENTS.md agent_brain/ user/ .cursor/ .claude/ && git commit -m "pack: apply <name>"`
 
 ---
 
@@ -44,11 +46,14 @@ experience from this generic base.
 | `sync-board.md` | `agent_brain/skills/` | Quick board sync with issue tracker |
 | `next-task.md` | `agent_brain/skills/` | Next task with full context and queue |
 | `capture-item.md` | `agent_brain/skills/` | Complex multi-destination captures |
+| `jira-pending.sh` | `~/.local/bin/jira-pending` | Queries pending Jira tickets (make executable, symlink) |
+| `jira-detail.sh` | `~/.local/bin/jira-detail` | Full ticket detail with comments (make executable, symlink) |
 | `tool-setup.md` | _(reference only)_ | Installation guide for `did` and Jira CLI tools |
 
 **After applying:** Add commands for `/standup`, `/sync`, `/next` to
 `.cursor/commands/` and `.claude/commands/`. Consider adding a WIP rule
-to AGENTS.md (e.g., "Doing WIP: target 1, max 2").
+to AGENTS.md (e.g., "Doing WIP: target 1, max 2"). Read `tool-setup.md`
+for configuring `did` and the Jira scripts.
 
 ### personal
 

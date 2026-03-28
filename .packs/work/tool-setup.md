@@ -1,10 +1,11 @@
 # Tool setup guide
 
-Reference for the setup agent. Contains installation and configuration details
-for the CLI tools used by the system. Read this during Step 4 of the setup
-procedure.
+Reference for configuring CLI tools used by the work pack. Read this when
+applying the work pack or when the user wants to set up external tools.
 
-This file is deleted along with the rest of `templates/` after setup completes.
+The scripts (`jira-pending.sh`, `jira-detail.sh`) are included in this
+pack directory (`.packs/work/`). Copy them to a location in the user's
+PATH during setup.
 
 ---
 
@@ -72,11 +73,11 @@ rely on board + logs instead.
 
 ## jira-pending — current Jira state
 
-Queries pending Jira tickets. Included in `scripts/jira-pending.sh`.
+Queries pending Jira tickets. Script: `.packs/work/jira-pending.sh`.
 
 ### Configure
 
-1. Edit `scripts/jira-pending.sh` and set these variables:
+1. Edit `.packs/work/jira-pending.sh` and set these variables:
    ```bash
    JIRA_URL="https://<instance>.atlassian.net"
    JIRA_USER="<user-email>"
@@ -96,9 +97,9 @@ Queries pending Jira tickets. Included in `scripts/jira-pending.sh`.
 
 4. Make executable and link:
    ```bash
-   chmod +x scripts/jira-pending.sh
+   chmod +x .packs/work/jira-pending.sh
    mkdir -p ~/.local/bin
-   ln -sf "$(pwd)/scripts/jira-pending.sh" ~/.local/bin/jira-pending
+   ln -sf "$(pwd)/.packs/work/jira-pending.sh" ~/.local/bin/jira-pending
    ```
 
 ### Test
@@ -124,12 +125,12 @@ jira-pending summary    # count by status
 
 ## jira-detail — ticket details
 
-Shows full ticket detail (description, comments, links). Included in
-`scripts/jira-detail.sh`. Uses the same Jira credentials as `jira-pending`.
+Shows full ticket detail (description, comments, links). Script:
+`.packs/work/jira-detail.sh`. Uses the same Jira credentials as `jira-pending`.
 
 ### Configure
 
-1. Edit `scripts/jira-detail.sh` and set:
+1. Edit `.packs/work/jira-detail.sh` and set:
    ```bash
    JIRA_URL="https://<instance>.atlassian.net"
    JIRA_USER="<user-email>"
@@ -138,9 +139,9 @@ Shows full ticket detail (description, comments, links). Included in
 
 2. Make executable and link:
    ```bash
-   chmod +x scripts/jira-detail.sh
+   chmod +x .packs/work/jira-detail.sh
    mkdir -p ~/.local/bin
-   ln -sf "$(pwd)/scripts/jira-detail.sh" ~/.local/bin/jira-detail
+   ln -sf "$(pwd)/.packs/work/jira-detail.sh" ~/.local/bin/jira-detail
    ```
 
 ### Test
@@ -162,23 +163,17 @@ jira-detail PROJ-1234 --last 3         # last 3 comments
 
 ## Non-Jira setups
 
-If the user doesn't use Jira, the setup agent should:
+If the user doesn't use Jira:
 
-1. **Remove** `scripts/jira-pending.sh` and `scripts/jira-detail.sh`.
-2. **Remove** references to `jira-pending` and `jira-detail` from:
-   - `templates/AGENTS.md` → "Getting work data" section
-   - `agent_brain/skills/run-standup.md` → step 1 (remove `jira-pending` calls)
-   - `agent_brain/skills/sync-board.md` → steps 1-3 (remove Jira cross-referencing, simplify to board-only sync)
-   - `agent_brain/skills/weekly-review.md` → step 1 (remove `jira-pending` calls)
-   - `agent_brain/skills/next-task.md` → step 3 (remove `jira-detail` call)
-3. If the user has a **different issue tracker** with CLI tools, add those to
-   the "Getting work data" section following the same format: tool name, what
-   it does, basic syntax.
-4. If the user has **no issue tracker CLI tools**, simplify the skills to work
-   with board + logs only. The system still works — external tools are a bonus.
+1. Don't install the Jira scripts.
+2. Remove references to `jira-pending` and `jira-detail` from the skills
+   that were copied from this pack (run-standup, sync-board, weekly-review,
+   next-task). Simplify them to work with board + logs only.
+3. If the user has a **different issue tracker** with CLI tools, add those
+   to the "Getting work data" section of AGENTS.md following the same
+   format: tool name, what it does, basic syntax.
 
 Similarly, if the user doesn't use `did`:
 
-1. **Remove** `did` references from `templates/AGENTS.md` → "Getting work data".
-2. **Remove** `did` calls from `agent_brain/skills/run-standup.md` and `agent_brain/skills/weekly-review.md`.
-3. The standup and weekly review will rely on board + logs for activity data.
+1. Remove `did` references from the skills (run-standup, weekly-review).
+2. The standup and weekly review will rely on board + logs for activity data.
