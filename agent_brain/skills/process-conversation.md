@@ -66,7 +66,21 @@ Check that everything actionable from the conversation has been properly capture
 - Decisions → `agent_brain/projects/` or `agent_brain/concepts/`
 - Lessons → `agent_brain/concepts/`
 
-If anything was missed, capture it now.
+When you add information that **extends, clarifies, or exemplifies** something that already
+exists elsewhere (concept, project, article, log decision), **link it explicitly**:
+
+- From the new file/section back to the existing one.
+- With a short explanation of **what is on the other side** and **why to go there**:
+
+  ```markdown
+  > Related: [Understanding complexity](agent_brain/concepts/understanding-complexity.md)
+  > Deeper explanation of the formal framework behind today's example.
+  ```
+
+Prefer a few **high-signal links** with clear intent over many vague ones. The goal is that
+future you (and the agent) can decide whether to follow a link without opening it first.
+
+If anything was missed (capture or link), add it now.
 
 ### 4. Detect observations
 

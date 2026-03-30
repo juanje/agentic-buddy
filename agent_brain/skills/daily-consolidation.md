@@ -104,15 +104,24 @@ Look for connections between today's work and existing brain files:
 - Did a project decision connect to a known pattern?
 - Is there a link between an idea and a lesson learned?
 
-For each meaningful connection, add cross-references to **both** files:
+For each meaningful connection, add cross-references to **both** files. Make links
+**semantically explicit** so the reader can decide whether to follow them:
 
 ```markdown
 > Related: [other-file](path/to/other-file.md) — brief explanation of
-> how they connect.
+> how they connect and what is on the other side (general pattern,
+> deeper explanation, source conversation, practical example, etc.).
 ```
 
 These associations are the "synapses" of the system. They strengthen with
 use across days and help surface relevant context in future sessions.
+
+When you create or significantly extend a **concept or project file**, actively ask:
+
+- “Which 1–2 existing files does this build on, clarify, or exemplify?”
+- “From this file, what is the **most useful next hop** a future reader might want?”
+
+Add links for those top candidates rather than trying to link everything.
 
 Don't force connections. If nothing connects naturally today, skip this step.
 

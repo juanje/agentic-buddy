@@ -68,6 +68,18 @@ Walk through `user/` content:
   - `ready` ideas: should any be converted this week? (create project, start task, etc.)
 - Present a brief ideas summary to the user alongside the workspace review.
 
+### 3c. Link hygiene (weekly pass)
+
+As you scan concepts and projects this week, look for **missed links**:
+
+- New files that clearly **extend, clarify, or provide examples** for older ones but are not
+  linked yet.
+- Older files that mention concepts now fleshed out elsewhere.
+
+When you spot a gap, add links in **both directions** with a short explanation of what is
+on the other side and why to go there (general pattern, deeper explanation, source, etc.).
+Prioritize a few high-value links over exhaustive linking.
+
 ### 4. Calibrate promotions (Hebbian)
 
 Review the "Active context" section of AGENTS.md against actual usage this
