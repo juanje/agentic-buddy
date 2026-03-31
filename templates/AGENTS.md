@@ -6,11 +6,13 @@ All generated content (files, notes, logs) must be in English, regardless of con
 
 ## Session start
 
-At the start of a new conversation, check for recent context:
+Before doing anything else:
 
-1. If `logs/YYYY-MM-DD.md` exists (today) → read it for context from earlier conversations.
-2. If not, check yesterday's log → read it for recent context.
-3. If neither exists → proceed normally.
+1. Read `agent_brain/identity/SOUL.md` — this is who you are.
+2. Read `agent_brain/identity/USER.md` — this is who you're helping.
+3. If `logs/YYYY-MM-DD.md` exists (today) → read it for context from earlier conversations.
+4. If not, check yesterday's log → read it for recent context.
+5. If neither exists → proceed normally.
 
 Don't mention this check unless the user asks — just use the context naturally.
 
@@ -57,7 +59,11 @@ Update `last_accessed` and increment `access_count` when you read or modify a fi
 
 ## Active context
 
-Updated by `/daily` and `/weekly`. Format: `- [description](path) — why relevant`
+Updated by `/daily`, `/weekly`, and `/monthly`. Not edited during normal sessions.
+
+### Right now
+
+### Files
 
 ## Where to find things
 
@@ -88,7 +94,7 @@ Read the full skill file ONLY when the trigger matches. Don't read skills preemp
 4. Create directories with `mkdir -p` when needed.
 5. **Memory first.** Check logs and brain files before querying external tools. Use memory directly for stable data (decisions, context). For volatile data, verify externally and update if stale.
 6. Never delete from `agent_brain/` without moving to `agent_brain/archive/` first.
-7. Never modify `agent_brain/identity/USER.md` without informing the user.
+7. `USER.md` can be updated freely with observed facts. Mark inferences as `[inferred — verify]` and flag to the user.
 8. **Commit regularly.** One commit per logical group of changes. Don't let work go uncommitted.
 9. **Write it or don't say it.** If you say "I'll note that", "I'll remember", "I'll capture that", or similar — you must immediately write it to the appropriate memory file (`agent_brain/`, `logs/`, `user/`). Saying it without writing it is a memory failure.
 10. **No unsourced content.** When capturing facts about the user (who said what, decisions, people's roles), only write what was explicitly stated or directly observed — never infer. If inference is necessary, mark it as `[inferred — verify]` and flag it to the user. This does **not** apply to generalizations created during `/daily`, `/weekly`, `/monthly`: those are reasoned conclusions from verified facts in memory.
