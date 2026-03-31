@@ -88,14 +88,20 @@ week. The goal is to check whether daily promotions held up over time.
 1. For each file linked in Active context, check its `access_count` and
    `last_accessed` metadata.
 2. **Reinforce:** files accessed repeatedly across different days this week →
-   keep in Active context. Consider enriching the description if its role has
-   become clearer.
+   keep in Active context. Update the hot data and read trigger if the
+   file's role has become clearer during the week.
 3. **Weaken:** files promoted during a daily consolidation but barely touched
    since → remove from Active context. The initial connection didn't hold —
    it was a one-day spike, not sustained relevance.
-4. **New promotions:** recalculate scores across the full week (same formula
-   as daily: `access_count × recency_factor`). Any file that scores high
-   across the week but isn't in Active context yet → add it.
+4. **New promotions:** scan brain files for any that were heavily used this
+   week but aren't in Active context yet → add them.
+
+Each file entry should have **hot data** (key fact useful without opening
+the file) and a **read trigger** (when the agent should open it).
+
+Also update the **Right now** subsection with current state (situation,
+next actions, health, constraints). See the daily skill Step 7 for format
+and full guidance on both subsections.
 
 Present the changes: "Promoted: [X], Removed: [Y], Kept: [Z]."
 

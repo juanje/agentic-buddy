@@ -156,23 +156,47 @@ occurrences** (seen across different conversations or days):
 Observations with only 1 occurrence stay in the journal — they need more
 data before acting.
 
-#### 7. Update Active context (initial promotion)
+#### 7. Update Active context
 
-Update the "Active context" section of AGENTS.md based on today's activity:
+Active context has two subsections: **Right now** (ephemeral state) and
+**Files** (pointers to semantic memory).
+
+**### Right now** — current state the agent should know at every session
+start, without opening any file. Volatile facts that change every few days:
+
+- Current situation (vacation, sick, deadline week, travel)
+- Most immediate next actions (1-3 items, with dates if known)
+- Health or personal context affecting daily activity
+- Constraints or blockers
+
+Keep it to 3-5 bullet points. This is the scratchpad of working memory —
+not a task list, not a log. Replace the full contents each time; don't
+append.
+
+**### Files** — pointers to brain files worth keeping in the agent's
+peripheral awareness. Updated based on today's activity:
 
 1. Scan files in `agent_brain/` (excluding `identity/`, `skills/`, `archive/`).
-2. Calculate score: `score = access_count × recency_factor`
-   - recency_factor: 1.0 (today), 0.9 (yesterday), 0.7 (this week),
-     0.4 (this month), 0.1 (older).
-3. Top 5-7 files by score get linked in "Active context".
-4. Remove links whose files are no longer in the top scores.
+2. Read metadata (`access_count`, `last_accessed`) as the starting point —
+   frequently read and recently accessed files are the primary candidates.
+3. Adjust with judgment: a file accessed once today on an important topic
+   may deserve promotion; a frequently-touched housekeeping file may not.
+4. Keep 5-7 entries. Remove files no longer actively relevant; add newly
+   important ones.
 
-Link format:
+Each file entry has two layers — **hot data** inline and a **read trigger**:
+
 ```
-- [Brief description](path/to/file.md) — why it's relevant right now
+- [Short name](path/to/file.md) — key fact or core principle (useful
+  without opening the file). Read when [clear trigger for when to open it].
 ```
 
-This makes newly important files immediately visible in the next session.
+Examples:
+- `[Wedding](path) — July 10 2026. Read when wedding tasks come up.`
+- `[Project X](path) — blocked on API approval. Read when discussing project X or planning sprints.`
+
+Avoid: accumulated history, internal scores, operational detail that only
+matters during maintenance.
 
 ---
 
