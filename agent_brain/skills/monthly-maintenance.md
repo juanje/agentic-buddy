@@ -224,6 +224,17 @@ used. The directory structure should emerge from use, not from upfront design.
 
 ---
 
+### Phase 7b: Identity file curation
+
+Review `agent_brain/identity/` files:
+
+1. Check `USER.md` for stale facts, redundancy, or excessive growth.
+   Update observed facts from the month's logs. Remove outdated information.
+2. If extensions exist (`background.md`, `health.md`, etc.), verify links
+   from `USER.md` are accurate and load conditions still make sense.
+3. Compact where possible — identity files should be reference material,
+   not accumulated history.
+
 ### Phase 8: Clear resolved observations
 
 **Goal:** Keep the observation journal clean.

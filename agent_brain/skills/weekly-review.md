@@ -105,6 +105,18 @@ and full guidance on both subsections.
 
 Present the changes: "Promoted: [X], Removed: [Y], Kept: [Z]."
 
+### 4b. Identity file check
+
+If `agent_brain/identity/USER.md` has grown significantly (rough threshold:
+80+ lines of content), consider splitting detailed sections into separate
+files under `agent_brain/identity/` (e.g., `background.md`, `health.md`).
+Keep `USER.md` lean — identity, current context, and preferences. Each
+extension should have explicit load conditions at the top:
+`Load when discussing [topic]`. Link from `USER.md` with:
+`[Label](filename.md) — load when [trigger]`.
+
+Flag to the user before splitting — they should approve the structure.
+
 ### 5. Calibrate learned skills and rules
 
 Review **learned** skills and rules (created by the agent during `/daily`,

@@ -52,6 +52,26 @@ After this exchange, reflect back briefly what you understood.
 
 Using the answers, fill in `agent_brain/identity/USER.md`. Follow the template structure already in the file but replace the placeholder comments with real content. Be concise — this file is reference, not a biography. If the user gave brief answers, fill in what you have and leave the rest as placeholders — it will fill in over time.
 
+### Step 3b: Personalize the agent (optional)
+
+After writing USER.md, offer the user a chance to customize the agent:
+
+> Want to personalize how I work? You can:
+> - Give me a name
+> - Set a tone or personality (formal, casual, opinionated, supportive, challenging...)
+> - Tell me anything about how you'd like me to interact with you
+>
+> This is optional — the defaults work well and adapt as we work together.
+> You can always change this later by editing `agent_brain/identity/SOUL.md`.
+
+If the user wants to personalize:
+1. Read `agent_brain/identity/SOUL.md`.
+2. If they chose a name, add a `## Name` section at the top (after the frontmatter heading).
+3. Adjust the `## Interaction style` section to reflect their preferences.
+4. Keep everything else — don't remove existing character traits, only tune them.
+
+If the user skips: proceed to Step 4. The default SOUL.md is already well-rounded.
+
 ### Step 4: Check domain packs
 
 Based on what the user described in Step 2, check if a matching domain pack exists:
