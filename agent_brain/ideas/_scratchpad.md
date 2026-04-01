@@ -11,4 +11,4 @@ iteration, promote it to its own file in `agent_brain/ideas/` and remove it from
 
 ---
 
-<!-- Format: - YYYY-MM-DD: Brief idea description -->
+Format: `- YYYY-MM-DD: Brief idea description`
