@@ -79,5 +79,5 @@ data and update if stale.
 
 ## Language
 
-- All generated content (logs, notes, brain files, skills) in English.
-- Conversation with the user in whatever language they prefer.
+- All generated **repository** content (logs, notes, brain files, skills) in English.
+- **Replies to the user:** same language they use in the chat (see `USER.md` → Preferences). Internal reasoning may be in English; the visible reply matches the user.
