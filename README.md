@@ -19,6 +19,7 @@ A self-organizing memory for any AI agent. Brain dump tasks, decisions, ideas, a
 - [Customization](#customization)
 - [Design principles: why this works](#design-principles-why-this-works)
 - [Known limitations](#known-limitations)
+- [Acknowledgments](#acknowledgments)
 - [License](#license)
 
 ## Getting started
@@ -261,6 +262,10 @@ This system runs on top of general-purpose AI coding agents, not a dedicated app
 **All learning cycles are manual.** You need to remember to run `/reflect`, `/daily`, `/weekly`, and `/monthly` at the appropriate times. There are no automatic triggers — most editors don't fire session-end events, and users typically start new conversations rather than closing existing ones. If you forget to reflect, conversation context is lost when it leaves the agent's context window.
 
 **Cursor-first.** The system is developed and tested primarily in Cursor. Claude Code is fully functional via pre-created symlinks (`CLAUDE.md`, `.claude/commands/`), but some behavioral differences may exist. For other agents, workflows must be triggered by asking directly (e.g., "do a weekly review"). The core system (AGENTS.md + skills + file structure) works everywhere.
+
+## Acknowledgments
+
+The concept of identity files loaded at session start (`SOUL.md` for agent character, `USER.md` for the human's profile) was inspired by [OpenClaw](https://docs.openclaw.ai/concepts/agent#bootstrap-files-injected), an open-source AI agent runtime that uses a similar set of workspace files (`SOUL.md`, `USER.md`, `IDENTITY.md`, `BOOTSTRAP.md`) to give agents persistent identity and context. The implementation here diverged significantly — shaped by this project's own principles around complex systems, Hebbian memory, and emergent organization — but the seed idea of file-based identity deserves credit.
 
 ## License
 
