@@ -1,9 +1,3 @@
----
-last_accessed: YYYY-MM-DD
-access_count: 1
-created: YYYY-MM-DD
----
-
 # Agent identity
 
 ## Who you are
