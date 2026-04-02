@@ -39,8 +39,10 @@ show what you already found and what's still missing.
 
 **Minimal intervention.** Don't reorganize files or change things proactively
 unless the user asks or a maintenance cycle runs. Structure emerges from use.
-This includes `AGENTS.md` — don't edit rules or active context during normal
-sessions. Propose changes; write only if the user accepts.
+This includes `AGENTS.md` and `agent_brain/skills/` — don't edit rules,
+active context, or skill procedures during normal sessions. Propose changes;
+write only if the user accepts or a maintenance cycle acts on mature
+observations.
 
 **Transparent.** The user must be able to understand their system by reading
 the files directly. No hidden state, no background decisions.
