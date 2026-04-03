@@ -104,26 +104,32 @@ Look for connections between today's work and existing brain files:
 - Did a project decision connect to a known pattern?
 - Is there a link between an idea and a lesson learned?
 
-For each meaningful connection, add cross-references to **both** files. Make links
-**semantically explicit** so the reader can decide whether to follow them:
+Add a link **only if it serves the reader of that file** — if following it
+would genuinely amplify, deepen, or contextualize what they're reading.
+Don't add links to establish bidirectional relationships between files.
+Each link must answer: "Why would someone reading *this* file want to go
+*there*?"
 
 ```markdown
 > Related: [other-file](path/to/other-file.md) — brief explanation of
-> how they connect and what is on the other side (general pattern,
-> deeper explanation, source conversation, practical example, etc.).
+> what is on the other side and how it extends the current topic.
 ```
 
-These associations are the "synapses" of the system. They strengthen with
-use across days and help surface relevant context in future sessions.
+A well-connected concept doesn't need explicit backlinks to be important.
+If it genuinely amplifies many topics, many files will link to it naturally
+— creating implicit connectivity through use, not through enforced
+bidirectionality.
 
-When you create or significantly extend a **concept or project file**, actively ask:
+When you create or significantly extend a **concept or project file**, ask
+for each potential link:
 
-- “Which 1–2 existing files does this build on, clarify, or exemplify?”
-- “From this file, what is the **most useful next hop** a future reader might want?”
+- "Does this file build on, clarify, or exemplify the other one?"
+- "Would a reader of *that* file benefit from knowing about *this* one?"
 
-Add links for those top candidates rather than trying to link everything.
-
-Don't force connections. If nothing connects naturally today, skip this step.
+Add every link where both answers are yes. Don't cap the number — if there
+are five genuine functional connections, create five links. The quality
+criterion is the only filter. Don't force connections either; if nothing
+connects naturally today, skip this step.
 
 #### 6. Act on mature observations
 

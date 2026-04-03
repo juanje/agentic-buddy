@@ -146,10 +146,10 @@ across weeks and months of accumulated knowledge.
      - [B](path/to/B.md) — how B relates
      - [C](path/to/C.md) — how C relates
      ```
-   - In each specific file, add a back-reference:
-     ```markdown
-     > General pattern: [AA](path/to/AA.md) — the broader principle
-     ```
+   - For each specific file (A, B, C), consider whether a link to the
+     general pattern (AA) would **serve the reader** of that file — i.e.,
+     genuinely deepen their understanding of the specific concept. Add it
+     only if it does; don't add back-references for graph completeness.
    - If the general concept is broadly useful, add it to Active context.
 4. Do the same for skills: if multiple skills follow a similar pattern for
    different domains, consider creating a general skill that covers the

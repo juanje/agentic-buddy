@@ -225,6 +225,14 @@ In neuroscience, Hebb's principle states that neurons that fire together wire to
 
 Every file tracks when it was last accessed and how often. The learning cycles use these metrics to **promote** frequently-used files to the agent's active context (making them immediately visible) and **archive** files that haven't been touched in weeks. The agent's attention automatically mirrors what's actually relevant right now, without manual curation.
 
+### Implicit connectivity: strength through use
+
+In neuroscience, a memory isn't strong because it has a "strength counter." It's strong because many different cues can activate it — many neural pathways lead there. The memory's importance is a structural property of the network, not a stored number.
+
+This system applies the same principle. A concept's importance is never calculated or declared — it emerges from how many other files link to it through organic use. If a concept genuinely matters, many files will reference it naturally, because their readers benefit from knowing about it. That network of incoming links *is* the concept's strength, just as the web of neural connections *is* the memory's strength.
+
+Links must be **functional**: each one exists to serve the reader of the file it's in, not to maintain a graph structure. A link is added when — and only when — it answers: "Would someone reading *this* file benefit from navigating *there*?" This explicitly avoids Obsidian-style backlinks, where every link must be bidirectional. Mandatory backlinks cause central concepts to bloat with inbound references that don't serve their readers — the concept file becomes a noisy index instead of focused knowledge.
+
 ### Memory architecture: four zones
 
 The directory structure maps to a cognitive model with four distinct memory systems:

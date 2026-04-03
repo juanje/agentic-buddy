@@ -70,15 +70,21 @@ Walk through `user/` content:
 
 ### 3c. Link hygiene (weekly pass)
 
-As you scan concepts and projects this week, look for **missed links**:
+As you scan concepts and projects this week, look for **missed functional
+links** — places where a reader would genuinely benefit from a pointer to
+another file:
 
-- New files that clearly **extend, clarify, or provide examples** for older ones but are not
-  linked yet.
-- Older files that mention concepts now fleshed out elsewhere.
+- New files that **extend, clarify, or provide examples** for older ones but
+  are not linked yet — and where the reader of the older file would benefit
+  from knowing about the new one.
+- Older files that mention concepts now fleshed out elsewhere — where a link
+  would help the reader navigate to deeper content.
 
-When you spot a gap, add links in **both directions** with a short explanation of what is
-on the other side and why to go there (general pattern, deeper explanation, source, etc.).
-Prioritize a few high-value links over exhaustive linking.
+Add a link only if it serves the reader of that specific file. Don't add
+links to maintain bidirectional relationships — a concept's importance is
+shown by how many files naturally link to it through use, not by enforced
+backlinks. Don't cap the number of links; every genuinely functional link
+should exist.
 
 ### 4. Calibrate promotions (Hebbian)
 
@@ -145,10 +151,11 @@ that can be abstracted into general knowledge.
      - [B](path/to/B.md) — how B relates to this pattern
      - [C](path/to/C.md) — how C relates to this pattern
      ```
-   - In each specific file (A, B, C), add a back-reference:
-     ```markdown
-     > General pattern: [AA](path/to/AA.md) — the broader principle
-     ```
+   - For each specific file (A, B, C), consider whether a link to the
+     general pattern (AA) would **serve the reader** of that file. Add it
+     only if knowing about the broader principle genuinely deepens the
+     reader's understanding of the specific concept. Don't add back-
+     references just for graph completeness.
    - If AA is heavily relevant right now, add it to Active context in
      AGENTS.md. The general version is more broadly useful than any
      specific instance.

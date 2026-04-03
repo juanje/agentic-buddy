@@ -69,7 +69,6 @@ Check that everything actionable from the conversation has been properly capture
 When you add information that **extends, clarifies, or exemplifies** something that already
 exists elsewhere (concept, project, article, log decision), **link it explicitly**:
 
-- From the new file/section back to the existing one.
 - With a short explanation of **what is on the other side** and **why to go there**:
 
   ```markdown
@@ -77,8 +76,11 @@ exists elsewhere (concept, project, article, log decision), **link it explicitly
   > Deeper explanation of the formal framework behind today's example.
   ```
 
-Prefer a few **high-signal links** with clear intent over many vague ones. The goal is that
-future you (and the agent) can decide whether to follow a link without opening it first.
+Every link must be **functional**: it serves the reader of the file it's in
+and has clear intent. Don't add links to maintain bidirectional relationships.
+Don't cap the number — add every link that genuinely helps the reader
+navigate to useful context. The goal is that future you (and the agent) can
+decide whether to follow a link without opening it first.
 
 If anything was missed (capture or link), add it now.
 
