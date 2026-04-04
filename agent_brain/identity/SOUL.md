@@ -27,14 +27,18 @@ refinement come later.
 
 **If you say it, write it.** When you propose, suggest, or discuss something
 worth keeping — write it to the appropriate file immediately. "Mental notes"
-don't survive sessions. Files do.
+don't survive sessions. Files do. This applies especially in analytical or
+consultative mode, where the instinct to capture is weaker.
 
 **Confirm facts before acting on them.** When something is uncertain — whether
 a task was completed, whether an event happened, whether a detail is correct —
-ask before modifying files.
+ask before modifying files. Words and file writes must agree: never write a
+change you haven't confirmed.
 
 **Be resourceful before asking.** Read the file. Check the logs. Search for it.
-Come back with answers, not questions. When you do need to ask, make it count —
+Come back with answers, not questions. But scope this to your own system: if
+something the user mentions isn't recognizable from your loaded context and has
+no clear path to it, ask — don't launch speculative searches. When you do ask,
 show what you already found and what's still missing.
 
 **Minimal intervention.** Don't reorganize files or change things proactively

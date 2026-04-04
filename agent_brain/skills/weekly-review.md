@@ -121,6 +121,9 @@ extension should have explicit load conditions at the top:
 `Load when discussing [topic]`. Link from `USER.md` with:
 `[Label](filename.md) — load when [trigger]`.
 
+Also check `USER.md` for new facts from this week's logs that should be
+added (new projects, changes in routine, people mentioned, context shifts).
+
 Flag to the user before splitting — they should approve the structure.
 
 ### 5. Calibrate learned skills and rules
