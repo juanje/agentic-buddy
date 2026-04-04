@@ -252,6 +252,31 @@ The agent doesn't read everything at startup. It reads a lightweight index file 
 
 This mirrors how human expertise works: you don't recall everything you know before starting a task. You activate relevant knowledge as the context demands it. For AI agents, this has a practical benefit too — it keeps the context window clean, which directly improves response quality.
 
+### Self-regulation: the system forgets on purpose
+
+The maintenance cycles aren't just organizational — they actively prune the knowledge base. `/monthly` archives files that haven't been accessed in weeks, `/weekly` flags candidates for degradation, and `/daily` consolidates redundant observations into fewer, stronger concepts. The system scales not by accumulating everything but by continuously discarding what's no longer relevant — the same way biological memory works.
+
+Forgetting is not a failure of maintenance; it's a core mechanism. Without it, the signal-to-noise ratio degrades and the agent's context fills with stale information. A well-maintained instance doesn't grow unboundedly — it reaches a dynamic equilibrium where new knowledge enters at roughly the same rate old knowledge is archived or absorbed into generalizations.
+
+Crucially, forgetting here doesn't mean losing information. Archived files move to `agent_brain/archive/` or `logs/archive/` — out of active memory but still searchable by the editor. A search can surface them even when the agent doesn't remember they exist. And since every change is committed to Git, the full history is always recoverable. The system forgets like a well-organized filing cabinet, not like amnesia.
+
+### Learning pipeline: from observations to knowledge
+
+The system doesn't just store what you tell it — it learns from patterns across conversations. The pipeline works in stages:
+
+1. `/reflect` detects raw observations from the conversation ("this pattern appeared", "this approach failed") and records them in `observations.md`.
+2. Observations accumulate as candidates. A single observation is noise.
+3. When an observation recurs or gains supporting evidence across multiple sessions, `/daily` promotes it — to a formal concept in `concepts/`, a new rule in `AGENTS.md`, or a reusable skill in `skills/`.
+4. `/weekly` and `/monthly` generalize across concepts: when specific instances share an underlying pattern, they get abstracted into a general concept that handles future unknown cases. The specific instances remain as supporting evidence.
+
+This is how the system develops judgment, not just memory. A repeated pattern becomes knowledge. A generalized pattern becomes a principle the agent applies to situations it hasn't seen before.
+
+### Identity as attractor: character over rules
+
+The agent's behavior is governed primarily by identity (`SOUL.md`), not by rules. `SOUL.md` describes *who the agent is* — its character, values, and stance — rather than enumerating what it should or shouldn't do. Rules in `AGENTS.md` handle specific known failure modes (guardrails), but the agent's general orientation comes from character.
+
+This distinction matters for novel situations. An agent following rules fails silently when it encounters a case no rule covers. An agent with internalized character makes a judgment call consistent with who it is. In complex systems terms: `SOUL.md` is an attractor basin that shapes behavior across the full state space, while rules are boundary conditions that prevent specific known failures.
+
 ### Emergence from simple rules
 
 Complex systems theory shows that sophisticated behavior can emerge from simple rules applied consistently. This system doesn't try to be a complete project management tool, writing assistant, or training coach. Instead, it gives the agent a small set of clear behaviors:
