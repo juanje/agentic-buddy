@@ -124,7 +124,31 @@ extension should have explicit load conditions at the top:
 Also check `USER.md` for new facts from this week's logs that should be
 added (new projects, changes in routine, people mentioned, context shifts).
 
-Flag to the user before splitting — they should approve the structure.
+**Episodic entries:** For time-bounded situations (illness, injury, travel,
+temporary care load), collapse the accumulated day-by-day history to a
+single summary line once the episode is clearly resolved or stable. Format:
+`[Topic] (dates): [one-sentence outcome]. Detail in journal.`
+The day-by-day detail lives in the journal entries — `USER.md` only needs
+the current state and a pointer. Don't wait for the file to grow large;
+collapse when the episode closes.
+
+**Extension file candidates (people, domains):** When a person or topic
+appears repeatedly across conversations and requires structured background
+context beyond a one-liner, consider creating an extension file under
+`agent_brain/identity/` (e.g., `background.md`, `health.md`, `family.md`,
+`work.md`). The criterion is not file size — it's whether there is enough
+*stable, structured reference material* that an agent would genuinely need
+when the topic appears. Three questions:
+1. Is there a clear load trigger? ("when discussing X in depth")
+2. Is the content reference material (stable facts, dynamics, history) —
+   not episodic history that belongs in the journal?
+3. Does it appear in multiple conversations, making the file worth
+   maintaining?
+
+If yes to all three, propose the split to the user. Track candidates in
+`agent_brain/observations.md` under "Structure candidates" until they
+mature. Flag to the user before splitting — they should approve the
+structure.
 
 ### 5. Calibrate learned skills and rules
 
