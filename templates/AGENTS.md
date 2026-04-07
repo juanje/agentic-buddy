@@ -69,8 +69,8 @@ to the write, not a consultation.
 ## Where to find things
 
 - [User workspace](user/) — action items, documents, drafts, lists. The user can also add files here directly for the agent to read and process.
-- [Observations](agent_brain/observations.md) — learning journal. Written by `/reflect`, read by `/daily` and `/weekly`. Don't read during normal conversation.
-New directories inside `agent_brain/` are created as needed. Add them to this list.
+
+New directories inside `agent_brain/` or `user/` are created as needed. Add them to this list. Format: **what the directory contains** (content description) + **when to read it** (trigger). Don't describe how it's built or maintained — that belongs in the skill, not here.
 
 ## Skills
 
