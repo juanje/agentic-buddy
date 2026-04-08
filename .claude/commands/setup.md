@@ -1,1 +1,0 @@
-../../.cursor/commands/setup.md
