@@ -36,9 +36,9 @@ If you have an existing brain instance (Work Agentic Buddy or an older Agentic B
 
 1. Set up the new instance first (clone, `/setup`).
 2. Run `/import <path>` with the path to your old instance:
-  ```
+   ```
    /import ~/git/work_brain
-  ```
+   ```
 3. The agent will scan the source, show you a summary of what it found (concepts, projects, ideas, logs, skills, user artifacts), and ask for confirmation before importing.
 
 The import handles structural differences automatically: `work/` maps to `user/`, outdated core skills are skipped (the new instance has updated versions), learned skills are preserved, and file metadata (`access_count`, `created` dates) is kept so that Hebbian dynamics work correctly with your historical usage patterns.
@@ -65,14 +65,12 @@ When you start a new conversation, the agent automatically checks for today's lo
 
 The system's directory structure maps to distinct cognitive functions, each with its own purpose, lifecycle rules, and ownership.
 
-
-| Directory      | Cognitive function | Contents                             | Lifecycle                                | Ownership |
-| -------------- | ------------------ | ------------------------------------ | ---------------------------------------- | --------- |
-| `AGENTS.md`    | Working memory     | Active context, rules, skills index  | Updated by `/daily` and `/weekly`        | Agent     |
-| `agent_brain/` | Semantic memory    | Concepts, projects, skills, identity | Hebbian: promote, degrade, archive       | Agent     |
-| `logs/`        | Episodic memory    | Conversation records                 | Compact by age, archive after extraction | Agent     |
-| `user/`        | Extended mind      | Lists, drafts, documents, user files | No automatic pruning — user decides      | User      |
-
+| Directory | Cognitive function | Contents | Lifecycle | Ownership |
+|---|---|---|---|---|
+| `AGENTS.md` | Working memory | Active context, rules, skills index | Updated by `/daily` and `/weekly` | Agent |
+| `agent_brain/` | Semantic memory | Concepts, projects, skills, identity | Hebbian: promote, degrade, archive | Agent |
+| `logs/` | Episodic memory | Conversation records | Compact by age, archive after extraction | Agent |
+| `user/` | Extended mind | Lists, drafts, documents, user files | No automatic pruning — user decides | User |
 
 ### `agent_brain/` — what the agent knows
 
@@ -100,14 +98,12 @@ Conversation records — the logbook. Not knowledge (that's `agent_brain/`), not
 
 The system learns through four temporal levels, modeled on how biological memory works — from short-term encoding to long-term consolidation and forgetting:
 
-
-| Level             | Command    | What it does                                                                                            | When to run             |
-| ----------------- | ---------- | ------------------------------------------------------------------------------------------------------- | ----------------------- |
-| **Encoding**      | `/reflect` | Logs the conversation, detects patterns and observations                                                | After each conversation |
-| **Consolidation** | `/daily`   | Creates concepts, forms associations, creates skills/rules from mature observations, first promotions   | End of day              |
-| **Calibration**   | `/weekly`  | Calibrates promotions (reinforce or weaken), generalizes across concepts, light pruning flags           | End of week             |
-| **Forgetting**    | `/monthly` | Archives abandoned files, prunes unused skills, deep generalization, contradiction and structure review | Monthly                 |
-
+| Level | Command | What it does | When to run |
+|-------|---------|-------------|-------------|
+| **Encoding** | `/reflect` | Logs the conversation, detects patterns and observations | After each conversation |
+| **Consolidation** | `/daily` | Creates concepts, forms associations, creates skills/rules from mature observations, first promotions | End of day |
+| **Calibration** | `/weekly` | Calibrates promotions (reinforce or weaken), generalizes across concepts, light pruning flags | End of week |
+| **Forgetting** | `/monthly` | Archives abandoned files, prunes unused skills, deep generalization, contradiction and structure review | Monthly |
 
 Each level builds on the previous one's output. `/reflect` detects raw observations. `/daily` acts on them — creating knowledge and connections. `/weekly` checks whether those connections held up over time or were just noise. `/monthly` archives what's truly forgotten and looks for deep patterns across the full knowledge base.
 
@@ -123,7 +119,7 @@ Specific concepts that share an underlying pattern get abstracted into general c
 └── agent_brain/
     ├── identity/
     │   ├── USER.md              → Your profile and preferences.
-    │   └── SOUL.md              → Agent identity, values, and limits.
+    │   └── SOUL.md              → Agent identity and character — who the agent is.
     ├── observations.md          → Learning journal: raw observations from /reflect.
     ├── skills/                  → Reusable procedures, loaded on demand.
     ├── projects/                → Active project context and decisions.
@@ -138,13 +134,11 @@ The system starts nearly empty. Directories populate through use. The agent crea
 
 The system ships with optional starter kits in `.packs/` that bootstrap specific use cases. Packs are hidden from the editor index (`.cursorignore`) and don't consume context until activated.
 
-
-| Pack         | What it provides                                                                   |
-| ------------ | ---------------------------------------------------------------------------------- |
-| **work**     | Kanban board, standup skill, board sync, next-task, capture-item, tool setup guide |
-| **personal** | GTD-style inbox with contexts (@home, @errands, @computer)                         |
-| **writing**  | Writing style template for the agent to learn your voice                           |
-
+| Pack | What it provides |
+|------|-----------------|
+| **work** | Kanban board, standup skill, board sync, next-task, capture-item, tool setup guide |
+| **personal** | GTD-style inbox with contexts (@home, @errands, @computer) |
+| **writing** | Writing style template for the agent to learn your voice |
 
 During setup, the agent offers a matching pack based on what you describe. You can also apply packs later by asking the agent ("I want to start tracking tasks") — it will check the available packs and propose one. Packs are never forced; you can always let structure emerge naturally instead.
 
@@ -172,17 +166,15 @@ In all cases, the same four learning cycles drive the system. `agent_brain/` cap
 
 ## Structured workflows
 
+| Command | What it does |
+|---------|-------------|
+| `/reflect` | Processes the conversation into a structured daily log and detects learning observations |
+| `/daily` | End-of-day consolidation: creates concepts, forms associations, acts on mature observations |
+| `/weekly` | Weekly review + Hebbian calibration of promotions + generalization across concepts |
+| `/monthly` | Deep maintenance: pruning, deep generalization, contradiction detection, structure review |
+| `/refresh` | Re-reads AGENTS.md — useful when the agent loses context in long conversations |
 
-| Command    | What it does                                                                                |
-| ---------- | ------------------------------------------------------------------------------------------- |
-| `/reflect` | Processes the conversation into a structured daily log and detects learning observations    |
-| `/daily`   | End-of-day consolidation: creates concepts, forms associations, acts on mature observations |
-| `/weekly`  | Weekly review + Hebbian calibration of promotions + generalization across concepts          |
-| `/monthly` | Deep maintenance: pruning, deep generalization, contradiction detection, structure review   |
-| `/refresh` | Re-reads AGENTS.md — useful when the agent loses context in long conversations              |
-
-
-These commands are slash commands in Cursor and Claude Code. Maintenance commands (`/reflect`, `/daily`, `/weekly`, `/monthly`) inject their skill file directly and require slash command support.
+These commands are available as slash commands in Cursor and Claude Code. For other agents, trigger them by asking directly (e.g., "do a weekly review").
 
 ## Compatibility
 
@@ -193,7 +185,7 @@ The system works with any AI agent that reads `AGENTS.md` from the workspace roo
 - **GitHub Copilot** — reads AGENTS.md
 - **Windsurf, Zed, Gemini CLI, RooCode** — reads AGENTS.md
 
-Slash commands are provided for Cursor (`.cursor/commands/`). Claude Code commands are pre-created as symlinks in `.claude/commands/` pointing to the Cursor originals — one source of truth, both agents supported. Content-triggered skills (listed in the Skills section of `AGENTS.md`) work with any agent. Maintenance commands require slash command support.
+Slash commands are provided for Cursor (`.cursor/commands/`). Claude Code commands are pre-created as symlinks in `.claude/commands/` pointing to the Cursor originals — one source of truth, both agents supported. For other agents, trigger workflows by asking directly.
 
 **Note:** Claude Code reads `CLAUDE.md`, not `AGENTS.md`. The included `CLAUDE.md` symlink ensures both files resolve to the same content. A `.cursorignore` file prevents Cursor from double-indexing the symlinked files.
 
@@ -206,6 +198,16 @@ Skills are reusable procedures in `agent_brain/skills/`. Create a new `.md` file
 ### Adding brain directories
 
 The agent creates new directories inside `agent_brain/` as needed based on use. You can also create them manually — just add the new directory to the "Where to find things" section in `AGENTS.md` with a description of when the agent should look there.
+
+### How the identity files work together
+
+The system has three layers of instruction, each with a different role:
+
+- **`SOUL.md`** describes WHO the agent is — character traits, not procedures. Keep it short and coherent; everything should connect. Each trait is a deep attractor that guides behavior across all situations. When you edit SOUL.md, write identity descriptions ("you value X"), not commands ("do X").
+- **`AGENTS.md`** describes WHAT to do in specific contexts — operational rules with WHY. The reasoning enables the agent to generalize to situations the rule didn't explicitly cover. When adding rules, always include the purpose: `[rule]. [why — what it prevents, enables, or protects]`.
+- **Skills** describe HOW to execute specific procedures — steps with purpose. An agent that understands why a step exists can adapt when the exact procedure doesn't fit. When writing skills, include the purpose of non-obvious steps and distinguish fixed steps from judgment calls.
+
+The `/setup` command personalizes interaction style (how the agent communicates) but preserves character traits (what it values) — these are the foundation that enables good judgment in novel situations.
 
 ### Writing effective AGENTS.md entries
 
@@ -245,14 +247,12 @@ Links must be **functional**: each one exists to serve the reader of the file it
 
 The directory structure maps to a cognitive model with four distinct memory systems:
 
-
-| Zone                | Location       | Biological analog         | Accessibility                                                                   |
-| ------------------- | -------------- | ------------------------- | ------------------------------------------------------------------------------- |
-| **Working memory**  | `AGENTS.md`    | Prefrontal cortex         | Always loaded. The agent sees this every conversation.                          |
-| **Semantic memory** | `agent_brain/` | Neocortex                 | Accessible on demand. Frequently accessed files get promoted to Active context. |
-| **Episodic memory** | `logs/`        | Hippocampus               | Processing buffer. Episodes are consolidated into semantic memory over time.    |
-| **Extended mind**   | `user/`        | Notebook, calendar, tools | The user's workspace. Not the agent's memory, but part of the cognitive system. |
-
+| Zone | Location | Biological analog | Accessibility |
+|---|---|---|---|
+| **Working memory** | `AGENTS.md` | Prefrontal cortex | Always loaded. The agent sees this every conversation. |
+| **Semantic memory** | `agent_brain/` | Neocortex | Accessible on demand. Frequently accessed files get promoted to Active context. |
+| **Episodic memory** | `logs/` | Hippocampus | Processing buffer. Episodes are consolidated into semantic memory over time. |
+| **Extended mind** | `user/` | Notebook, calendar, tools | The user's workspace. Not the agent's memory, but part of the cognitive system. |
 
 The critical distinction between `agent_brain/archive/` and deletion: archived files remain in the workspace where a search can find them (**passive recognition** — "I forgot I knew this, but a search reminded me"). Deleted files only exist in git history, which requires knowing they existed in the first place (**active recall**). This is why the system archives before deleting.
 
@@ -285,7 +285,15 @@ This is how the system develops judgment, not just memory. A repeated pattern be
 
 The agent's behavior is governed primarily by identity (`SOUL.md`), not by rules. `SOUL.md` describes *who the agent is* — its character, values, and stance — rather than enumerating what it should or shouldn't do. Rules in `AGENTS.md` handle specific known failure modes (guardrails), but the agent's general orientation comes from character.
 
-This distinction matters for novel situations. An agent following rules fails silently when it encounters a case no rule covers. An agent with internalized character makes a judgment call consistent with who it is. In complex systems terms: `SOUL.md` is an attractor basin that shapes behavior across the full state space, while rules are boundary conditions that prevent specific known failures.
+This distinction matters because instructions sit on a spectrum, each level progressively better at enabling judgment in novel situations:
+
+1. **Bare rule** — "Never do X." Predictable but brittle: breaks in any situation the rule didn't anticipate.
+2. **Rule with WHY** — "Do Y, because Z." The agent understands the purpose and can generalize to situations the rule didn't cover. Research confirms that LLMs follow rules better when given reasoning, because they can create meta-rules from the explanation.
+3. **Character** — "You are someone who values Z." No rule needed per situation — the agent has the adaptive capacity to generate appropriate responses in any context, including ones never anticipated.
+
+An agent following rules fails silently when it encounters a case no rule covers. An agent with internalized character makes a judgment call consistent with who it is — identity and character act as a cognitive offloader, guiding behavior in novel situations without having to search for a matching rule. In complex systems terms: `SOUL.md` is an attractor basin that shapes behavior across the full state space, while rules in `AGENTS.md` are boundary conditions that prevent specific known failures. Skills in `agent_brain/skills/` are adaptable techniques — procedures with purpose that the agent can modify when the exact steps don't fit.
+
+Each layer enables the next: character guides rule interpretation, rules with WHY enable generalization, skills with purpose enable adaptation. The maintenance cycles evolve this system over time: rules that prove universally important get promoted to character traits during `/monthly` (Hebbian internalization), while unused rules decay and get archived.
 
 ### Emergence from simple rules
 
@@ -324,7 +332,7 @@ CLAUDE_TOOLS="Bash(readonly=false),Read,Write,Edit,Glob,Grep"
 
 Log files land in `logs/` alongside the daily conversation logs.
 
-**Cursor-first.** The system is developed and tested primarily in Cursor. Claude Code is fully functional via pre-created symlinks (`CLAUDE.md`, `.claude/commands/`), but some behavioral differences may exist. The core system (AGENTS.md + file structure) works with any agent that reads `AGENTS.md`, but maintenance commands (`/reflect`, `/daily`, `/weekly`, `/monthly`) require slash command support.
+**Cursor-first.** The system is developed and tested primarily in Cursor. Claude Code is fully functional via pre-created symlinks (`CLAUDE.md`, `.claude/commands/`), but some behavioral differences may exist. For other agents, workflows must be triggered by asking directly (e.g., "do a weekly review"). The core system (AGENTS.md + skills + file structure) works everywhere.
 
 ## Acknowledgments
 

@@ -139,15 +139,23 @@ occurrences** (seen across different conversations or days):
 **Skill candidates (seen 2+):**
 1. Create the skill in `agent_brain/skills/verb-object.md`.
 2. Include: frontmatter, "When to use" with clear triggers, "Procedure"
-   with numbered steps.
+   with numbered steps. For each step, include its **purpose** when not
+   obvious — an agent that understands WHY a step exists can adapt when the
+   exact procedure doesn't fit. Distinguish fixed steps (must always happen)
+   from judgment calls (adapt based on context).
 3. Add it to the Skills section of AGENTS.md with a trigger description.
 4. Mark the observation as resolved in the journal.
 
 **Rule candidates (seen 2+):**
-1. Present the proposed rule to the user for approval.
-2. If approved: add it to the Rules section of AGENTS.md.
-3. Mark the observation as resolved in the journal.
-4. If not approved: leave it in the journal, note the rejection.
+1. Evaluate where it belongs:
+   - Universal trait describing who the agent IS → propose for SOUL.md Character.
+   - Contextual operational rule → propose for AGENTS.md Rules, with WHY.
+   - If unclear, default to AGENTS.md — it can be promoted later.
+2. Formulate the rule with its reasoning: `[rule]. [why — what it prevents,
+   enables, or protects]`.
+3. Present to the user for approval.
+4. If approved: add to the appropriate file. Mark the observation as resolved.
+5. If not approved: leave in the journal, note the rejection.
 
 **Concept candidates (seen 2+):**
 1. Create the concept file if not already created in step 4 above.

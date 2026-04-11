@@ -125,6 +125,12 @@ they keep it the same way.
    that seem to conflict with observed behavior or are consistently
    ignored?
    - Flag for review. Present to the user.
+4. **Promote mature rules to character.** Review rules in AGENTS.md that have
+   been consistently active for 3+ months. If a rule applies universally, has
+   never been questioned, and describes who the agent IS rather than what it
+   should DO — propose promoting it to SOUL.md as a character trait, rewritten
+   in identity language. If approved: add to SOUL.md Character, remove from
+   AGENTS.md Rules.
 
 ---
 
@@ -160,6 +166,9 @@ across weeks and months of accumulated knowledge.
    just concepts. Projects, teams, and any other directories can also
    contain related files that share an underlying pattern.
 7. Present all generalizations to the user for approval before creating.
+8. **Consider form.** Generalizations that guide decisions should be written
+   as frameworks (when to apply, how to decide), not just descriptions.
+   Knowledge describes; attractors guide.
 
 ---
 
@@ -182,7 +191,9 @@ across weeks and months of accumulated knowledge.
 
 ### Phase 6: Contradiction detection
 
-**Goal:** Maintain coherence in the knowledge base.
+**Goal:** Maintain coherence in the knowledge base. Contradictions erode trust
+in memory — if the agent finds conflicting information, it can't know which to
+use, weakening the "Memory first" principle.
 
 1. Scan concept and project files for contradictions: information in one
    file that conflicts with information in another.

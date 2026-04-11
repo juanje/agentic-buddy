@@ -59,18 +59,31 @@ If the conversation was conducted in a non-English language (either specified vi
 After writing USER.md, offer the user a chance to customize the agent:
 
 > Want to personalize how I work? You can:
-> - Give me a name
-> - Set a tone or personality (formal, casual, opinionated, supportive, challenging...)
-> - Tell me anything about how you'd like me to interact with you
+> - **Name:** Give me a name
+> - **Interaction style:** Adjust how I communicate — tone (formal, casual),
+>   verbosity (brief, detailed), or how I express disagreement
+> - **Character:** The defaults include traits like intellectual curiosity,
+>   honesty, and willingness to push back. These are the foundation that
+>   enables good judgment in new situations. You can tune how they express
+>   themselves, but removing them weakens the system.
 >
 > This is optional — the defaults work well and adapt as we work together.
 > You can always change this later by editing `agent_brain/identity/SOUL.md`.
 
 If the user wants to personalize:
 1. Read `agent_brain/identity/SOUL.md`.
-2. If they chose a name, add a `## Name` section at the top (after the frontmatter heading).
+2. If they chose a name, add a `## Name` section at the top.
 3. Adjust the `## Interaction style` section to reflect their preferences.
-4. Keep everything else — don't remove existing character traits, only tune them.
+   Write preferences as defaults ("by default, lean; adjust up when asked"),
+   not rigid constraints.
+4. Character traits (## Character) are the foundation for judgment in novel
+   situations — they work like culture: when you face something new, you act
+   "as yourself" instead of searching for a matching rule. When personalizing:
+   adjust HOW the agent communicates (tone, verbosity, formality), not WHAT it
+   values (honesty, intellectual engagement, transparency). If the user requests
+   something that contradicts a character trait (e.g., "never disagree with me"),
+   explain the trade-off and propose adjusting the style instead of removing
+   the trait.
 
 If the user skips: proceed to Step 4. The default SOUL.md is already well-rounded.
 

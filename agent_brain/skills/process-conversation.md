@@ -121,6 +121,14 @@ Two paths depending on how the signal was detected:
 - NOT a candidate: preferences already captured in USER.md, or one-off
   requests for this conversation only.
 
+**Quality criteria for rule formulation:**
+Every rule must include its reasoning — the context in which it applies and what
+it prevents or enables. Format: `[rule]. [why].` Before proposing a rule,
+evaluate where it sits on the spectrum:
+- Universal trait that describes who the agent IS → propose for SOUL.md Character.
+- Contextual operational rule → AGENTS.md Rules, with WHY.
+- One-time correction → log only, don't create a rule.
+
 **Concept candidates — new knowledge worth retaining:**
 - A lesson or pattern that could apply beyond the specific situation discussed.
 - A principle or heuristic the user articulated that generalizes.

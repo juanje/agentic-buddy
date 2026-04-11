@@ -159,7 +159,8 @@ not core system skills) that were created or modified this week:
   issues with triggers or procedure.
 - **Not used at all** since creation → flag. The trigger description may be
   too vague, or the skill may have been premature. Don't remove yet — give
-  it another week. The monthly cycle handles archiving after longer disuse.
+  it another week. Premature pruning loses the signal; the monthly cycle
+  handles archiving after longer disuse.
 
 ### 6. Generalize
 
@@ -189,6 +190,10 @@ that can be abstracted into general knowledge.
 3. Do the same for skills: if skills X and Y follow a similar procedure for
    different domains, consider a general skill that covers both.
 4. Present generalizations to the user for approval before creating.
+5. **Consider form, not just content.** Is the generalization actionable —
+   does it guide future decisions? If so, write it as a framework: when to
+   apply, how to decide, what to watch for. A concept that only describes a
+   pattern is knowledge; a concept that guides judgment is an attractor.
 
 Don't force generalizations. If nothing connects naturally across the week,
 skip this step. Generalization emerges from accumulated data, not from a
