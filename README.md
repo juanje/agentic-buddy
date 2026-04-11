@@ -294,6 +294,21 @@ This system runs on top of general-purpose AI coding agents, not a dedicated app
 
 **All learning cycles are manual.** You need to remember to run `/reflect`, `/daily`, `/weekly`, and `/monthly` at the appropriate times. There are no automatic triggers — most editors don't fire session-end events, and users typically start new conversations rather than closing existing ones. If you forget to reflect, conversation context is lost when it leaves the agent's context window.
 
+**Partial workaround (Linux/macOS + Claude Code CLI):** The consolidation cycles (`/daily`, `/weekly`, `/monthly`) can be automated via cron since they don't require an active conversation — they work from the files in the repo. `/reflect` cannot be automated this way because it processes a specific conversation.
+
+```cron
+# Daily — every night at 23:50
+50 23 * * *   cd /path/to/your/ab && claude -p "/daily"   --allowedTools "Bash(readonly=false),Read,Write,Edit,Glob,Grep" >> logs/cron-daily.log 2>&1
+
+# Weekly — Sundays at 23:55 (after daily)
+55 23 * * 0   cd /path/to/your/ab && claude -p "/weekly"  --allowedTools "Bash(readonly=false),Read,Write,Edit,Glob,Grep" >> logs/cron-weekly.log 2>&1
+
+# Monthly — 1st of each month at 00:01
+1  0  1 * *   cd /path/to/your/ab && claude -p "/monthly" --allowedTools "Bash(readonly=false),Read,Write,Edit,Glob,Grep" >> logs/cron-monthly.log 2>&1
+```
+
+Replace `/path/to/your/ab` with your repo path and `claude` with the full path to the Claude Code CLI binary if it's not on the cron `PATH` (e.g. `~/.local/bin/claude`). Log files land in `logs/` alongside the daily conversation logs.
+
 **Cursor-first.** The system is developed and tested primarily in Cursor. Claude Code is fully functional via pre-created symlinks (`CLAUDE.md`, `.claude/commands/`), but some behavioral differences may exist. The core system (AGENTS.md + file structure) works with any agent that reads `AGENTS.md`, but maintenance commands (`/reflect`, `/daily`, `/weekly`, `/monthly`) require slash command support.
 
 ## Acknowledgments
