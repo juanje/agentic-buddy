@@ -36,9 +36,9 @@ If you have an existing brain instance (Work Agentic Buddy or an older Agentic B
 
 1. Set up the new instance first (clone, `/setup`).
 2. Run `/import <path>` with the path to your old instance:
-   ```
+  ```
    /import ~/git/work_brain
-   ```
+  ```
 3. The agent will scan the source, show you a summary of what it found (concepts, projects, ideas, logs, skills, user artifacts), and ask for confirmation before importing.
 
 The import handles structural differences automatically: `work/` maps to `user/`, outdated core skills are skipped (the new instance has updated versions), learned skills are preserved, and file metadata (`access_count`, `created` dates) is kept so that Hebbian dynamics work correctly with your historical usage patterns.
@@ -65,12 +65,14 @@ When you start a new conversation, the agent automatically checks for today's lo
 
 The system's directory structure maps to distinct cognitive functions, each with its own purpose, lifecycle rules, and ownership.
 
-| Directory | Cognitive function | Contents | Lifecycle | Ownership |
-|---|---|---|---|---|
-| `AGENTS.md` | Working memory | Active context, rules, skills index | Updated by `/daily` and `/weekly` | Agent |
-| `agent_brain/` | Semantic memory | Concepts, projects, skills, identity | Hebbian: promote, degrade, archive | Agent |
-| `logs/` | Episodic memory | Conversation records | Compact by age, archive after extraction | Agent |
-| `user/` | Extended mind | Lists, drafts, documents, user files | No automatic pruning — user decides | User |
+
+| Directory      | Cognitive function | Contents                             | Lifecycle                                | Ownership |
+| -------------- | ------------------ | ------------------------------------ | ---------------------------------------- | --------- |
+| `AGENTS.md`    | Working memory     | Active context, rules, skills index  | Updated by `/daily` and `/weekly`        | Agent     |
+| `agent_brain/` | Semantic memory    | Concepts, projects, skills, identity | Hebbian: promote, degrade, archive       | Agent     |
+| `logs/`        | Episodic memory    | Conversation records                 | Compact by age, archive after extraction | Agent     |
+| `user/`        | Extended mind      | Lists, drafts, documents, user files | No automatic pruning — user decides      | User      |
+
 
 ### `agent_brain/` — what the agent knows
 
@@ -98,12 +100,14 @@ Conversation records — the logbook. Not knowledge (that's `agent_brain/`), not
 
 The system learns through four temporal levels, modeled on how biological memory works — from short-term encoding to long-term consolidation and forgetting:
 
-| Level | Command | What it does | When to run |
-|-------|---------|-------------|-------------|
-| **Encoding** | `/reflect` | Logs the conversation, detects patterns and observations | After each conversation |
-| **Consolidation** | `/daily` | Creates concepts, forms associations, creates skills/rules from mature observations, first promotions | End of day |
-| **Calibration** | `/weekly` | Calibrates promotions (reinforce or weaken), generalizes across concepts, light pruning flags | End of week |
-| **Forgetting** | `/monthly` | Archives abandoned files, prunes unused skills, deep generalization, contradiction and structure review | Monthly |
+
+| Level             | Command    | What it does                                                                                            | When to run             |
+| ----------------- | ---------- | ------------------------------------------------------------------------------------------------------- | ----------------------- |
+| **Encoding**      | `/reflect` | Logs the conversation, detects patterns and observations                                                | After each conversation |
+| **Consolidation** | `/daily`   | Creates concepts, forms associations, creates skills/rules from mature observations, first promotions   | End of day              |
+| **Calibration**   | `/weekly`  | Calibrates promotions (reinforce or weaken), generalizes across concepts, light pruning flags           | End of week             |
+| **Forgetting**    | `/monthly` | Archives abandoned files, prunes unused skills, deep generalization, contradiction and structure review | Monthly                 |
+
 
 Each level builds on the previous one's output. `/reflect` detects raw observations. `/daily` acts on them — creating knowledge and connections. `/weekly` checks whether those connections held up over time or were just noise. `/monthly` archives what's truly forgotten and looks for deep patterns across the full knowledge base.
 
@@ -134,11 +138,13 @@ The system starts nearly empty. Directories populate through use. The agent crea
 
 The system ships with optional starter kits in `.packs/` that bootstrap specific use cases. Packs are hidden from the editor index (`.cursorignore`) and don't consume context until activated.
 
-| Pack | What it provides |
-|------|-----------------|
-| **work** | Kanban board, standup skill, board sync, next-task, capture-item, tool setup guide |
-| **personal** | GTD-style inbox with contexts (@home, @errands, @computer) |
-| **writing** | Writing style template for the agent to learn your voice |
+
+| Pack         | What it provides                                                                   |
+| ------------ | ---------------------------------------------------------------------------------- |
+| **work**     | Kanban board, standup skill, board sync, next-task, capture-item, tool setup guide |
+| **personal** | GTD-style inbox with contexts (@home, @errands, @computer)                         |
+| **writing**  | Writing style template for the agent to learn your voice                           |
+
 
 During setup, the agent offers a matching pack based on what you describe. You can also apply packs later by asking the agent ("I want to start tracking tasks") — it will check the available packs and propose one. Packs are never forced; you can always let structure emerge naturally instead.
 
@@ -166,13 +172,15 @@ In all cases, the same four learning cycles drive the system. `agent_brain/` cap
 
 ## Structured workflows
 
-| Command | What it does |
-|---------|-------------|
-| `/reflect` | Processes the conversation into a structured daily log and detects learning observations |
-| `/daily` | End-of-day consolidation: creates concepts, forms associations, acts on mature observations |
-| `/weekly` | Weekly review + Hebbian calibration of promotions + generalization across concepts |
-| `/monthly` | Deep maintenance: pruning, deep generalization, contradiction detection, structure review |
-| `/refresh` | Re-reads AGENTS.md — useful when the agent loses context in long conversations |
+
+| Command    | What it does                                                                                |
+| ---------- | ------------------------------------------------------------------------------------------- |
+| `/reflect` | Processes the conversation into a structured daily log and detects learning observations    |
+| `/daily`   | End-of-day consolidation: creates concepts, forms associations, acts on mature observations |
+| `/weekly`  | Weekly review + Hebbian calibration of promotions + generalization across concepts          |
+| `/monthly` | Deep maintenance: pruning, deep generalization, contradiction detection, structure review   |
+| `/refresh` | Re-reads AGENTS.md — useful when the agent loses context in long conversations              |
+
 
 These commands are slash commands in Cursor and Claude Code. Maintenance commands (`/reflect`, `/daily`, `/weekly`, `/monthly`) inject their skill file directly and require slash command support.
 
@@ -237,12 +245,14 @@ Links must be **functional**: each one exists to serve the reader of the file it
 
 The directory structure maps to a cognitive model with four distinct memory systems:
 
-| Zone | Location | Biological analog | Accessibility |
-|---|---|---|---|
-| **Working memory** | `AGENTS.md` | Prefrontal cortex | Always loaded. The agent sees this every conversation. |
-| **Semantic memory** | `agent_brain/` | Neocortex | Accessible on demand. Frequently accessed files get promoted to Active context. |
-| **Episodic memory** | `logs/` | Hippocampus | Processing buffer. Episodes are consolidated into semantic memory over time. |
-| **Extended mind** | `user/` | Notebook, calendar, tools | The user's workspace. Not the agent's memory, but part of the cognitive system. |
+
+| Zone                | Location       | Biological analog         | Accessibility                                                                   |
+| ------------------- | -------------- | ------------------------- | ------------------------------------------------------------------------------- |
+| **Working memory**  | `AGENTS.md`    | Prefrontal cortex         | Always loaded. The agent sees this every conversation.                          |
+| **Semantic memory** | `agent_brain/` | Neocortex                 | Accessible on demand. Frequently accessed files get promoted to Active context. |
+| **Episodic memory** | `logs/`        | Hippocampus               | Processing buffer. Episodes are consolidated into semantic memory over time.    |
+| **Extended mind**   | `user/`        | Notebook, calendar, tools | The user's workspace. Not the agent's memory, but part of the cognitive system. |
+
 
 The critical distinction between `agent_brain/archive/` and deletion: archived files remain in the workspace where a search can find them (**passive recognition** — "I forgot I knew this, but a search reminded me"). Deleted files only exist in git history, which requires knowing they existed in the first place (**active recall**). This is why the system archives before deleting.
 
@@ -297,17 +307,22 @@ This system runs on top of general-purpose AI coding agents, not a dedicated app
 **Partial workaround (Linux/macOS + Claude Code CLI):** The consolidation cycles (`/daily`, `/weekly`, `/monthly`) can be automated via cron since they don't require an active conversation — they work from the files in the repo. `/reflect` cannot be automated this way because it processes a specific conversation.
 
 ```cron
+# Common config
+PROJECT_DIR=/path/to/your/ab
+CLAUDE_BIN=/path/to/claude          # e.g. ~/.local/bin/claude
+CLAUDE_TOOLS="Bash(readonly=false),Read,Write,Edit,Glob,Grep"
+
 # Daily — every night at 23:50
-50 23 * * *   cd /path/to/your/ab && claude -p "/daily"   --allowedTools "Bash(readonly=false),Read,Write,Edit,Glob,Grep" >> logs/cron-daily.log 2>&1
+50 23 * * *   cd $PROJECT_DIR && $CLAUDE_BIN -p "/daily"   --allowedTools "$CLAUDE_TOOLS" >> logs/cron-daily.log 2>&1
 
 # Weekly — Sundays at 23:55 (after daily)
-55 23 * * 0   cd /path/to/your/ab && claude -p "/weekly"  --allowedTools "Bash(readonly=false),Read,Write,Edit,Glob,Grep" >> logs/cron-weekly.log 2>&1
+55 23 * * 0   cd $PROJECT_DIR && $CLAUDE_BIN -p "/weekly"  --allowedTools "$CLAUDE_TOOLS" >> logs/cron-weekly.log 2>&1
 
 # Monthly — 1st of each month at 00:01
-1  0  1 * *   cd /path/to/your/ab && claude -p "/monthly" --allowedTools "Bash(readonly=false),Read,Write,Edit,Glob,Grep" >> logs/cron-monthly.log 2>&1
+1  0  1 * *   cd $PROJECT_DIR && $CLAUDE_BIN -p "/monthly" --allowedTools "$CLAUDE_TOOLS" >> logs/cron-monthly.log 2>&1
 ```
 
-Replace `/path/to/your/ab` with your repo path and `claude` with the full path to the Claude Code CLI binary if it's not on the cron `PATH` (e.g. `~/.local/bin/claude`). Log files land in `logs/` alongside the daily conversation logs.
+Log files land in `logs/` alongside the daily conversation logs.
 
 **Cursor-first.** The system is developed and tested primarily in Cursor. Claude Code is fully functional via pre-created symlinks (`CLAUDE.md`, `.claude/commands/`), but some behavioral differences may exist. The core system (AGENTS.md + file structure) works with any agent that reads `AGENTS.md`, but maintenance commands (`/reflect`, `/daily`, `/weekly`, `/monthly`) require slash command support.
 
