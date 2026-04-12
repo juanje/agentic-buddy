@@ -108,10 +108,10 @@ Two paths depending on how the signal was detected:
 
 - **Explicit user correction** (the user directly told you to change behavior:
   "don't do X", "always do Y", or pointed out a mistake): **fast-track**.
-  Propose the rule to the user immediately in this conversation. If approved,
-  add it to AGENTS.md Rules now and log it as resolved in the observation
-  journal. Don't wait for the 2+ threshold — a direct correction is a strong
-  signal.
+  Apply the rule immediately — add it to AGENTS.md Rules and log it as
+  resolved in the observation journal. Don't wait for the 2+ threshold — a
+  direct correction is a strong signal. Confirm briefly with the user:
+  "added rule: [summary]".
 
 - **Inferred rule candidate** (you noticed a pattern: an assumption that
   turned out wrong, a preference expressed indirectly, a SOUL.md principle

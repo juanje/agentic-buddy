@@ -8,8 +8,14 @@ created: YYYY-MM-DD
 
 ## When to use
 
-Use when the user says "weekly review", "what did I do this week", "end of week",
-or for broader reviews ("what have I done this quarter", "review for my manager").
+Triggered by the `/weekly` command — either by the user manually or by the
+automated cron job (Sundays at 23:55). Also triggered when the user says
+"weekly review", "what did I do this week", "end of week", or for broader
+reviews ("what have I done this quarter", "review for my manager").
+
+**Autonomous mode (cron):** All steps run without user interaction. Act with
+judgment; log all decisions and changes made. No approval gates — the
+maintenance cycles and git history provide the correction mechanism.
 
 ## Procedure
 
@@ -109,7 +115,7 @@ Also update the **Right now** subsection with current state (situation,
 next actions, health, constraints). See the daily skill Step 7 for format
 and full guidance on both subsections.
 
-Present the changes: "Promoted: [X], Removed: [Y], Kept: [Z]."
+Log the changes: "Promoted: [X], Removed: [Y], Kept: [Z]."
 
 ### 4b. Identity file check
 
@@ -189,7 +195,7 @@ that can be abstracted into general knowledge.
      specific instance.
 3. Do the same for skills: if skills X and Y follow a similar procedure for
    different domains, consider a general skill that covers both.
-4. Present generalizations to the user for approval before creating.
+4. Create generalizations with judgment. Log the reasoning and what was created.
 5. **Consider form, not just content.** Is the generalization actionable —
    does it guide future decisions? If so, write it as a framework: when to
    apply, how to decide, what to watch for. A concept that only describes a
@@ -207,15 +213,17 @@ single week.
 ### 7. Light pruning (flag only)
 
 Scan brain files for staleness signals:
-- Files not accessed in >21 days → flag them in a note to the user. Don't
-  move them — that's the monthly cycle's job.
+- Files not accessed in >21 days → log them in the weekly maintenance note.
+  Don't move them — that's the monthly cycle's job.
 - If any flagged files are in Active context → remove them from Active
   context (they shouldn't be there if untouched for 3 weeks).
 
 ### 8. Prepare next week
 
-- Ask: "What should be your top priorities next week?"
-- Suggest items based on current `user/` content, recent logs, and patterns.
+- Review current `user/` content and recent logs.
+- Write a brief priorities summary to the weekly log: top 3-5 items for
+  next week based on urgency, dependencies, and open threads. No interaction
+  needed — the summary is there for the user to read.
 
 ### 9. Git commit
 

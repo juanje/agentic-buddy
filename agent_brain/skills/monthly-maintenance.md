@@ -8,10 +8,14 @@ created: YYYY-MM-DD
 
 ## When to use
 
-Triggered by the user via the `/monthly` command, typically at the end of the
-month or when the system feels cluttered. This is the deepest maintenance
-cycle — focused on forgetting what's abandoned, deep generalization across the
-full knowledge base, and structural cleanup.
+Triggered by the `/monthly` command — either by the user manually or by the
+automated cron job (1st of each month at 00:01). This is the deepest
+maintenance cycle — focused on forgetting what's abandoned, deep generalization
+across the full knowledge base, and structural cleanup.
+
+**Autonomous mode (cron):** All phases run without user interaction. Act with
+judgment; log all decisions and changes made. No approval gates — the git
+history and observation journal provide the correction mechanism.
 
 Lighter maintenance happens at other levels:
 - `/daily` — concept creation, associations, initial promotion, skill/rule
@@ -29,12 +33,10 @@ Before deep maintenance, ensure lower-level cycles are current:
 
 1. **Reflect:** Run the reflect procedure first (read and execute
    `agent_brain/skills/process-conversation.md`).
-2. **Weekly:** Check if `/weekly` was run in the last 10 days. Look for
-   recent review files in `agent_brain/reviews/`. If not, inform the
-   user: "Weekly review hasn't been run recently. Running a weekly cycle
-   first to ensure the monthly has complete data." Then execute the
-   weekly review procedure (which will cascade into daily/reflect as
-   needed).
+2. **Weekly:** Check if `/weekly` was run in the last 10 days. Look for a
+   recent weekly log. If not, run the weekly review procedure first (which
+   will cascade into daily/reflect as needed) to ensure the monthly has
+   complete data. Log that a weekly was run as prerequisite.
 
 ---
 
@@ -114,23 +116,20 @@ they keep it the same way.
    - Not referenced but less than 1 month old → keep (still new).
    - Not referenced and 1-3 months old → **archive**. Move to
      `agent_brain/archive/`, remove from Skills section of AGENTS.md.
-     Ask the user: "This skill hasn't been used in a month. Is it
-     seasonal (needed at specific times, like sprint planning or
-     quarterly releases), or should I archive it?"
-     If the user says seasonal → keep it, add a `seasonal: true` note
-     in its frontmatter.
+     If the skill is plausibly seasonal (e.g., sprint planning, quarterly
+     releases), add a `seasonal: true` note in its frontmatter and keep it
+     in archive — retrievable when the season comes. Log the decision.
    - Archived and not retrieved in >3 months → can be deleted. Git
      history preserves it if ever needed again.
 3. Review rules in AGENTS.md: any added by the agent (not original rules)
    that seem to conflict with observed behavior or are consistently
    ignored?
-   - Flag for review. Present to the user.
+   - Log them as candidates for review. Flag in the monthly maintenance log.
 4. **Promote mature rules to character.** Review rules in AGENTS.md that have
    been consistently active for 3+ months. If a rule applies universally, has
    never been questioned, and describes who the agent IS rather than what it
-   should DO — propose promoting it to SOUL.md as a character trait, rewritten
-   in identity language. If approved: add to SOUL.md Character, remove from
-   AGENTS.md Rules.
+   should DO — promote to SOUL.md as a character trait, rewritten in identity
+   language. Remove from AGENTS.md Rules. Log the promotion.
 
 ---
 
@@ -165,7 +164,7 @@ across weeks and months of accumulated knowledge.
 6. Apply the same generalization logic to **all brain structures** — not
    just concepts. Projects, teams, and any other directories can also
    contain related files that share an underlying pattern.
-7. Present all generalizations to the user for approval before creating.
+7. Create generalizations with judgment. Log the reasoning and what was created.
 8. **Consider form.** Generalizations that guide decisions should be written
    as frameworks (when to apply, how to decide), not just descriptions.
    Knowledge describes; attractors guide.
@@ -220,15 +219,14 @@ used. The directory structure should emerge from use, not from upfront design.
 3. **Cluster detection** (applies to ALL directories — projects, concepts,
    etc.): scan for files sharing a common prefix or with heavy mutual
    cross-references. If 3+ files form a cluster within the same directory:
-   - Propose consolidation into a subdirectory with an `index.md` hub.
-   - If approved: create it, move files, update all cross-references
-     (AGENTS.md, other brain files, etc.), update "Where to find things."
+   - Create the subdirectory with an `index.md` hub; move the files; update
+     all cross-references (AGENTS.md, other brain files, etc.) and "Where to
+     find things." Log what was moved and why.
    - See Core Behavior rule 6.
 4. If a new category has accumulated (3+ files of a similar type in an
    ill-fitting directory):
-   - Propose a dedicated directory.
-   - If approved: create it, move the files, update "Where to find things"
-     in AGENTS.md.
+   - Create the dedicated directory, move the files, update "Where to find
+     things" in AGENTS.md. Log the change.
 5. Check existing directories: any empty or with only 1 file after >30 days?
    - The directory may be premature. Flag it.
 6. Record structural changes and proposals.

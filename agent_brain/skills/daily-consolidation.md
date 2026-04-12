@@ -8,9 +8,13 @@ created: YYYY-MM-DD
 
 ## When to use
 
-Triggered by the user via the `/daily` command, typically at the end of the
-day or start of the next. This is the "sleep" cycle — where the system
-consolidates the day's work and learns from it.
+Triggered by the `/daily` command — either by the user manually or by the
+automated cron job (daily at 23:50). This is the "sleep" cycle — where the
+system consolidates the day's work and learns from it.
+
+**Autonomous mode (cron):** All steps run without user interaction. Act with
+judgment; log all decisions and changes made. No approval gates — the
+maintenance cycles and git history provide the correction mechanism.
 
 ## Procedure
 
@@ -148,24 +152,22 @@ occurrences** (seen across different conversations or days):
 
 **Rule candidates (seen 2+):**
 1. Evaluate where it belongs:
-   - Universal trait describing who the agent IS → propose for SOUL.md Character.
-   - Contextual operational rule → propose for AGENTS.md Rules, with WHY.
+   - Universal trait describing who the agent IS → add to SOUL.md Character.
+   - Contextual operational rule → add to AGENTS.md Rules, with WHY.
    - If unclear, default to AGENTS.md — it can be promoted later.
 2. Formulate the rule with its reasoning: `[rule]. [why — what it prevents,
    enables, or protects]`.
-3. Present to the user for approval.
-4. If approved: add to the appropriate file. Mark the observation as resolved.
-5. If not approved: leave in the journal, note the rejection.
+3. Add to the appropriate file. Mark the observation as resolved. Log the
+   decision and reasoning.
 
 **Concept candidates (seen 2+):**
 1. Create the concept file if not already created in step 4 above.
 2. Mark the observation as resolved in the journal.
 
 **Structure candidates (seen 2+):**
-1. Propose the new directory to the user.
-2. If approved: create it, move relevant files, update "Where to find
-   things" in AGENTS.md.
-3. Mark the observation as resolved.
+1. Create the new directory, move relevant files, update "Where to find
+   things" in AGENTS.md. Log the change.
+2. Mark the observation as resolved.
 
 Observations with only 1 occurrence stay in the journal — they need more
 data before acting.
