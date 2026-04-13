@@ -192,13 +192,32 @@ append.
 **### Files** — pointers to brain files worth keeping in the agent's
 peripheral awareness. Updated based on today's activity:
 
+Promotion and demotion are **gradual** — one level at a time, not jumps.
+The visibility levels are:
+
+| Level | Where | Signal to promote |
+|---|---|---|
+| 0 | File in subdirectory, basic one-liner in its `index.md` | default state |
+| 1 | Prominent in its `index.md` (richer description, moved higher) | used this week |
+| 2 | Parent directory's `index.md` highlights the subdir/project | used across weeks |
+| 3 | "Where to find things" gets a specific entry with trigger | sustained high use |
+| 4 | Active context "Files" | hot — needed in most sessions |
+
+Steps:
+
 1. Scan files in `agent_brain/` (excluding `identity/`, `skills/`, `archive/`).
-2. Read metadata (`access_count`, `last_accessed`) as the starting point —
-   frequently read and recently accessed files are the primary candidates.
-3. Adjust with judgment: a file accessed once today on an important topic
-   may deserve promotion; a frequently-touched housekeeping file may not.
-4. Keep 5-7 entries. Remove files no longer actively relevant; add newly
-   important ones.
+2. Read metadata (`access_count`, `last_accessed`). Identify files whose
+   access has grown since last `/daily`.
+3. For each growing file, **promote one level** — not to Active context
+   directly. A file accessed once today becomes more prominent in its
+   subdir index. A file accessed repeatedly across sessions over multiple
+   days earns a higher level. Only files at level 3 that continue to be
+   accessed in most sessions graduate to Active context (level 4).
+4. For each file in Active context whose `access_count` hasn't grown →
+   **demote one level** (to "Where to find things" or back to its index).
+   Don't remove from the system — just move it one step further from
+   working memory. Gradual cooling, not deletion.
+5. Keep Active context "Files" at 5-7 entries.
 
 Each file entry has two layers — **hot data** inline and a **read trigger**:
 

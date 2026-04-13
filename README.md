@@ -263,6 +263,8 @@ The agent doesn't read everything at startup. It reads a lightweight index file 
 
 This mirrors how human expertise works: you don't recall everything you know before starting a task. You activate relevant knowledge as the context demands it. For AI agents, this has a practical benefit too — it keeps the context window clean, which directly improves response quality.
 
+Directories with `index.md` files serve as navigation hubs — the agent reads the index to discover contents rather than keeping individual file references in working memory. As directories grow past three files, they benefit from an `index.md` that maps what's inside.
+
 ### Self-regulation: the system forgets on purpose
 
 The maintenance cycles aren't just organizational — they actively prune the knowledge base. `/monthly` archives files that haven't been accessed in weeks, `/weekly` flags candidates for degradation, and `/daily` consolidates redundant observations into fewer, stronger concepts. The system scales not by accumulating everything but by continuously discarding what's no longer relevant — the same way biological memory works.

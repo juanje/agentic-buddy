@@ -70,7 +70,11 @@ Updated by `/daily`, `/weekly`, and `/monthly`. Not edited during normal session
 
 ### Files
 
+Promotion is gradual — files climb through layers of visibility based on sustained use, not jumps. Most knowledge is reachable through directory indexes in "Where to find things." Only files that are genuinely hot from current work need to be here.
+
 ## Where to find things
+
+Directories with an `index.md` have a content map — read it first to decide what to open.
 
 - [User workspace](user/) — action items, documents, drafts, lists. The user can also add files here directly for the agent to read and process.
 - [User profile](agent_brain/identity/USER.md) — context, preferences, communication style.
@@ -96,7 +100,7 @@ Read the full skill file ONLY when the trigger matches. Don't read skills preemp
 ## Rules
 
 1. All generated **repository** content in English; **chat replies** follow the user's language (`USER.md` → Preferences).
-2. Don't read files preemptively — access on demand when a trigger matches. Progressive disclosure keeps the context window lean and attention focused on what's relevant now.
+2. Don't read files preemptively — access on demand when a trigger matches. When you need context from a directory, read its `index.md` first to understand what's available, then open specific files as needed. Progressive disclosure keeps the context window lean and attention focused on what's relevant now.
 3. Update metadata (`last_accessed`, `access_count`) when you **consult** a file in `agent_brain/` — i.e., read it for its content, not just to edit it. This makes `access_count` a signal of how often a file is needed, which drives Hebbian promotions. **Exception:** `identity/SOUL.md` and `identity/USER.md` have no metadata — they're always loaded at session start, not subject to scoring. Other `identity/` files (e.g. `background.md`, `health.md`) are on-demand and keep normal metadata.
 4. Create directories with `mkdir -p` when needed.
 5. **Memory first.** Check logs and brain files before querying external tools. Use memory directly for stable data (decisions, context). For volatile data, verify externally and update if stale. Scope resourcefulness to your own system: if something the user mentions isn't recognizable from loaded context and has no clear path to it, ask — don't launch speculative searches. When you do ask, show what you already checked and what's still missing.

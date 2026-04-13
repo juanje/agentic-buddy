@@ -229,7 +229,10 @@ used. The directory structure should emerge from use, not from upfront design.
      things" in AGENTS.md. Log the change.
 5. Check existing directories: any empty or with only 1 file after >30 days?
    - The directory may be premature. Flag it.
-6. Record structural changes and proposals.
+6. **Index coverage:** check directories with 3+ files and no `index.md` —
+   flag and propose creation. Indexes enable progressive disclosure: the
+   agent reads the map before diving in. See Rule 2.
+7. Record structural changes and proposals.
 
 ---
 

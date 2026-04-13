@@ -94,28 +94,36 @@ should exist.
 
 ### 4. Calibrate promotions (Hebbian)
 
-Review the "Active context" section of AGENTS.md against actual usage this
-week. The goal is to check whether daily promotions held up over time.
+Review visibility levels across the full knowledge base. The weekly cycle
+looks at the whole gradient, not just Active context. Promotion and demotion
+are gradual — one level at a time (see daily-consolidation Step 7 for the
+level table).
 
-1. For each file linked in Active context, check its `access_count` and
-   `last_accessed` metadata.
-2. **Reinforce:** files accessed repeatedly across different days this week →
-   keep in Active context. Update the hot data and read trigger if the
-   file's role has become clearer during the week.
-3. **Weaken:** files promoted during a daily consolidation but barely touched
-   since → remove from Active context. The initial connection didn't hold —
-   it was a one-day spike, not sustained relevance.
-4. **New promotions:** scan brain files for any that were heavily used this
-   week but aren't in Active context yet → add them.
+1. **Active context (level 4):** for each file, check `access_count` growth
+   this week.
+   - Grew across multiple days → **reinforce** (keep, enrich description).
+   - Didn't grow → **demote one level**: move to "Where to find things"
+     (level 3) if the file still has periodic relevance, or back to its
+     directory index (level 1-2) if the spike is clearly over.
+2. **"Where to find things" (level 3):** check entries that were added
+   beyond the base set (user workspace, projects, concepts, ideas, journal,
+   observations are base). Any added entry whose underlying files haven't
+   been accessed this week → demote back to directory index (level 1-2).
+3. **Directory indexes (level 1-2):** scan `index.md` files for entries
+   whose underlying file hasn't been accessed in >21 days → flag for
+   potential demotion within the index. Don't act automatically — flag.
+4. **New promotions:** scan files accessed repeatedly across different days
+   this week. Promote **one level up** from current position, not directly
+   to Active context. Only files already at level 3 that continue to be
+   accessed in most sessions graduate to level 4.
+5. **Missing indexes:** if a promoted file has no index pathway (standalone,
+   no parent `index.md`) → flag the missing index as a structure candidate.
 
-Each file entry should have **hot data** (key fact useful without opening
-the file) and a **read trigger** (when the agent should open it).
+Also update the **Right now** subsection with current state. See the daily
+skill Step 7 for format and full guidance on both subsections.
 
-Also update the **Right now** subsection with current state (situation,
-next actions, health, constraints). See the daily skill Step 7 for format
-and full guidance on both subsections.
-
-Log the changes: "Promoted: [X], Removed: [Y], Kept: [Z]."
+Present changes across all levels: "Level 4: kept [X], demoted [Y].
+Level 3: added [A], removed [B]. Level 1-2: enriched [C], flagged [D]."
 
 ### 4b. Identity file check
 
