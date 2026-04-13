@@ -74,7 +74,7 @@ The system's directory structure maps to distinct cognitive functions, each with
 
 ### `agent_brain/` — what the agent knows
 
-The agent's internal knowledge: concepts, projects, observations, skills, identity. Subject to Hebbian plasticity — frequently accessed files get promoted to Active context; abandoned files get archived. The user can inspect it, but normally doesn't edit it directly.
+The agent's internal knowledge: concepts, projects, observations, skills, identity. Subject to Hebbian plasticity — files climb through visibility levels based on sustained use (from cold storage through directory indexes to Active context) and cool back down when access drops. Abandoned files get archived. The user can inspect it, but normally doesn't edit it directly.
 
 ### `user/` — the user's workspace
 
@@ -234,7 +234,21 @@ There are no databases, no embeddings, no vendor-specific formats. If your agent
 
 In neuroscience, Hebb's principle states that neurons that fire together wire together — connections strengthen with use and weaken without it. This system applies the same idea to information management.
 
-Every file tracks when it was last accessed and how often. The learning cycles use these metrics to **promote** frequently-used files to the agent's active context (making them immediately visible) and **archive** files that haven't been touched in weeks. The agent's attention automatically mirrors what's actually relevant right now, without manual curation.
+Every file tracks when it was last accessed and how often (`access_count` only increments on genuine consultation — opening a file to edit it doesn't count). The learning cycles use these metrics to adjust each file's **visibility level** — how close it sits to the agent's working memory:
+
+| Level | Where | How it gets here |
+|---|---|---|
+| 0 | File in subdirectory, basic entry in its `index.md` | Default — all files start here |
+| 1 | Prominent in its `index.md` (richer description) | Accessed this week |
+| 2 | Highlighted in parent directory's `index.md` | Accessed across multiple weeks |
+| 3 | Named entry in AGENTS.md "Where to find things" | Sustained high use over time |
+| 4 | Active context in AGENTS.md | Needed in most sessions — working memory |
+
+Promotion is **gradual** — one level at a time, earned by sustained use across sessions. A file accessed once today doesn't jump to Active context; it becomes more prominent in its directory index. Only files that demonstrate repeated access over days and weeks climb to higher levels. Demotion is equally gradual: a cooling file drops one level at a time, from Active context to "Where to find things" to its index. No jumps, no sudden deletion — just progressive cooling.
+
+This gradient mirrors biological memory activation. Memories don't teleport between long-term storage and working memory — they pass through stages of increasing accessibility. The more frequently a memory is activated, the faster and easier it is to reach.
+
+One important exception: some information is always relevant because it's part of the user's **identity**, not because it was recently accessed. The user's team, primary project, and role are structural facts that live in `USER.md` — always loaded at session start, never subject to Hebbian dynamics. Identity is the permanent substrate; the gradient manages what fluctuates with current work.
 
 ### Implicit connectivity: strength through use
 
@@ -251,19 +265,32 @@ The directory structure maps to a cognitive model with four distinct memory syst
 | Zone | Location | Biological analog | Accessibility |
 |---|---|---|---|
 | **Working memory** | `AGENTS.md` | Prefrontal cortex | Always loaded. The agent sees this every conversation. |
-| **Semantic memory** | `agent_brain/` | Neocortex | Accessible on demand. Frequently accessed files get promoted to Active context. |
+| **Semantic memory** | `agent_brain/` | Neocortex | Accessible on demand through indexes. Files that earn sustained access climb the visibility gradient toward Active context. |
 | **Episodic memory** | `logs/` | Hippocampus | Processing buffer. Episodes are consolidated into semantic memory over time. |
 | **Extended mind** | `user/` | Notebook, calendar, tools | The user's workspace. Not the agent's memory, but part of the cognitive system. |
 
 The critical distinction between `agent_brain/archive/` and deletion: archived files remain in the workspace where a search can find them (**passive recognition** — "I forgot I knew this, but a search reminded me"). Deleted files only exist in git history, which requires knowing they existed in the first place (**active recall**). This is why the system archives before deleting.
 
-### Progressive disclosure: load only what's needed
+### Progressive disclosure: navigate, don't preload
 
-The agent doesn't read everything at startup. It reads a lightweight index file (`AGENTS.md`, ~100 lines) that contains just enough to know where things are and when to look deeper. Skills, project context, and knowledge files are loaded on demand — only when a task requires them.
+The agent doesn't read everything at startup. It reads `AGENTS.md` (~100 lines) which contains just enough to know where things are and when to look deeper. Everything else is loaded on demand — only when a task requires it.
 
-This mirrors how human expertise works: you don't recall everything you know before starting a task. You activate relevant knowledge as the context demands it. For AI agents, this has a practical benefit too — it keeps the context window clean, which directly improves response quality.
+The navigation mechanism is **index-first**: when the agent needs context from a directory, it reads the directory's `index.md` before opening any specific file. The index maps what's inside with one-line descriptions — enough for the agent to decide what to read without loading everything. As directories grow past three files, they benefit from an `index.md` hub. AGENTS.md "Where to find things" points to **spaces** (directories), not individual files.
 
-Directories with `index.md` files serve as navigation hubs — the agent reads the index to discover contents rather than keeping individual file references in working memory. As directories grow past three files, they benefit from an `index.md` that maps what's inside.
+This creates a layered discovery path that works together with the Hebbian gradient:
+
+```
+AGENTS.md "Where to find things"
+  → points to directories (spaces)
+    → agent reads index.md of the relevant space
+      → index guides to specific file
+        → sustained access across sessions
+          → file earns promotion to higher visibility level
+```
+
+Most knowledge stays discoverable through the indexes — it doesn't need to be in Active context to be findable. Active context is reserved for the small number of files the agent genuinely needs in most sessions. This keeps the context window lean, which directly improves response quality.
+
+The three mechanisms reinforce each other: **indexes** provide the navigable structure (the map), the **visibility gradient** adjusts how close each file sits to working memory (the temperature), and **functional link density** determines a concept's structural importance (the weight). Together they produce an attention system that mirrors what's actually relevant — without manual curation.
 
 ### Self-regulation: the system forgets on purpose
 
