@@ -223,27 +223,27 @@ single week.
 Scan brain files for staleness signals:
 - Files not accessed in >21 days → log them in the weekly maintenance note.
   Don't move them — that's the monthly cycle's job.
-- If any flagged files are in Active context → remove them from Active
-  context (they shouldn't be there if untouched for 3 weeks).
+- If any flagged files are in Active context → demote one level per the
+  gradient (Step 4). Files untouched for 3 weeks shouldn't be at level 4.
 
-### 8. Prepare next week
+### 8. Write weekly summary to journal
 
-- Review current `user/` content and recent logs.
-- Write a brief priorities summary to the weekly log: top 3-5 items for
-  next week based on urgency, dependencies, and open threads. No interaction
-  needed — the summary is there for the user to read.
+Write a summary of the week to `user/journal/weekly/YYYY-WNN.md` (create the
+file). This is a user artifact for future reference — not a log, not agent
+memory. Include:
 
-### 9. Write weekly summary to journal
+- What was completed, key decisions, metrics if available
+- Themes and patterns from the week
+- Top 3-5 priorities for next week (based on urgency, dependencies, open
+  threads)
 
-Write a summary of the week to `user/journal/weekly/YYYY-WNN.md` (create the file). Include: what was completed, key decisions, metrics if available (tickets resolved, MRs), and themes. This is a user artifact for future reference — not a log, not agent memory.
-
-### 10. Git commit
+### 9. Git commit
 
 ```bash
 git add AGENTS.md agent_brain/ logs/ user/ && git commit -m "weekly: YYYY-WNN" 2>/dev/null || true
 ```
 
-### 11. Broader review mode
+### 10. Broader review mode
 
 If the user asks for a monthly or quarterly review:
 
