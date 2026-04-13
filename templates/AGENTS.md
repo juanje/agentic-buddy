@@ -78,7 +78,9 @@ Updated by `/daily`, `/weekly`, and `/monthly`. Not edited during normal session
 - [Projects](agent_brain/projects/) — project history, context, past decisions.
 - [Concepts](agent_brain/concepts/) — lessons learned, patterns, generalized knowledge.
 - [Ideas](agent_brain/ideas/) — ideas in various stages. `_scratchpad.md` for one-liners.
+- [Journal](user/journal/) — weekly and monthly activity summaries. Read when the user asks about past activity or needs to prepare reports.
 - [Observations](agent_brain/observations.md) — learning journal. Written by `/reflect`, read by `/daily` and `/weekly`. Don't read during normal conversation.
+
 New directories inside `agent_brain/` or `user/` are created as needed. Add them to this list. Format: **what the directory contains** (content description) + **when to read it** (trigger). Don't describe how it's built or maintained — that belongs in the skill, not here.
 
 ## Skills

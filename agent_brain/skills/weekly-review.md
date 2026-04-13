@@ -225,17 +225,21 @@ Scan brain files for staleness signals:
   next week based on urgency, dependencies, and open threads. No interaction
   needed — the summary is there for the user to read.
 
-### 9. Git commit
+### 9. Write weekly summary to journal
+
+Write a summary of the week to `user/journal/weekly/YYYY-WNN.md` (create the file). Include: what was completed, key decisions, metrics if available (tickets resolved, MRs), and themes. This is a user artifact for future reference — not a log, not agent memory.
+
+### 10. Git commit
 
 ```bash
 git add AGENTS.md agent_brain/ logs/ user/ && git commit -m "weekly: YYYY-WNN" 2>/dev/null || true
 ```
 
-### 10. Broader review mode
+### 11. Broader review mode
 
 If the user asks for a monthly or quarterly review:
 
-- Scan review files in `agent_brain/reviews/` for the period (if the directory exists).
+- Scan journal files in `user/journal/` for the period (weekly, monthly as needed).
 - Scan logs in `logs/` for the period.
 - Group by project or theme.
 - Highlight: major deliverables, contributions, problems solved, skills developed.

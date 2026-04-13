@@ -114,6 +114,7 @@ Specific concepts that share an underlying pattern get abstracted into general c
 ```
 ├── AGENTS.md                    → Agent working memory. Loaded automatically.
 ├── user/                        → User workspace. Action items, drafts, documents.
+│   └── journal/                 → Temporal activity summaries (weekly, monthly).
 ├── logs/                        → Daily conversation logs.
 │   └── archive/                 → Compacted old logs.
 └── agent_brain/
