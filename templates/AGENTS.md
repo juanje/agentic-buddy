@@ -70,7 +70,7 @@ Updated by `/daily`, `/weekly`, and `/monthly`. Not edited during normal session
 
 ### Files
 
-Promotion is gradual — files climb through layers of visibility based on sustained use, not jumps. Most knowledge is reachable through directory indexes in "Where to find things." Only files that are genuinely hot from current work need to be here.
+Promotion is gradual — files climb through layers of visibility based on sustained use, not jumps. Structural context (team, primary project) lives in `USER.md`, not here. Most knowledge is reachable through directory indexes in "Where to find things." Only files that are genuinely hot from current work need to be here.
 
 ## Where to find things
 

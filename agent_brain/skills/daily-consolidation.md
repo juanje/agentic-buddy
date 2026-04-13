@@ -217,7 +217,10 @@ Steps:
    **demote one level** (to "Where to find things" or back to its index).
    Don't remove from the system — just move it one step further from
    working memory. Gradual cooling, not deletion.
-5. Keep Active context "Files" at 5-7 entries.
+5. Skip files linked from `USER.md` as structural context (team, primary
+   project) — they're always accessible through identity, not subject to
+   Hebbian dynamics.
+6. Keep Active context "Files" at 5-7 entries.
 
 Each file entry has two layers — **hot data** inline and a **read trigger**:
 

@@ -2,20 +2,15 @@
 
 ## About
 
-- **Name:** <!-- First name or however they prefer to be called -->
-- **What you do:** <!-- In your own words — what you spend your time on -->
+- **Name:**
+- **What you do:**
 
-<!-- Anything else you'd like to share: interests, how you like to work, what
-     matters to you. This section grows organically from conversation. -->
+This section grows organically from conversation — interests, how you like to work, what matters to you.
 
 ## Context
 
-<!-- What are you using this system for? What are you working on right now?
-     This can be anything: work projects, personal goals, writing, training,
-     learning. Multiple things are fine — the system adapts. -->
+What are you using this system for? Permanent facts about your situation go here — things that are always relevant regardless of what you're working on this week. The agent reads this at session start; anything here is always accessible without Hebbian promotion.
 
 ## Preferences
 
-<!-- How do you like to work? How should the agent present information?
-     Examples: direct/verbose, structured/conversational, language preferences,
-     formatting, frequency of check-ins. -->
+How do you like to work? How should the agent present information? Examples: direct/verbose, structured/conversational, language preferences, formatting, frequency of check-ins.
