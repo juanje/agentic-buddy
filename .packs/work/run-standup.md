@@ -18,7 +18,7 @@ Use when the user says "standup", "what's on my plate", "what did I do yesterday
 Run these in parallel to save time:
 - `did yesterday` (or `did last friday` on Mondays) — what was done.
 - `jira-pending sprint` — current sprint tickets and their status.
-- Read `work/BOARD.md` — board state.
+- Read `user/BOARD.md` — board state.
 
 If any tool is unavailable or fails, skip it and note it.
 
@@ -60,4 +60,4 @@ Present board sections in **file order** (same as `BOARD.md`):
 
 ### 3. Update the board
 
-If the user adjusts priorities or moves items, update `work/BOARD.md` accordingly.
+If the user adjusts priorities or moves items, update `user/BOARD.md` accordingly.

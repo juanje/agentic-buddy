@@ -19,12 +19,12 @@ in AGENTS.md is sufficient — don't read this skill for those.
 
 ### 1. Identify the item type
 
-- **Task** (something to do) → `work/BOARD.md` Inbox
+- **Task** (something to do) → `user/BOARD.md` Inbox
 - **Bug or known error** → board Inbox + `agent_brain/concepts/` if it's a pattern worth documenting
 - **Decision and its reasoning** → `agent_brain/projects/<project>.md` or `agent_brain/concepts/`
 - **Meeting notes** → `agent_brain/projects/<project>.md` under the relevant project
 - **Lesson learned** → `agent_brain/concepts/`
-- **Improvement idea / tech debt** (concrete, actionable) → `work/BOARD.md` Parked
+- **Improvement idea / tech debt** (concrete, actionable) → `user/BOARD.md` Parked
 - **Unformed idea / project concept / draft proposal** → `agent_brain/ideas/YYYY-MM-DD_short-description.md` (or `_scratchpad.md` for one-liners)
 - **Anything else** (cross-team requests, team notes, etc.) → create the appropriate directory inside `agent_brain/` if it doesn't exist, and capture there + board if actionable.
 

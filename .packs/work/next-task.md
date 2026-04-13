@@ -14,7 +14,7 @@ When the user says "next", "what's next", "what should I work on now", or runs t
 
 ### 1. Read the board
 
-Read `work/BOARD.md` and extract the **Next Actions** list (immediate queue; max 3–4 items). Optionally mention **Sprint Backlog** as upcoming work after the Next Actions queue.
+Read `user/BOARD.md` and extract the **Next Actions** list (immediate queue; max 3–4 items). Optionally mention **Sprint Backlog** as upcoming work after the Next Actions queue.
 
 ### 2. Identify the top task
 
