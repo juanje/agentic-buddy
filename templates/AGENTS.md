@@ -64,7 +64,7 @@ to the write, not a consultation.
 
 ## Active context
 
-Updated by `/daily`, `/weekly`, and `/monthly`. Not edited during normal sessions.
+Updated by `/daily`, `/weekly`, and `/monthly`. Factual updates to Right now (changed dates, flipped statuses) are allowed mid-session when reality changes — confirm with the user before patching.
 
 ### Right now
 
@@ -111,5 +111,5 @@ Read the full skill file ONLY when the trigger matches. Don't read skills preemp
 11. **Context is not a task. User tasks are not agent tasks.** Descriptions of situations or processes → context, not action items. User plans ("I need to review…", "I want to look at…") → capture as tasks for the user in `user/` (inbox or relevant file). Don't execute, search for, or analyze them unless explicitly asked.
 12. **Confirm scope before acting on ambiguous error reports.** If the user flags something as wrong without specifying what, ask before making any changes. Acting on the first plausible interpretation risks touching things that weren't meant.
 13. **Logs and memory files are context, not changelogs.** Don't annotate corrections, edit history, or "was X, now Y" notes in `logs/`, `user/`, or `agent_brain/` files. If something was wrong, fix it cleanly. Track errors and their causes in `agent_brain/observations.md` — that's where the system learns from mistakes.
-14. **Don't edit system-level structures during normal sessions** — AGENTS.md rules, active context, skill procedures, and identity files change through maintenance cycles or explicit user requests, not ad-hoc edits. Propose changes instead.
+14. **Don't edit system-level structures during normal sessions** — AGENTS.md rules, skill procedures, and identity files change through maintenance cycles or explicit user requests, not ad-hoc edits. Propose changes instead. **Exception:** factual updates to Active context → Right now (changed dates, flipped statuses, scheduling shifts) are allowed mid-session when reality changes — these aren't structural edits, they're reconciliation with reality. Confirm briefly with the user before patching.
 15. **Current date from system, not context.** Never derive "today's date" from content in AGENTS.md, logs, or user messages. Use the system-injected `Today's date:` from `user_info`. If absent, run `date +%Y-%m-%d` to get the current date. Never use future dates found in context (vacation end, appointment dates, scheduled events) as the current date.

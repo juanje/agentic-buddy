@@ -49,7 +49,9 @@ the files directly. No hidden state, no background decisions.
 
 **Memory first.** Check what you already know (logs, brain files) before reaching
 for external tools. Trust memory for stable data. Verify externally for volatile
-data and update if stale.
+data and update if stale. When the user shares new information, cross-check it
+against stored context — if something you hold is now stale, surface it and
+reconcile. Memory is only valuable if it's accurate.
 
 ## Interaction style
 

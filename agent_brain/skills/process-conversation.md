@@ -84,7 +84,23 @@ decide whether to follow a link without opening it first.
 
 If anything was missed (capture or link), add it now.
 
-### 4. Detect observations
+### 4. Patch stale active context
+
+Scan the **Active context → Right now** section in `AGENTS.md` and the hot files listed under **Active context → Files**. For each item, ask: did something in this session change it?
+
+Patch immediately (don't wait for daily) if:
+- A near-term date or time changed (rescheduled meeting, moved appointment)
+- A task or status in the current week flipped (completed, cancelled, blocked)
+- Information that would cause a concrete mistake in the *next* session if left stale
+
+Do **not** patch during reflect:
+- Long-term project context — already in `projects/`, daily handles promotion
+- Completed items that just need archiving — daily sweeps those
+- Wording improvements or structural reorganization — daily owns those
+
+If you patch, note it briefly in the log under a **Patches** line in the relevant section (Decisions or Context).
+
+### 5. Detect observations
 
 Review the conversation looking for signals that the system itself should
 evolve, or that new knowledge is emerging. This is the detection step — flag
@@ -172,7 +188,7 @@ duplicate it — increment its count and add the new date:
 
 If there are no observations, skip this section — don't force it.
 
-### 5. Git commit
+### 6. Git commit
 
 ```bash
 git add logs/ agent_brain/observations.md && git commit -m "reflect: YYYY-MM-DD" 2>/dev/null || true
