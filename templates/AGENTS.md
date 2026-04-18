@@ -64,7 +64,7 @@ to the write, not a consultation.
 
 ## Active context
 
-Updated by `/daily`, `/weekly`, and `/monthly`. Factual updates to Right now (changed dates, flipped statuses) are allowed mid-session when reality changes — confirm with the user before patching.
+Factual updates to Right now (changed dates, flipped statuses) are allowed mid-session when reality changes — confirm with the user before patching.
 
 ### Right now
 
@@ -90,10 +90,7 @@ New directories inside `agent_brain/` or `user/` are created as needed. Add them
 
 Read the full skill file ONLY when the trigger matches. Don't read skills preemptively.
 
-- [process-conversation](agent_brain/skills/process-conversation.md) — Logs the conversation and detects learning observations. Use on `/reflect`, "reflect", or "process this conversation".
-- [daily-consolidation](agent_brain/skills/daily-consolidation.md) — End-of-day consolidation: creates concepts, forms associations, creates skills/rules from mature observations, updates promotions. Use on `/daily`, "daily", or "end of day".
-- [weekly-review](agent_brain/skills/weekly-review.md) — Weekly review, Hebbian calibration of promotions, generalization across concepts. Use on `/weekly`, "weekly review", "what did I do this week", or broader reviews.
-- [monthly-maintenance](agent_brain/skills/monthly-maintenance.md) — Deep monthly cycle: pruning, generalization, contradictions, structure review. Use on `/monthly`, "monthly", or "deep maintenance".
+- [process-conversation](agent_brain/skills/process-conversation.md) — Logs the conversation and detects learning observations. Use on "reflect", "save the conversation", or "reflect about this conversation".
 - [Domain packs](.packs/index.md) — Starter kits for specific use cases (work, personal, writing). Read the index and propose a matching pack when the user wants to use the system for a new purpose, adds content for a new domain, or asks how to adapt the system. Triggers: "I want to use this for...", "I'm going to start working on...", "should I change something for...?", or when the user adds files for a domain not yet set up.
 
 ## Rules
