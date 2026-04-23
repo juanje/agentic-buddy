@@ -36,7 +36,8 @@ Before starting the weekly review:
 
 ### 1. Gather data
 
-- Read logs from `logs/` for the current week.
+- Read `logs/index.md` to see which days had active sessions this week.
+- Read logs from `logs/` for the active days of the current week.
 - Read `user/` to understand current state of the user's workspace.
 
 ### 2. Present the weekly summary

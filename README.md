@@ -69,7 +69,7 @@ The system's directory structure maps to distinct cognitive functions, each with
 |---|---|---|---|---|
 | `AGENTS.md` | Working memory | Active context, rules, skills index | Updated by `/daily` and `/weekly` | Agent |
 | `agent_brain/` | Semantic memory | Concepts, projects, skills, identity | Hebbian: promote, degrade, archive | Agent |
-| `logs/` | Episodic memory | Conversation records | Compact by age, archive after extraction | Agent |
+| `logs/` | Episodic memory | Conversation records, session index | Rotate by count (28), archive by month | Agent |
 | `user/` | Extended mind | Lists, drafts, documents, user files | No automatic pruning — user decides | User |
 
 ### `agent_brain/` — what the agent knows
@@ -91,7 +91,7 @@ Conversation records — the logbook. Not knowledge (that's `agent_brain/`), not
 ### Why this separation matters
 
 - **Clear capture destinations.** "Will the user act on this?" → `user/`. "Will the agent learn from this?" → `agent_brain/`. "Did this happen in a conversation?" → `logs/`.
-- **Different lifecycle rules.** Each directory has rules that match its function. Hebbian pruning makes sense for knowledge, not for the user's task list. Age-based compaction makes sense for logs, not for concepts.
+- **Different lifecycle rules.** Each directory has rules that match its function. Hebbian pruning makes sense for knowledge, not for the user's task list. Count-based rotation makes sense for logs, not for concepts.
 - **User can contribute directly.** The user adds documents, references, or drafts to `user/`. The agent reads and processes them. No need to paste content into chat — just drop the file.
 
 ## Learning cycles
@@ -115,8 +115,9 @@ Specific concepts that share an underlying pattern get abstracted into general c
 ├── AGENTS.md                    → Agent working memory. Loaded automatically.
 ├── user/                        → User workspace. Action items, drafts, documents.
 │   └── journal/                 → Temporal activity summaries (weekly, monthly).
-├── logs/                        → Daily conversation logs.
-│   └── archive/                 → Compacted old logs.
+├── logs/                        → Daily conversation logs (last 28).
+│   ├── index.md                 → Session registry: date, type, Key themes.
+│   └── archive/YYYY-MM/         → Older logs grouped by month, each with its own index.
 └── agent_brain/
     ├── identity/
     │   ├── USER.md              → Your profile and preferences.
@@ -234,7 +235,7 @@ There are no databases, no embeddings, no vendor-specific formats. If your agent
 
 In neuroscience, Hebb's principle states that neurons that fire together wire together — connections strengthen with use and weaken without it. This system applies the same idea to information management.
 
-Every file tracks when it was last accessed and how often (`access_count` only increments on genuine consultation — opening a file to edit it doesn't count). The learning cycles use these metrics to adjust each file's **visibility level** — how close it sits to the agent's working memory:
+Every file tracks when it was last accessed and how often (`access_count` only increments on genuine consultation — opening a file to edit it doesn't count). The learning cycles use these metrics to adjust each file's **visibility level** — how close it sits to the agent's working memory. Crucially, staleness is measured in **active sessions**, not calendar days — a file untouched for a week of vacation hasn't cooled at all if no real sessions happened. The session index (`logs/index.md`) tracks which days had human interaction, so the Hebbian mechanism fires on real usage patterns, not on clock time:
 
 | Level | Where | How it gets here |
 |---|---|---|
@@ -273,7 +274,7 @@ The critical distinction between `agent_brain/archive/` and deletion: archived f
 
 ### Progressive disclosure: navigate, don't preload
 
-The agent doesn't read everything at startup. It reads `AGENTS.md` (~100 lines) which contains just enough to know where things are and when to look deeper. Everything else is loaded on demand — only when a task requires it.
+The agent doesn't read everything at startup. It reads `AGENTS.md` (~100 lines), the session index (`logs/index.md`), and the last active session's log — enough to know who it is, what's been happening, and where to look deeper. Everything else is loaded on demand — only when a task requires it.
 
 The navigation mechanism is **index-first**: when the agent needs context from a directory, it reads the directory's `index.md` before opening any specific file. The index maps what's inside with one-line descriptions — enough for the agent to decide what to read without loading everything. As directories grow past three files, they benefit from an `index.md` hub. AGENTS.md "Where to find things" points to **spaces** (directories), not individual files.
 

@@ -33,6 +33,29 @@ Before consolidating, always process the current conversation:
 This ensures no conversation context is lost, even if the user forgot
 to `/reflect` during the day.
 
+### Step 0b: Classify session and update index
+
+After reflect runs, determine whether today was a real session or a
+maintenance-only run, and record it in `logs/index.md`.
+
+1. Read today's log (`logs/YYYY-MM-DD.md`), specifically the `## Context`
+   section.
+2. If Context contains substantive content (conversation notes, user
+   statements, situational observations) → session is **active**.
+3. If Context is empty, contains only "—", or has no meaningful human
+   interaction → session is **maintenance**.
+4. Append one line to `logs/index.md`:
+   - Active: `- YYYY-MM-DD: active — [Key themes from Day summary]`
+     (Key themes are written later in step 2; use a placeholder and
+     update the line after the Day summary is written.)
+   - Maintenance: `- YYYY-MM-DD: maintenance`
+5. If the line for today already exists in the index (e.g., from an
+   earlier `/daily` run today), update it rather than appending a
+   duplicate.
+
+The index drives Hebbian scoring (step 7) and gives weekly/monthly
+reviews a scannable session history without opening individual logs.
+
 ---
 
 The daily consolidation has two parts: first consolidate (summarize and
@@ -67,6 +90,9 @@ or update it if one already exists:
 ```
 
 Keep it brief — this makes the weekly review's job easier.
+
+After writing the Day summary, update today's line in `logs/index.md`
+with the actual Key themes (replacing the placeholder from step 0b).
 
 #### 3. Review user workspace
 
@@ -203,6 +229,11 @@ The visibility levels are:
 | 3 | "Where to find things" gets a specific entry with trigger | sustained high use |
 | 4 | Active context "Files" | hot — needed in most sessions |
 
+**Staleness is measured in active sessions, not calendar days.** Read
+`logs/index.md` (already in context from step 0b). Count only lines
+marked `active` — maintenance-only days don't count as opportunities
+to access a file.
+
 Steps:
 
 1. Scan files in `agent_brain/` (excluding `identity/`, `skills/`, `archive/`).
@@ -213,14 +244,18 @@ Steps:
    subdir index. A file accessed repeatedly across sessions over multiple
    days earns a higher level. Only files at level 3 that continue to be
    accessed in most sessions graduate to Active context (level 4).
-4. For each file in Active context whose `access_count` hasn't grown →
-   **demote one level** (to "Where to find things" or back to its index).
-   Don't remove from the system — just move it one step further from
-   working memory. Gradual cooling, not deletion.
-5. Skip files linked from `USER.md` as structural context (team, primary
+4. For each file in Active context whose `access_count` hasn't grown,
+   count the number of `active` sessions in `logs/index.md` with a date
+   after the file's `last_accessed`. **Demote one level** if ≥ 3 active
+   sessions have elapsed without access. Don't remove from the system —
+   just move it one step further from working memory. Gradual cooling,
+   not deletion.
+5. **Promotion signal:** a file accessed in at least 2 of the last 3
+   active sessions is a candidate for promotion to the next level.
+6. Skip files linked from `USER.md` as structural context (team, primary
    project) — they're always accessible through identity, not subject to
    Hebbian dynamics.
-6. Keep Active context "Files" at 5-7 entries.
+7. Keep Active context "Files" at 5-7 entries.
 
 Each file entry has two layers — **hot data** inline and a **read trigger**:
 
@@ -236,11 +271,38 @@ Examples:
 Avoid: accumulated history, internal scores, operational detail that only
 matters during maintenance.
 
+#### 8. Log rotation
+
+Keep the `logs/` root at a manageable size. Older logs are archived but
+remain findable in `logs/archive/YYYY-MM/`.
+
+1. Count `*.md` files in `logs/` (excluding `index.md` and any
+   `monthly_*.md` files).
+2. If the count exceeds **28**, for each file to archive (oldest first):
+   a. Move the file to `logs/archive/YYYY-MM/` (based on the file's
+      date). Create the directory with `mkdir -p` if needed.
+   b. **Remove** the corresponding line from `logs/index.md`.
+   c. **Append** the line to `logs/archive/YYYY-MM/index.md`. If the
+      month index doesn't exist, create it with:
+      ```
+      # Sessions — YYYY-MM
+      
+      Log files: `YYYY-MM-DD.md` (in this directory).
+      ```
+   Repeat until exactly 28 remain.
+3. Note what was archived in today's log under Decisions.
+
+Why 28: provides a comfortable window of recent history regardless of
+usage frequency. Weekly review always has enough recent logs; monthly
+review may need the archive. Count-based (not date-based) rotation
+ensures the root always has the same depth of history regardless of
+how sessions are spread across the calendar.
+
 ---
 
 ### Finalize
 
-#### 8. Git commit
+#### 9. Git commit
 
 ```bash
 git add AGENTS.md agent_brain/ logs/ user/ && git commit -m "daily: YYYY-MM-DD" 2>/dev/null || true

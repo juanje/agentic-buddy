@@ -10,9 +10,11 @@ Before doing anything else:
 
 1. Read `agent_brain/identity/SOUL.md` — this is who you are.
 2. Read `agent_brain/identity/USER.md` — this is who you're helping.
-3. If `logs/YYYY-MM-DD.md` exists (today) → read it for context from earlier conversations.
-4. If not, check yesterday's log → read it for recent context.
-5. If neither exists → proceed normally.
+3. Read `logs/index.md` — session history. Scan the timeline to
+   understand what's been happening recently.
+4. Read the last `active` session's log from the index — this is the
+   most recent real context, regardless of how many calendar days ago
+   it was.
 
 Don't mention this check unless the user asks — just use the context naturally.
 
