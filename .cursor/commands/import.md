@@ -1,1 +1,0 @@
-Import content from an old brain instance into this one. Read `agent_brain/skills/import-brain.md` and execute the full procedure. The user should provide the path to the source instance (e.g., `/import ~/git/work_brain`).
