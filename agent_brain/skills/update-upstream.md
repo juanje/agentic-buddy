@@ -44,9 +44,20 @@ Store the path for the rest of the procedure.
 For each `.md` file in upstream `agent_brain/skills/`:
 
 - **Exists locally and identical:** skip.
-- **Exists locally with differences:** read `git log --oneline -5 <file>`
-  in the upstream clone to understand what changed and why. Summarize
-  the change for the update plan.
+- **Exists locally with differences:** triage the diff to determine
+  direction. Always diff as `diff <upstream> <local>` so that:
+  - Lines with `-` = **upstream only** (candidate to import)
+  - Lines with `+` = **local only** (already applied or local improvement)
+  - Both present = **divergence** (needs judgment)
+  For each difference, classify it:
+  - **Upstream-only change:** read `git log --oneline -5 <file>` in the
+    upstream clone to understand why it was made. Summarize for the
+    update plan.
+  - **Local-only change:** note as "local ahead" and skip — the instance
+    already has this improvement (or a better version of it).
+  - **Divergence (both changed the same area differently):** present both
+    versions with reasoning so the user can decide.
+  Only upstream-only changes and divergences go into the update plan.
 - **New in upstream:** read the file's "When to use" section. Summarize
   for the update plan.
 
@@ -60,8 +71,9 @@ Learned skills (local files not in upstream): **never touch**.
 
 For each `.md` file in upstream `.cursor/commands/`:
 
-- Same logic as skills: identical → skip, different → summarize change,
-  new → summarize purpose.
+- Same logic as skills: identical → skip, different → triage diff
+  direction (upstream-only / local-only / divergence), new → summarize
+  purpose. Only upstream-only changes and divergences go into the plan.
 - `.claude/commands/` is a directory symlink to `.cursor/commands/` —
   **do not create or modify files inside `.claude/commands/`**.
 
@@ -69,7 +81,8 @@ For each `.md` file in upstream `.cursor/commands/`:
 
 For each file in upstream `.packs/`:
 
-- Changed: summarize diff.
+- Changed: triage diff direction (same as step 2). Only upstream-only
+  changes go into the plan.
 - New pack or new files in existing pack: summarize.
 
 ### 5. Compare identity templates
@@ -99,9 +112,11 @@ Compare only the structural sections:
 
 - **Session start** — steps 1-4
 - **Core behavior** — listen and capture rules, idea format, file metadata
-- **Rules** — numbered list. Compare rule by rule:
-  - New rules in upstream → propose adding.
-  - Modified rules → show the diff and reasoning from git log.
+- **Rules** — numbered list. Compare rule by rule, triaging direction:
+  - Rule exists only in upstream → propose adding.
+  - Rule exists only in local → note as "local addition" and skip.
+  - Same rule, different wording → triage: upstream-only words are
+    candidates to import; local-only words are local improvements.
   - Rules removed upstream → flag (don't auto-remove).
 - **Skills section header** — only check if new core skills from upstream
   should be added. Don't touch learned or instance-specific entries.
@@ -177,6 +192,12 @@ Report what was applied.
 
 ## Quality criteria
 
+- **Direction matters.** Always `diff <upstream> <local>`. Lines with
+  `-` are upstream-only (candidates to import); lines with `+` are
+  local-only (already applied or local improvements). Never present
+  local improvements as upstream changes to import. When in doubt,
+  read the upstream git log: if the change isn't in any upstream commit,
+  it's local.
 - **Per-entry judgment.** Don't copy mechanically. Evaluate each change
   in the context of the current instance. A generic template entry may
   not apply or may need adaptation.
