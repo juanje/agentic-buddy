@@ -6,18 +6,24 @@ created: YYYY-MM-DD
 
 # Inbox
 
-Capture everything here first. Process regularly: move items to the right
-place, add context, or delete what's no longer relevant.
+Capture everything here first. Triage daily: process Capture, route items
+to the right place, and keep Next Actions focused.
 
 ## Capture
 
-Format: `- YYYY-MM-DD: What needs to happen — any relevant details, deadlines, people involved`
+New items land here. Processed daily by the triage skill — must be empty
+after each triage pass.
+
+## Next Actions
+
+The 3–5 items that deserve focus right now. Each is a single concrete step.
+If it links to a multi-step project, reference the project file.
 
 ## By context
 
 ### @computer
 
-Tasks that require your computer.
+Single-step actions that require your computer.
 
 ### @home
 
@@ -31,10 +37,12 @@ Tasks that require going somewhere.
 
 Calls or messages to make.
 
-### @waiting
+## Waiting For
 
-Things you're waiting on from others. Note who and since when.
+Things you're waiting on from others. Format: `- **Who** — what — since YYYY-MM-DD`
 
 ## Someday / Maybe
 
 Ideas and projects you might do eventually. Review monthly.
+
+<!-- pending above this line -->

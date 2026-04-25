@@ -57,14 +57,20 @@ for configuring `did` and the Jira scripts.
 
 ### personal
 
-A minimal personal productivity setup inspired by GTD (Getting Things Done).
+A personal productivity setup inspired by GTD (Getting Things Done).
+Provides an inbox with Next Actions, context lists, and a triage skill for
+daily processing.
 
 | File | Destination | Description |
 |------|-------------|-------------|
-| `inbox.md` | `user/inbox.md` | Capture inbox with contexts (@home, @errands, @computer) |
+| `inbox.md` | `user/inbox.md` | GTD inbox with Capture, Next Actions, @context lists, Waiting For, Someday/Maybe |
+| `triage-inbox.md` | `agent_brain/skills/` | Daily inbox triage: process Capture, review Next Actions, route items to projects or contexts |
 
-**After applying:** The system will naturally develop lists, projects, and
-a "someday/maybe" file as you use it. No additional skills needed at start.
+**After applying:** Create `user/projects/` for multi-step outcomes. Each
+project file tracks its outcome, next action, and notes. The triage skill
+processes Capture daily and keeps Next Actions focused (3-5 items). Add a
+`/triage` command to `.cursor/commands/` and `.claude/commands/` for
+easy access.
 
 ### writing
 
