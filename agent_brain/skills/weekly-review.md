@@ -163,7 +163,11 @@ when the topic appears. Three questions:
 If yes to all three, propose the split to the user. Track candidates in
 `agent_brain/observations.md` under "Structure candidates" until they
 mature. Flag to the user before splitting — they should approve the
-structure.
+structure. After creating the extension file, compress the source entry
+in USER.md to a one-line summary + link. Guideline: ~1 line for people
+not present in most conversations, ~3 lines max for frequently present
+people (partner, immediate family). The goal is to minimize session-start
+token cost while preserving navigability.
 
 ### 5. Calibrate learned skills and rules
 
