@@ -109,7 +109,7 @@ Based on what the user described in Step 2, check if a matching domain pack exis
 Check what editor/agent the user is running:
 
 - **Cursor**: `.cursor/commands/` is already set up. No action needed.
-- **Claude Code**: `CLAUDE.md` symlink and `.claude/commands/` symlinks are pre-created. Verify they resolve correctly (`ls -la CLAUDE.md .claude/commands/`). No copy needed. Additionally, create `.claude/settings.local.json` with basic permissions:
+- **Claude Code**: `CLAUDE.md` is a symlink to `AGENTS.md`, and `.claude/commands/` is a **directory symlink** to `.cursor/commands/`. Both are pre-created — any file added to `.cursor/commands/` is automatically visible to Claude Code. **Do not create individual symlinks or files inside `.claude/commands/`** — the directory symlink handles it. Additionally, create `.claude/settings.local.json` with basic permissions:
   ```json
   {
     "permissions": {

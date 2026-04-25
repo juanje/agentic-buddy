@@ -24,7 +24,9 @@ and don't consume context until activated.
    - Files marked `→ agent_brain/identity/` go to `agent_brain/identity/`.
 3. Add any new skills to the Skills section of `AGENTS.md`.
 4. If the pack includes commands, create the corresponding files in
-   `.cursor/commands/` and symlinks in `.claude/commands/`.
+   `.cursor/commands/` only. `.claude/commands/` is a directory symlink
+   to `.cursor/commands/` — files appear there automatically. **Do not
+   create individual symlinks or files inside `.claude/commands/`.**
 5. If the pack includes scripts (`.sh` files), help the user install them
    (make executable, link to `~/.local/bin/`).
 6. Commit: `git add AGENTS.md agent_brain/ user/ .cursor/ .claude/ && git commit -m "pack: apply <name>"`
