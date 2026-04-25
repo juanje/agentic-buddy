@@ -116,8 +116,13 @@ observations sections). Look for knowledge worth retaining:
 - Lessons that would be useful if the same situation arises again.
 - Principles or heuristics the user articulated.
 
-For each, check if it's already captured in `agent_brain/concepts/` or
-`agent_brain/projects/`. If not, create a new file:
+For each candidate, apply the **novelty test** before creating a file:
+*"Does this add decision-making power beyond its parent concept?"*
+If not, it's an instance — note it in the parent concept's file, don't
+create a new one. Naming a specific case doesn't make it a generalization.
+
+If it passes, check if it's already captured in `agent_brain/concepts/`
+or `agent_brain/projects/`. If not, create a new file:
 
 ```
 agent_brain/concepts/short-descriptive-name.md
