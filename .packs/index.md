@@ -66,11 +66,12 @@ daily processing.
 | `inbox.md` | `user/inbox.md` | GTD inbox with Capture, Next Actions, @context lists, Waiting For, Someday/Maybe |
 | `triage-inbox.md` | `agent_brain/skills/` | Daily inbox triage: process Capture, review Next Actions, route items to projects or contexts |
 
-**After applying:** Create `user/projects/` for multi-step outcomes. Each
-project file tracks its outcome, next action, and notes. The triage skill
-processes Capture daily and keeps Next Actions focused (3-5 items). Add a
-`/triage` command to `.cursor/commands/` and `.claude/commands/` for
-easy access.
+**After applying:** Create `user/projects/` with an `index.md` catalog
+for multi-step outcomes. Each project file tracks its outcome, next action,
+and notes. Add `user/projects/index.md` to "Where to find things" in
+AGENTS.md under the User workspace entry. The triage skill processes
+Capture daily and keeps Next Actions focused (3-5 items). Add a `/triage`
+command to `.cursor/commands/` and `.claude/commands/` for easy access.
 
 ### writing
 
