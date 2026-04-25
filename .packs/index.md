@@ -71,9 +71,11 @@ daily processing.
 **After applying:** Create `user/projects/` with an `index.md` catalog
 for multi-step outcomes. Each project file tracks its outcome, next action,
 and notes. Add `user/projects/index.md` to "Where to find things" in
-AGENTS.md under the User workspace entry. The triage skill processes
-Capture daily and keeps Next Actions focused (3-5 items). Add a `/triage`
-command to `.cursor/commands/` and `.claude/commands/` for easy access.
+AGENTS.md under the User workspace entry. Add `triage-inbox` to the
+Skills section of AGENTS.md with trigger: "process inbox", "triage my
+inbox", "what should I work on?", or during daily consolidation.
+The `/triage` command is pre-created in `.cursor/commands/` (and
+available to Claude Code via the directory symlink).
 
 ### writing
 
