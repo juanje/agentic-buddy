@@ -52,7 +52,10 @@ experience from this generic base.
 | `jira-detail.sh` | `~/.local/bin/jira-detail` | Full ticket detail with comments (make executable, symlink) |
 | `tool-setup.md` | _(reference only)_ | Installation guide for `did` and Jira CLI tools |
 
-**After applying:** Add commands for `/standup`, `/sync`, `/next` to
+**After applying:** Add `user/BOARD.md` to "Where to find things" in
+AGENTS.md under the User workspace entry, with trigger: "Read when the
+user asks about tasks, current work, or sprint status." Add commands for
+`/standup`, `/sync`, `/next` to
 `.cursor/commands/` and `.claude/commands/`. Consider adding a WIP rule
 to AGENTS.md (e.g., "Doing WIP: target 1, max 2"). Read `tool-setup.md`
 for configuring `did` and the Jira scripts.
@@ -68,7 +71,10 @@ daily processing.
 | `inbox.md` | `user/inbox.md` | GTD inbox with Capture, Next Actions, @context lists, Waiting For, Someday/Maybe |
 | `triage-inbox.md` | `agent_brain/skills/` | Daily inbox triage: process Capture, review Next Actions, route items to projects or contexts |
 
-**After applying:** Create `user/projects/` with an `index.md` catalog
+**After applying:** Add `user/inbox.md` to "Where to find things" in
+AGENTS.md under the User workspace entry, with trigger: "Read when the
+user asks what's pending, what to work on, or when capturing new tasks."
+Create `user/projects/` with an `index.md` catalog
 for multi-step outcomes. Each project file tracks its outcome, next action,
 and notes. Add `user/projects/index.md` to "Where to find things" in
 AGENTS.md under the User workspace entry. Add `triage-inbox` to the
