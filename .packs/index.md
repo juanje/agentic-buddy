@@ -52,13 +52,48 @@ experience from this generic base.
 | `jira-detail.sh` | `~/.local/bin/jira-detail` | Full ticket detail with comments (make executable, symlink) |
 | `tool-setup.md` | _(reference only)_ | Installation guide for `did` and Jira CLI tools |
 
-**After applying:** Add `user/BOARD.md` to "Where to find things" in
-AGENTS.md under the User workspace entry, with trigger: "Read when the
-user asks about tasks, current work, or sprint status." Add commands for
-`/standup`, `/sync`, `/next` to
-`.cursor/commands/` and `.claude/commands/`. Consider adding a WIP rule
-to AGENTS.md (e.g., "Doing WIP: target 1, max 2"). Read `tool-setup.md`
-for configuring `did` and the Jira scripts.
+**After applying:**
+
+1. **Adapt Core behavior #1** — replace the generic `user/` routing with
+   board-specific destinations:
+   - Tasks → `user/BOARD.md` Inbox
+   - Improvement ideas, tech debt → `user/BOARD.md` Parked
+   - Requests from other teams → `agent_brain/requests/` + `user/BOARD.md`
+     Inbox
+
+2. **Add `user/BOARD.md` to "Where to find things"** in AGENTS.md under
+   the User workspace entry:
+   ```
+   - [Board](user/BOARD.md) — Read when the user asks about tasks,
+     priorities, what to work on next, or when triaging captured items.
+     **File order (actionable first):** Doing (WIP 1, max 2 if related),
+     Next Actions (max 3–4), Waiting, Sprint Backlog, Inbox, Parked, Done.
+   ```
+
+3. **Add `user/BOARD.md` to Active context → Files** — the board is the
+   most-used file in a work instance; it belongs at level 4 from the start.
+
+4. **Add a WIP rule** to AGENTS.md Rules: "Doing WIP. Target 1 item in
+   Doing, max 2 if related. If >2, warn the user about focus cost and
+   suggest moving items back."
+
+5. **Add a "Getting work data" section** to AGENTS.md (after Skills)
+   documenting the CLI tools installed from this pack. Include
+   subcommands and common flags so the agent can use them without
+   reading tool-setup.md each time:
+   ```
+   ## Getting work data
+   Always check internal memory first (Rule 5) before calling these.
+   - **`did <range>`** — Past activity. Ranges: yesterday, this week, etc.
+   - **`jira-pending <subcommand>`** — Current Jira state: assigned, sprint, etc.
+   - **`jira-detail <TICKET_ID>`** — Full ticket detail with comments.
+   ```
+
+6. **Add commands** for `/standup`, `/sync`, `/next` to
+   `.cursor/commands/`. `.claude/commands/` is a directory symlink —
+   files appear there automatically.
+
+7. Read `tool-setup.md` for configuring `did` and the Jira scripts.
 
 ### personal
 
