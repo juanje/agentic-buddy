@@ -28,11 +28,9 @@ Before starting the weekly review:
    conversation.
 2. **Daily:** Check if `/daily` was run in the last 2 days. Look for a
    "Day summary" section in recent logs. If `/daily` hasn't been run
-   recently, inform the user: "Daily consolidation hasn't been run in
-   the last couple of days. I'll run a quick consolidation now to make
-   sure this review has complete data." Then execute the daily
-   consolidation procedure (skip Step 0 since reflect was already done
-   above).
+   recently, execute the daily consolidation procedure (skip Step 0
+   since reflect was already done above). Log that a daily was triggered
+   as prerequisite.
 
 ### 1. Gather data
 
@@ -40,7 +38,11 @@ Before starting the weekly review:
 - Read logs from `logs/` for the active days of the current week.
 - Read `user/` to understand current state of the user's workspace.
 
-### 2. Present the weekly summary
+### 2. Compile the weekly summary
+
+Write the following summary to today's log (under a `## Weekly summary`
+section). In interactive mode, also present it to the user. In autonomous
+mode, the log entry is the output.
 
 **Completed this week:**
 - Items completed or resolved, based on logs and `user/` content.
@@ -73,7 +75,7 @@ Walk through `user/` content:
   - `seed` ideas: still interesting? Promote to `developing` or archive.
   - `developing` ideas: any progress this week? Anything to add from the week's context?
   - `ready` ideas: should any be converted this week? (create project, start task, etc.)
-- Present a brief ideas summary to the user alongside the workspace review.
+- Act on what's clear; log decisions made (promotions, status changes, archives).
 
 ### 3c. Link hygiene (weekly pass)
 
@@ -123,8 +125,12 @@ level table).
 Also update the **Right now** subsection with current state. See the daily
 skill Step 7 for format and full guidance on both subsections.
 
-Present changes across all levels: "Level 4: kept [X], demoted [Y].
-Level 3: added [A], removed [B]. Level 1-2: enriched [C], flagged [D]."
+Log changes across all levels in today's log (Decisions section):
+"Level 4: kept [X], demoted [Y]. Level 3: added [A], removed [B].
+Level 1-2: enriched [C], flagged [D]." In interactive mode, also present
+this to the user. If any demotion from Active context affects files the
+user actively references, write an `info` entry to
+`agent_brain/deferred.md`.
 
 ### 4b. Identity file check
 
@@ -160,14 +166,16 @@ when the topic appears. Three questions:
 3. Does it appear in multiple conversations, making the file worth
    maintaining?
 
-If yes to all three, propose the split to the user. Track candidates in
-`agent_brain/observations.md` under "Structure candidates" until they
-mature. Flag to the user before splitting — they should approve the
-structure. After creating the extension file, compress the source entry
-in USER.md to a one-line summary + link. Guideline: ~1 line for people
-not present in most conversations, ~3 lines max for frequently present
-people (partner, immediate family). The goal is to minimize session-start
-token cost while preserving navigability.
+If yes to all three, track candidates in `agent_brain/observations.md`
+under "Structure candidates" until they mature. Write a `decision` entry
+to `agent_brain/deferred.md` proposing the split — structural changes to
+identity files require user approval. Don't execute the split
+autonomously. After the user approves (in a future interactive session),
+create the extension file, compress the source entry in USER.md to a
+one-line summary + link. Guideline: ~1 line for people not present in
+most conversations, ~3 lines max for frequently present people (partner,
+immediate family). The goal is to minimize session-start token cost while
+preserving navigability.
 
 ### 5. Calibrate learned skills and rules
 

@@ -103,6 +103,11 @@ If `user/` has content, do a quick check:
 
 If `user/` is empty, skip this step.
 
+If anything needs user attention (stale items, items that can't be routed
+without input), write to `agent_brain/deferred.md` with type `decision`.
+If purely informational findings, note them in today's log under
+Decisions. Don't wait for user interaction — act or defer.
+
 ---
 
 ### Part 2: Learn
