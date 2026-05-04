@@ -11,4 +11,7 @@ remove.
 Entry types: `decision` (needs input), `info` (FYI), `review` (validate
 autonomous action).
 
-<!-- entries below this line -->
+---
+
+(No pending entries.)
+
