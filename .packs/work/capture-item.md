@@ -9,11 +9,11 @@ created: YYYY-MM-DD
 ## When to use
 
 Use for complex captures that need more thought than the quick capture described
-in AGENTS.md Core Behavior. Examples: items that should go to multiple destinations,
+in CLAUDE.md Core Behavior. Examples: items that should go to multiple destinations,
 batch processing from a meeting dump, or unclear classification.
 
 For simple, obvious captures (a task → Inbox, an idea → Parked), the Core Behavior
-in AGENTS.md is sufficient — don't read this skill for those.
+in CLAUDE.md is sufficient — don't read this skill for those.
 
 ## Procedure
 
@@ -30,7 +30,7 @@ in AGENTS.md is sufficient — don't read this skill for those.
 
 ### 2. Capture with context
 
-For board items, use the standard format. **Each distinct task or ticket is its own item** — never bury a second task under "Related" inside one line. Link with **Related to:** on both items (see AGENTS.md Board item format).
+For board items, use the standard format. **Each distinct task or ticket is its own item** — never bury a second task under "Related" inside one line. Link with **Related to:** on both items (see CLAUDE.md Board item format).
 
 ```
 - [ ] Short description | added: YYYY-MM-DD
@@ -54,7 +54,7 @@ Tell the user what was captured and where: "Captured [X] in [location]."
 ### 4. Prioritization
 
 If the item seems urgent or high priority:
-- Ask: "This seems important. Should it go to Next Actions, Sprint Backlog, or Doing?" If suggesting **Doing**, check WIP: target 1 task there, max 2 if related (AGENTS.md Rule 9).
+- Ask: "This seems important. Should it go to Next Actions, Sprint Backlog, or Doing?" If suggesting **Doing**, check WIP: target 1 task there, max 2 if related (CLAUDE.md Rule 9).
 - **Next Actions** holds at most 3–4 immediate items; **Sprint Backlog** holds triaged sprint work that is not yet "next."
 - If it clearly blocks other work, suggest moving it up.
 - If unclear, leave in Inbox for triage.

@@ -36,7 +36,7 @@ Present board sections in **file order** (same as `BOARD.md`):
 
 **Currently doing** (from board):
 - Show the "Doing" section.
-- If more than 2 items in Doing, warn about WIP (AGENTS.md Rule 9).
+- If more than 2 items in Doing, warn about WIP (CLAUDE.md Rule 9).
 
 **Next up** (from board):
 - Show the "Next Actions" queue (max 3–4 items).

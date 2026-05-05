@@ -50,4 +50,4 @@ Keep it concise but actionable — enough to start working immediately.>
 
 ### 5. Offer to start
 
-Ask if the user wants to move the task to Doing. If Doing already has 2 items, remind them of WIP (AGENTS.md Rule 9) before adding another.
+Ask if the user wants to move the task to Doing. If Doing already has 2 items, remind them of WIP (CLAUDE.md Rule 9) before adding another.

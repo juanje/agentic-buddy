@@ -6,7 +6,7 @@ If a language is specified after the command (e.g., `/setup español`), conduct 
 
 First, determine if this is a fresh setup or a reconfiguration:
 
-1. Read `AGENTS.md`.
+1. Read `CLAUDE.md`.
 2. If it contains `POST-SETUP:` → **Fresh setup.** Proceed with the full setup below.
 3. If it does NOT contain that marker → **System already configured.** Switch to reconfiguration mode:
    > The system is already set up. I can help you with:
@@ -17,7 +17,7 @@ First, determine if this is a fresh setup or a reconfiguration:
    >
    > What would you like to update?
 
-   In reconfiguration mode: **never overwrite AGENTS.md**. Only modify the specific files the user asks about.
+   In reconfiguration mode: **never overwrite CLAUDE.md**. Only modify the specific files the user asks about.
 
    After changes, commit: `git add -A && git commit -m "reconfig: <what changed>"`
 
@@ -29,7 +29,7 @@ First, determine if this is a fresh setup or a reconfiguration:
 
 ### Step 1: Introduction
 
-Read `templates/AGENTS.md` to understand the system you're setting up (don't explain the whole system to the user).
+Read `templates/CLAUDE.md` to understand the system you're setting up (don't explain the whole system to the user).
 
 Then tell the user (in their language):
 
@@ -100,7 +100,7 @@ Based on what the user described in Step 2, check if a matching domain pack exis
    > as you use it.
 3. If the user wants the pack: follow the "How to apply a pack" instructions
    in `.packs/index.md`. Copy files to their destinations, add skills to
-   AGENTS.md if applicable.
+   CLAUDE.md if applicable.
 4. If the user's purpose doesn't match any pack, or they decline: proceed
    without a pack. The system will develop structure organically.
 
@@ -109,7 +109,7 @@ Based on what the user described in Step 2, check if a matching domain pack exis
 Check what editor/agent the user is running:
 
 - **Cursor**: `.cursor/commands/` is already set up. No action needed.
-- **Claude Code**: `CLAUDE.md` is a symlink to `AGENTS.md`, and `.claude/commands/` is a **directory symlink** to `.cursor/commands/`. Both are pre-created — any file added to `.cursor/commands/` is automatically visible to Claude Code. **Do not create individual symlinks or files inside `.claude/commands/`** — the directory symlink handles it. Additionally, create `.claude/settings.local.json` with basic permissions:
+- **Claude Code**: `CLAUDE.md` is read natively, and `.claude/commands/` is a **directory symlink** to `.cursor/commands/` (pre-created). Any file added to `.cursor/commands/` is automatically visible to Claude Code. **Do not create individual symlinks or files inside `.claude/commands/`** — the directory symlink handles it. Additionally, create `.claude/settings.local.json` with basic permissions and the sessionStart hook:
   ```json
   {
     "permissions": {
@@ -118,6 +118,19 @@ Check what editor/agent the user is running:
         "Bash(git commit:*)",
         "Bash(ls:*)",
         "Bash(mkdir:*)"
+      ]
+    },
+    "hooks": {
+      "SessionStart": [
+        {
+          "matcher": "",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "python3 .cursor/hooks/session-start.py"
+            }
+          ]
+        }
       ]
     }
   }
@@ -129,9 +142,9 @@ Check what editor/agent the user is running:
 
 Execute these steps in order:
 
-1. Copy the operational AGENTS.md into place:
+1. Copy the operational CLAUDE.md into place:
    ```bash
-   cp templates/AGENTS.md ./AGENTS.md
+   cp templates/CLAUDE.md ./CLAUDE.md
    ```
 
 2. Remove setup-only files:
@@ -149,7 +162,7 @@ Execute these steps in order:
 
 > Your Agentic Buddy is ready.
 >
-> **To activate it now**, run **/refresh** so I reload the new AGENTS.md and start working in operational mode. Alternatively, start a new conversation — I'll pick up the new instructions automatically.
+> **To activate it now**, run **/refresh** so I reload the new CLAUDE.md and start working in operational mode. Alternatively, start a new conversation — I'll pick up the new instructions automatically.
 >
 > **Quick start:**
 > - Brain dump anything: tasks, ideas, decisions, notes. I'll capture and file them.

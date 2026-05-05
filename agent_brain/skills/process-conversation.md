@@ -86,7 +86,7 @@ If anything was missed (capture or link), add it now.
 
 ### 4. Patch stale active context
 
-Scan the **Active context → Right now** section in `AGENTS.md` and the hot files listed under **Active context → Files**. For each item, ask: did something in this session change it?
+Scan the **Active context → Right now** section in `CLAUDE.md` and the hot files listed under **Active context → Files**. For each item, ask: did something in this session change it?
 
 Patch immediately (don't wait for daily) if:
 - A near-term date or time changed (rescheduled meeting, moved appointment)
@@ -124,7 +124,7 @@ Two paths depending on how the signal was detected:
 
 - **Explicit user correction** (the user directly told you to change behavior:
   "don't do X", "always do Y", or pointed out a mistake): **fast-track**.
-  Apply the rule immediately — add it to AGENTS.md Rules and log it as
+  Apply the rule immediately — add it to CLAUDE.md Rules and log it as
   resolved in the observation journal. Don't wait for the 2+ threshold — a
   direct correction is a strong signal. Confirm briefly with the user:
   "added rule: [summary]".
@@ -142,7 +142,7 @@ Every rule must include its reasoning — the context in which it applies and wh
 it prevents or enables. Format: `[rule]. [why].` Before proposing a rule,
 evaluate where it sits on the spectrum:
 - Universal trait that describes who the agent IS → propose for SOUL.md Character.
-- Contextual operational rule → AGENTS.md Rules, with WHY.
+- Contextual operational rule → CLAUDE.md Rules, with WHY.
 - One-time correction → log only, don't create a rule.
 
 **Concept candidates — new knowledge worth retaining:**

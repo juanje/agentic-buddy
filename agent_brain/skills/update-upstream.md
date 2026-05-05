@@ -21,10 +21,10 @@ content (identity, knowledge, logs, projects).
 
 The upstream repo is https://github.com/juanje/agentic-buddy.
 
-**Key structural note:** In the upstream repo, the operational AGENTS.md
-lives at `templates/AGENTS.md`, not at the root. The root `AGENTS.md`
+**Key structural note:** In the upstream repo, the operational CLAUDE.md
+lives at `templates/CLAUDE.md`, not at the root. The root `CLAUDE.md`
 is the setup redirect for fresh installations. Always compare against
-`templates/AGENTS.md`.
+`templates/CLAUDE.md`.
 
 ## Procedure
 
@@ -103,11 +103,11 @@ template changed structurally:
 - **Do not apply changes directly.** Identity changes go through
   maintenance cycles or explicit user requests.
 
-### 6. Compare AGENTS.md structural sections
+### 6. Compare CLAUDE.md structural sections
 
-The upstream AGENTS.md is at `templates/AGENTS.md` in the cloned repo.
+The upstream CLAUDE.md is at `templates/CLAUDE.md` in the cloned repo.
 
-The live `AGENTS.md` mixes upstream structure with instance content.
+The live `CLAUDE.md` mixes upstream structure with instance content.
 Compare only the structural sections:
 
 - **Session start** — steps 1-4
@@ -142,7 +142,7 @@ Before applying anything, present a summary:
 - Updated: [name] ([reason])
 - Unchanged: N commands
 
-**AGENTS.md:**
+**CLAUDE.md:**
 - New rule N: [description]
 - Modified rule N: [brief diff]
 - Session start: [changed / unchanged]
@@ -168,10 +168,10 @@ For each approved change:
   Update `last_accessed` to today in the local copy's metadata.
 - **Commands:** Copy from upstream clone to local `.cursor/commands/`.
 - **Packs:** Copy changed files from upstream `.packs/` to local `.packs/`.
-- **AGENTS.md sections:** Patch the specific section in the live
-  `AGENTS.md` (and `CLAUDE.md` if it's not a symlink). Be precise —
+- **CLAUDE.md sections:** Patch the specific section in the live
+  `CLAUDE.md` (and `CLAUDE.md` if it's not a symlink). Be precise —
   replace only the structural section, preserve everything else.
-- **New core skills in AGENTS.md:** Add them to the Skills section with
+- **New core skills in CLAUDE.md:** Add them to the Skills section with
   trigger description from the skill's "When to use" section.
 
 ### 9. Clean up

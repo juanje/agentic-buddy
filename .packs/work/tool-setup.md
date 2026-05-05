@@ -170,7 +170,7 @@ If the user doesn't use Jira:
    that were copied from this pack (run-standup, sync-board, weekly-review,
    next-task). Simplify them to work with board + logs only.
 3. If the user has a **different issue tracker** with CLI tools, add those
-   to the "Getting work data" section of AGENTS.md following the same
+   to the "Getting work data" section of CLAUDE.md following the same
    format: tool name, what it does, basic syntax.
 
 Similarly, if the user doesn't use `did`:

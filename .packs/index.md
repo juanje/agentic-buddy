@@ -22,14 +22,14 @@ and don't consume context until activated.
    - Files marked `→ user/` go to `user/`.
    - Files marked `→ agent_brain/skills/` go to `agent_brain/skills/`.
    - Files marked `→ agent_brain/identity/` go to `agent_brain/identity/`.
-3. Add any new skills to the Skills section of `AGENTS.md`.
+3. Add any new skills to the Skills section of `CLAUDE.md`.
 4. If the pack includes commands, create the corresponding files in
    `.cursor/commands/` only. `.claude/commands/` is a directory symlink
    to `.cursor/commands/` — files appear there automatically. **Do not
    create individual symlinks or files inside `.claude/commands/`.**
 5. If the pack includes scripts (`.sh` files), help the user install them
    (make executable, link to `~/.local/bin/`).
-6. Commit: `git add AGENTS.md agent_brain/ user/ .cursor/ .claude/ && git commit -m "pack: apply <name>"`
+6. Commit: `git add CLAUDE.md agent_brain/ user/ .cursor/ .claude/ && git commit -m "pack: apply <name>"`
 
 ---
 
@@ -61,7 +61,7 @@ experience from this generic base.
    - Requests from other teams → `agent_brain/requests/` + `user/BOARD.md`
      Inbox
 
-2. **Add `user/BOARD.md` to "Where to find things"** in AGENTS.md under
+2. **Add `user/BOARD.md` to "Where to find things"** in CLAUDE.md under
    the User workspace entry:
    ```
    - [Board](user/BOARD.md) — Read when the user asks about tasks,
@@ -73,11 +73,11 @@ experience from this generic base.
 3. **Add `user/BOARD.md` to Active context → Files** — the board is the
    most-used file in a work instance; it belongs at level 4 from the start.
 
-4. **Add a WIP rule** to AGENTS.md Rules: "Doing WIP. Target 1 item in
+4. **Add a WIP rule** to CLAUDE.md Rules: "Doing WIP. Target 1 item in
    Doing, max 2 if related. If >2, warn the user about focus cost and
    suggest moving items back."
 
-5. **Add a "Getting work data" section** to AGENTS.md (after Skills)
+5. **Add a "Getting work data" section** to CLAUDE.md (after Skills)
    documenting the CLI tools installed from this pack. Include
    subcommands and common flags so the agent can use them without
    reading tool-setup.md each time:
@@ -107,13 +107,13 @@ daily processing.
 | `triage-inbox.md` | `agent_brain/skills/` | Daily inbox triage: process Capture, review Next Actions, route items to projects or contexts |
 
 **After applying:** Add `user/inbox.md` to "Where to find things" in
-AGENTS.md under the User workspace entry, with trigger: "Read when the
+CLAUDE.md under the User workspace entry, with trigger: "Read when the
 user asks what's pending, what to work on, or when capturing new tasks."
 Create `user/projects/` with an `index.md` catalog
 for multi-step outcomes. Each project file tracks its outcome, next action,
 and notes. Add `user/projects/index.md` to "Where to find things" in
-AGENTS.md under the User workspace entry. Add `triage-inbox` to the
-Skills section of AGENTS.md with trigger: "process inbox", "triage my
+CLAUDE.md under the User workspace entry. Add `triage-inbox` to the
+Skills section of CLAUDE.md with trigger: "process inbox", "triage my
 inbox", "what should I work on?", or during daily consolidation.
 The `/triage` command is pre-created in `.cursor/commands/` (and
 available to Claude Code via the directory symlink).

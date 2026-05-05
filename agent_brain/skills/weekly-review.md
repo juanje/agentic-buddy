@@ -212,7 +212,7 @@ that can be abstracted into general knowledge.
      reader's understanding of the specific concept. Don't add back-
      references just for graph completeness.
    - If AA is heavily relevant right now, add it to Active context in
-     AGENTS.md. The general version is more broadly useful than any
+     CLAUDE.md. The general version is more broadly useful than any
      specific instance.
 3. Do the same for skills: if skills X and Y follow a similar procedure for
    different domains, consider a general skill that covers both.
@@ -253,7 +253,7 @@ memory. Include:
 ### 9. Git commit
 
 ```bash
-git add AGENTS.md agent_brain/ logs/ user/ && git commit -m "weekly: YYYY-WNN" 2>/dev/null || true
+git add CLAUDE.md agent_brain/ logs/ user/ && git commit -m "weekly: YYYY-WNN" 2>/dev/null || true
 ```
 
 ### 10. Broader review mode

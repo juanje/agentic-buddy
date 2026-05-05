@@ -88,7 +88,7 @@ Copy files from `agent_brain/` subdirectories:
 5. **Custom directories:** For any directory in source `agent_brain/` that
    doesn't exist in the destination (e.g., `teams/`, `reviews/`), create
    it and copy all files. Add it to the "Where to find things" section of
-   AGENTS.md with a brief description based on its contents.
+   CLAUDE.md with a brief description based on its contents.
 
 **Conflict handling:** If a file with the same name exists in the
 destination, ask the user: "File `[path]` exists in both. Keep current /
@@ -139,7 +139,7 @@ Keep the original `created` and `access_count` values.
      `weekly-review.md`, `monthly-maintenance.md`
 3. For each non-core skill:
    - Copy to `agent_brain/skills/`.
-   - Add it to the Skills section of AGENTS.md. Read the skill file to
+   - Add it to the Skills section of CLAUDE.md. Read the skill file to
      determine the trigger description — use the "When to use" section.
    - Update `last_accessed` to today.
 4. If no learned skills exist, skip this step.
@@ -157,15 +157,15 @@ Keep the original `created` and `access_count` values.
    (they're historical records).
 5. Update metadata.
 
-### Step 9: Update AGENTS.md
+### Step 9: Update CLAUDE.md
 
-1. **Active context:** Read the source AGENTS.md. Extract entries from its
+1. **Active context:** Read the source CLAUDE.md. Extract entries from its
    Active context section. For each entry:
    - Check if the linked file was imported (exists in the destination).
    - If yes and not already in the current Active context → add it.
    - Update the description if the path changed (e.g., `work/` → `user/`).
 
-2. **Learned rules:** Read the source AGENTS.md Rules section. Compare with
+2. **Learned rules:** Read the source CLAUDE.md Rules section. Compare with
    the current rules. For any rule in the source that isn't in the current
    list (beyond the standard numbered rules):
    - Present it to the user: "The source had this rule: [rule]. Want to
@@ -178,7 +178,7 @@ Keep the original `created` and `access_count` values.
 ### Step 10: Git commit
 
 ```bash
-git add AGENTS.md agent_brain/ user/ logs/ && git commit -m "import: migrate from [source-type] at [path]" 2>/dev/null || true
+git add CLAUDE.md agent_brain/ user/ logs/ && git commit -m "import: migrate from [source-type] at [path]" 2>/dev/null || true
 ```
 
 Replace `[source-type]` with WAB/AB/compatible and `[path]` with the

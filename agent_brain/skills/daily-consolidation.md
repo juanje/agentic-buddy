@@ -183,14 +183,14 @@ occurrences** (seen across different conversations or days):
    obvious — an agent that understands WHY a step exists can adapt when the
    exact procedure doesn't fit. Distinguish fixed steps (must always happen)
    from judgment calls (adapt based on context).
-3. Add it to the Skills section of AGENTS.md with a trigger description.
+3. Add it to the Skills section of CLAUDE.md with a trigger description.
 4. Mark the observation as resolved in the journal.
 
 **Rule candidates (seen 2+):**
 1. Evaluate where it belongs:
    - Universal trait describing who the agent IS → add to SOUL.md Character.
-   - Contextual operational rule → add to AGENTS.md Rules, with WHY.
-   - If unclear, default to AGENTS.md — it can be promoted later.
+   - Contextual operational rule → add to CLAUDE.md Rules, with WHY.
+   - If unclear, default to CLAUDE.md — it can be promoted later.
 2. Formulate the rule with its reasoning: `[rule]. [why — what it prevents,
    enables, or protects]`.
 3. Add to the appropriate file. Mark the observation as resolved. Log the
@@ -202,7 +202,7 @@ occurrences** (seen across different conversations or days):
 
 **Structure candidates (seen 2+):**
 1. Create the new directory, move relevant files, update "Where to find
-   things" in AGENTS.md. Log the change.
+   things" in CLAUDE.md. Log the change.
 2. Mark the observation as resolved.
 
 Observations with only 1 occurrence stay in the journal — they need more
@@ -315,5 +315,5 @@ how sessions are spread across the calendar.
 #### 9. Git commit
 
 ```bash
-git add AGENTS.md agent_brain/ logs/ user/ && git commit -m "daily: YYYY-MM-DD" 2>/dev/null || true
+git add CLAUDE.md agent_brain/ logs/ user/ && git commit -m "daily: YYYY-MM-DD" 2>/dev/null || true
 ```

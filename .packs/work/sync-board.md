@@ -52,11 +52,11 @@ For each Waiting item:
 - Add any new context discovered (new comments, status changes).
 - Flag anything that needs the user's decision (don't auto-move ambiguous items).
 
-### 5. Refresh Active context (AGENTS.md)
+### 5. Refresh Active context (CLAUDE.md)
 
-Update the Board line in the "Active context" section of AGENTS.md:
+Update the Board line in the "Active context" section of CLAUDE.md:
 - Refresh item counts per section in **actionable order:** Doing, Next Actions, Waiting, Sprint Backlog, Inbox, Parked (count open items), Done.
-- If **Doing** has more than **2** items, flag WIP exceeded (see AGENTS.md Rule 9).
+- If **Doing** has more than **2** items, flag WIP exceeded (see CLAUDE.md Rule 9).
 - If **Next Actions** has more than 4 items, flag it (WIP limit is 3–4).
 - Only update other Active context entries if files were created or heavily
   accessed since last sync.
@@ -82,5 +82,5 @@ Don't create a log file — this is lightweight. Changes are tracked by git comm
 ### 7. Git commit
 
 ```bash
-git add user/BOARD.md AGENTS.md && git commit -m "sync: YYYY-MM-DD HH:MM" 2>/dev/null || true
+git add user/BOARD.md CLAUDE.md && git commit -m "sync: YYYY-MM-DD HH:MM" 2>/dev/null || true
 ```

@@ -72,7 +72,7 @@ the "forgetting" that the weekly cycle only flags.
 3. If a file hasn't been accessed in >30 days AND has fewer than 5 total
    accesses:
    - Move it to `agent_brain/archive/`.
-   - If it was linked in Active context of AGENTS.md, remove the link.
+   - If it was linked in Active context of CLAUDE.md, remove the link.
    - If other files reference it, update cross-references to point to the
      archive location.
    - Record the move.
@@ -117,24 +117,24 @@ they keep it the same way.
    - Referenced and used → keep.
    - Not referenced but less than 1 month old → keep (still new).
    - Not referenced and 1-3 months old → **archive**. Move to
-     `agent_brain/archive/`, remove from Skills section of AGENTS.md.
+     `agent_brain/archive/`, remove from Skills section of CLAUDE.md.
      If the skill is plausibly seasonal (e.g., sprint planning, quarterly
      releases), add a `seasonal: true` note in its frontmatter and keep it
      in archive — retrievable when the season comes. Log the decision.
    - Archived and not retrieved in >3 months → can be deleted. Git
      history preserves it if ever needed again.
-3. Review rules in AGENTS.md: any added by the agent (not original rules)
+3. Review rules in CLAUDE.md: any added by the agent (not original rules)
    that seem to conflict with observed behavior or are consistently
    ignored?
    - Log them as candidates for review in the monthly maintenance log.
      Write a `review` entry to `agent_brain/deferred.md` listing the
      specific rules and the evidence of conflict or disuse — rule
      changes require user validation.
-4. **Promote mature rules to character.** Review rules in AGENTS.md that have
+4. **Promote mature rules to character.** Review rules in CLAUDE.md that have
    been consistently active for 3+ months. If a rule applies universally, has
    never been questioned, and describes who the agent IS rather than what it
    should DO — promote to SOUL.md as a character trait, rewritten in identity
-   language. Remove from AGENTS.md Rules. Log the promotion.
+   language. Remove from CLAUDE.md Rules. Log the promotion.
 
 ---
 
@@ -225,13 +225,13 @@ used. The directory structure should emerge from use, not from upfront design.
    etc.): scan for files sharing a common prefix or with heavy mutual
    cross-references. If 3+ files form a cluster within the same directory:
    - Create the subdirectory with an `index.md` hub; move the files; update
-     all cross-references (AGENTS.md, other brain files, etc.) and "Where to
+     all cross-references (CLAUDE.md, other brain files, etc.) and "Where to
      find things." Log what was moved and why.
    - See Core Behavior rule 6.
 4. If a new category has accumulated (3+ files of a similar type in an
    ill-fitting directory):
    - Create the dedicated directory, move the files, update "Where to find
-     things" in AGENTS.md. Log the change.
+     things" in CLAUDE.md. Log the change.
 5. Check existing directories: any empty or with only 1 file after >30 days?
    - The directory may be premature. Flag it.
 6. **Index coverage:** check directories with 3+ files and no `index.md` —
@@ -312,5 +312,5 @@ Review `agent_brain/identity/` files:
 2. Git commit:
 
 ```bash
-git add AGENTS.md agent_brain/ logs/ user/ && git commit -m "monthly: YYYY-MM-DD" 2>/dev/null || true
+git add CLAUDE.md agent_brain/ logs/ user/ && git commit -m "monthly: YYYY-MM-DD" 2>/dev/null || true
 ```

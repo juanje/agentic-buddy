@@ -59,7 +59,7 @@ Talk to the agent naturally. It will:
 
 You don't need to think about where things go. The agent classifies and files them based on what you say. Over time, your workspace becomes a searchable, structured knowledge base of everything you've worked on, decided, and learned.
 
-When you start a new conversation, the agent automatically checks for today's log (or yesterday's) to pick up context from previous sessions — no need to repeat yourself.
+When you start a new conversation, the sessionStart hook automatically injects your identity, preferences, and the latest session log — no need to repeat yourself.
 
 ## Architecture: four memory zones
 
@@ -67,7 +67,7 @@ The system's directory structure maps to distinct cognitive functions, each with
 
 | Directory | Cognitive function | Contents | Lifecycle | Ownership |
 |---|---|---|---|---|
-| `AGENTS.md` | Working memory | Active context, rules, skills index | Updated by `/daily` and `/weekly` | Agent |
+| `CLAUDE.md` | Working memory | Active context, rules, skills index | Updated by `/daily` and `/weekly` | Agent |
 | `agent_brain/` | Semantic memory | Concepts, projects, skills, identity | Hebbian: promote, degrade, archive | Agent |
 | `logs/` | Episodic memory | Conversation records, session index | Rotate by count (28), archive by month | Agent |
 | `user/` | Extended mind | Lists, drafts, documents, user files | No automatic pruning — user decides | User |
@@ -112,7 +112,7 @@ Specific concepts that share an underlying pattern get abstracted into general c
 ## Structure
 
 ```
-├── AGENTS.md                    → Agent working memory. Loaded automatically.
+├── CLAUDE.md                    → Agent working memory. Loaded automatically.
 ├── user/                        → User workspace. Action items, drafts, documents.
 │   └── journal/                 → Temporal activity summaries (weekly, monthly).
 ├── logs/                        → Daily conversation logs (last 28).
@@ -174,48 +174,47 @@ In all cases, the same four learning cycles drive the system. `agent_brain/` cap
 | `/daily` | End-of-day consolidation: creates concepts, forms associations, acts on mature observations |
 | `/weekly` | Weekly review + Hebbian calibration of promotions + generalization across concepts |
 | `/monthly` | Deep maintenance: pruning, deep generalization, contradiction detection, structure review |
-| `/refresh` | Re-reads AGENTS.md — useful when the agent loses context in long conversations |
+| `/refresh` | Re-reads CLAUDE.md — useful when the agent loses context in long conversations |
 
 These commands are available as slash commands in Cursor and Claude Code. For other agents, trigger them by asking directly (e.g., "do a weekly review").
 
 ## Compatibility
 
-The system works with any AI agent that reads `AGENTS.md` from the workspace root:
+The system uses `CLAUDE.md` as its single entry point — supported by both Cursor and Claude Code natively:
 
-- **Cursor** — full support (AGENTS.md + slash commands)
-- **Claude Code** — full support via `CLAUDE.md` symlink + `.claude/commands/` symlinks (pre-created)
-- **GitHub Copilot** — reads AGENTS.md
-- **Windsurf, Zed, Gemini CLI, RooCode** — reads AGENTS.md
+- **Cursor** — full support (CLAUDE.md + slash commands + sessionStart hook)
+- **Claude Code** — full support (CLAUDE.md + `.claude/commands/` symlinks + sessionStart hook)
+- **GitHub Copilot, Windsurf, Zed, Gemini CLI, RooCode** — reads CLAUDE.md
 
-Slash commands are provided for Cursor (`.cursor/commands/`). Claude Code commands are pre-created as symlinks in `.claude/commands/` pointing to the Cursor originals — one source of truth, both agents supported. For other agents, trigger workflows by asking directly.
+Slash commands are provided for Cursor (`.cursor/commands/`). Claude Code commands are pre-created as a directory symlink in `.claude/commands/` pointing to the Cursor originals — one source of truth, both agents supported. For other agents, trigger workflows by asking directly.
 
-**Note:** Claude Code reads `CLAUDE.md`, not `AGENTS.md`. The included `CLAUDE.md` symlink ensures both files resolve to the same content. A `.cursorignore` file prevents Cursor from double-indexing the symlinked files.
+A sessionStart hook (`.cursor/hooks/session-start.py`) injects SOUL.md, USER.md, and the latest session log automatically at the start of each conversation. This works in both Cursor and Claude Code.
 
 ## Customization
 
 ### Adding skills
 
-Skills are reusable procedures in `agent_brain/skills/`. Create a new `.md` file with a "When to use" trigger and a numbered "Procedure", then add it to the Skills section in `AGENTS.md`. The agent will pick it up on the next conversation. Skills also emerge naturally through the learning cycles — repeated patterns get proposed as skills during `/daily`.
+Skills are reusable procedures in `agent_brain/skills/`. Create a new `.md` file with a "When to use" trigger and a numbered "Procedure", then add it to the Skills section in `CLAUDE.md`. The agent will pick it up on the next conversation. Skills also emerge naturally through the learning cycles — repeated patterns get proposed as skills during `/daily`.
 
 ### Adding brain directories
 
-The agent creates new directories inside `agent_brain/` as needed based on use. You can also create them manually — just add the new directory to the "Where to find things" section in `AGENTS.md` with a description of when the agent should look there.
+The agent creates new directories inside `agent_brain/` as needed based on use. You can also create them manually — just add the new directory to the "Where to find things" section in `CLAUDE.md` with a description of when the agent should look there.
 
 ### How the identity files work together
 
 The system has three layers of instruction, each with a different role:
 
 - **`SOUL.md`** describes WHO the agent is — character traits, not procedures. Keep it short and coherent; everything should connect. Each trait is a deep attractor that guides behavior across all situations. When you edit SOUL.md, write identity descriptions ("you value X"), not commands ("do X").
-- **`AGENTS.md`** describes WHAT to do in specific contexts — operational rules with WHY. The reasoning enables the agent to generalize to situations the rule didn't explicitly cover. When adding rules, always include the purpose: `[rule]. [why — what it prevents, enables, or protects]`.
+- **`CLAUDE.md`** describes WHAT to do in specific contexts — operational rules with WHY. The reasoning enables the agent to generalize to situations the rule didn't explicitly cover. When adding rules, always include the purpose: `[rule]. [why — what it prevents, enables, or protects]`.
 - **Skills** describe HOW to execute specific procedures — steps with purpose. An agent that understands why a step exists can adapt when the exact procedure doesn't fit. When writing skills, include the purpose of non-obvious steps and distinguish fixed steps from judgment calls.
 
 The `/setup` command personalizes interaction style (how the agent communicates) but preserves character traits (what it values) — these are the foundation that enables good judgment in novel situations.
 
-### Writing effective AGENTS.md entries
+### Writing effective CLAUDE.md entries
 
 Two gotchas discovered through production use:
 
-**Don't put instructions in HTML comments.** Claude Code strips HTML comments (`<!-- -->`) from `CLAUDE.md` during auto-injection (since v2.1.72). Since `CLAUDE.md` is a symlink to `AGENTS.md`, any instruction inside an HTML comment will be invisible to the agent at session start. HTML comments in *other* files (skills, observations, identity) are fine — those are read on demand with the Read tool, which preserves comments. Only `AGENTS.md` is affected because it's auto-injected.
+**Don't put instructions in HTML comments.** Claude Code strips HTML comments (`<!-- -->`) from `CLAUDE.md` during auto-injection. Any instruction inside an HTML comment will be invisible to the agent at session start. HTML comments in *other* files (skills, observations, identity) are fine — those are read on demand with the Read tool, which preserves comments. Only `CLAUDE.md` is affected because it's auto-injected.
 
 **Use trigger patterns, not passive references.** The agent treats the "Where to find things" section as structural documentation — it registers what exists but doesn't act on it. If you want the agent to *do* something in response to user behavior, put it in the Skills section with explicit trigger patterns (e.g., "Use when the user says X, Y, or Z"). Without triggers, the agent sees the reference but doesn't associate it with the user's request.
 
@@ -242,8 +241,8 @@ Every file tracks when it was last accessed and how often (`access_count` only i
 | 0 | File in subdirectory, basic entry in its `index.md` | Default — all files start here |
 | 1 | Prominent in its `index.md` (richer description) | Accessed this week |
 | 2 | Highlighted in parent directory's `index.md` | Accessed across multiple weeks |
-| 3 | Named entry in AGENTS.md "Where to find things" | Sustained high use over time |
-| 4 | Active context in AGENTS.md | Needed in most sessions — working memory |
+| 3 | Named entry in CLAUDE.md "Where to find things" | Sustained high use over time |
+| 4 | Active context in CLAUDE.md | Needed in most sessions — working memory |
 
 Promotion is **gradual** — one level at a time, earned by sustained use across sessions. A file accessed once today doesn't jump to Active context; it becomes more prominent in its directory index. Only files that demonstrate repeated access over days and weeks climb to higher levels. Demotion is equally gradual: a cooling file drops one level at a time, from Active context to "Where to find things" to its index. No jumps, no sudden deletion — just progressive cooling.
 
@@ -265,7 +264,7 @@ The directory structure maps to a cognitive model with four distinct memory syst
 
 | Zone | Location | Biological analog | Accessibility |
 |---|---|---|---|
-| **Working memory** | `AGENTS.md` | Prefrontal cortex | Always loaded. The agent sees this every conversation. |
+| **Working memory** | `CLAUDE.md` | Prefrontal cortex | Always loaded. The agent sees this every conversation. |
 | **Semantic memory** | `agent_brain/` | Neocortex | Accessible on demand through indexes. Files that earn sustained access climb the visibility gradient toward Active context. |
 | **Episodic memory** | `logs/` | Hippocampus | Processing buffer. Episodes are consolidated into semantic memory over time. |
 | **Extended mind** | `user/` | Notebook, calendar, tools | The user's workspace. Not the agent's memory, but part of the cognitive system. |
@@ -274,14 +273,14 @@ The critical distinction between `agent_brain/archive/` and deletion: archived f
 
 ### Progressive disclosure: navigate, don't preload
 
-The agent doesn't read everything at startup. It reads `AGENTS.md` (~100 lines), the session index (`logs/index.md`), and the last active session's log — enough to know who it is, what's been happening, and where to look deeper. Everything else is loaded on demand — only when a task requires it.
+The agent doesn't read everything at startup. `CLAUDE.md` is loaded automatically as a workspace rule (~100 lines), and the sessionStart hook injects SOUL.md, USER.md, the session index, and the last active session's log — enough to know who it is, what's been happening, and where to look deeper. Everything else is loaded on demand — only when a task requires it.
 
-The navigation mechanism is **index-first**: when the agent needs context from a directory, it reads the directory's `index.md` before opening any specific file. The index maps what's inside with one-line descriptions — enough for the agent to decide what to read without loading everything. As directories grow past three files, they benefit from an `index.md` hub. AGENTS.md "Where to find things" points to **spaces** (directories), not individual files.
+The navigation mechanism is **index-first**: when the agent needs context from a directory, it reads the directory's `index.md` before opening any specific file. The index maps what's inside with one-line descriptions — enough for the agent to decide what to read without loading everything. As directories grow past three files, they benefit from an `index.md` hub. CLAUDE.md "Where to find things" points to **spaces** (directories), not individual files.
 
 This creates a layered discovery path that works together with the Hebbian gradient:
 
 ```
-AGENTS.md "Where to find things"
+CLAUDE.md "Where to find things"
   → points to directories (spaces)
     → agent reads index.md of the relevant space
       → index guides to specific file
@@ -307,14 +306,14 @@ The system doesn't just store what you tell it — it learns from patterns acros
 
 1. `/reflect` detects raw observations from the conversation ("this pattern appeared", "this approach failed") and records them in `observations.md`.
 2. Observations accumulate as candidates. A single observation is noise.
-3. When an observation recurs or gains supporting evidence across multiple sessions, `/daily` promotes it — to a formal concept in `concepts/`, a new rule in `AGENTS.md`, or a reusable skill in `skills/`.
+3. When an observation recurs or gains supporting evidence across multiple sessions, `/daily` promotes it — to a formal concept in `concepts/`, a new rule in `CLAUDE.md`, or a reusable skill in `skills/`.
 4. `/weekly` and `/monthly` generalize across concepts: when specific instances share an underlying pattern, they get abstracted into a general concept that handles future unknown cases. The specific instances remain as supporting evidence.
 
 This is how the system develops judgment, not just memory. A repeated pattern becomes knowledge. A generalized pattern becomes a principle the agent applies to situations it hasn't seen before.
 
 ### Identity as attractor: character over rules
 
-The agent's behavior is governed primarily by identity (`SOUL.md`), not by rules. `SOUL.md` describes *who the agent is* — its character, values, and stance — rather than enumerating what it should or shouldn't do. Rules in `AGENTS.md` handle specific known failure modes (guardrails), but the agent's general orientation comes from character.
+The agent's behavior is governed primarily by identity (`SOUL.md`), not by rules. `SOUL.md` describes *who the agent is* — its character, values, and stance — rather than enumerating what it should or shouldn't do. Rules in `CLAUDE.md` handle specific known failure modes (guardrails), but the agent's general orientation comes from character.
 
 This distinction matters because instructions sit on a spectrum, each level progressively better at enabling judgment in novel situations:
 
@@ -322,7 +321,7 @@ This distinction matters because instructions sit on a spectrum, each level prog
 2. **Rule with WHY** — "Do Y, because Z." The agent understands the purpose and can generalize to situations the rule didn't cover. Research confirms that LLMs follow rules better when given reasoning, because they can create meta-rules from the explanation.
 3. **Character** — "You are someone who values Z." No rule needed per situation — the agent has the adaptive capacity to generate appropriate responses in any context, including ones never anticipated.
 
-An agent following rules fails silently when it encounters a case no rule covers. An agent with internalized character makes a judgment call consistent with who it is — identity and character act as a cognitive offloader, guiding behavior in novel situations without having to search for a matching rule. In complex systems terms: `SOUL.md` is an attractor basin that shapes behavior across the full state space, while rules in `AGENTS.md` are boundary conditions that prevent specific known failures. Skills in `agent_brain/skills/` are adaptable techniques — procedures with purpose that the agent can modify when the exact steps don't fit.
+An agent following rules fails silently when it encounters a case no rule covers. An agent with internalized character makes a judgment call consistent with who it is — identity and character act as a cognitive offloader, guiding behavior in novel situations without having to search for a matching rule. In complex systems terms: `SOUL.md` is an attractor basin that shapes behavior across the full state space, while rules in `CLAUDE.md` are boundary conditions that prevent specific known failures. Skills in `agent_brain/skills/` are adaptable techniques — procedures with purpose that the agent can modify when the exact steps don't fit.
 
 Each layer enables the next: character guides rule interpretation, rules with WHY enable generalization, skills with purpose enable adaptation. The maintenance cycles evolve this system over time: rules that prove universally important get promoted to character traits during `/monthly` (Hebbian internalization), while unused rules decay and get archived.
 
@@ -363,7 +362,7 @@ CLAUDE_TOOLS="Bash(readonly=false),Read,Write,Edit,Glob,Grep"
 
 Log files land in `logs/` alongside the daily conversation logs.
 
-**Cursor-first.** The system is developed and tested primarily in Cursor. Claude Code is fully functional via pre-created symlinks (`CLAUDE.md`, `.claude/commands/`), but some behavioral differences may exist. For other agents, workflows must be triggered by asking directly (e.g., "do a weekly review"). The core system (AGENTS.md + skills + file structure) works everywhere.
+**Cursor-first.** The system is developed and tested primarily in Cursor. Claude Code is fully functional via pre-created symlinks (`.claude/commands/`) and native CLAUDE.md support, but some behavioral differences may exist. For other agents, workflows must be triggered by asking directly (e.g., "do a weekly review"). The core system (CLAUDE.md + skills + file structure) works everywhere.
 
 ## Acknowledgments
 
