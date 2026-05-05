@@ -7,7 +7,7 @@ A self-organizing memory for any AI agent. Brain dump tasks, decisions, ideas, a
 ## Table of contents
 
 - [Getting started](#getting-started)
-- [Migrating from an existing instance](#migrating-from-an-existing-instance)
+- [Updating from upstream](#updating-from-upstream)
 - [What it does](#what-it-does)
 - [Architecture: four memory zones](#architecture-four-memory-zones)
 - [Learning cycles](#learning-cycles)
@@ -30,22 +30,15 @@ A self-organizing memory for any AI agent. Brain dump tasks, decisions, ideas, a
 4. The agent will ask your name, what you want to use the system for, and how you prefer to work. If a matching domain pack exists, it will offer to set it up.
 5. After setup, the system is ready. Start brain-dumping.
 
-## Migrating from an existing instance
+## Updating from upstream
 
-If you have an existing brain instance (Work Agentic Buddy or an older Agentic Buddy), you can import its accumulated knowledge into a new instance instead of starting from scratch.
+As the template evolves with new skills, improved rules, and better defaults, you can pull improvements into your instance without losing your accumulated knowledge:
 
-1. Set up the new instance first (clone, `/setup`).
-2. Run `/import <path>` with the path to your old instance:
-   ```
-   /import ~/git/work_brain
-   ```
-3. The agent will scan the source, show you a summary of what it found (concepts, projects, ideas, logs, skills, user artifacts), and ask for confirmation before importing.
+```
+/update
+```
 
-The import handles structural differences automatically: `work/` maps to `user/`, outdated core skills are skipped (the new instance has updated versions), learned skills are preserved, and file metadata (`access_count`, `created` dates) is kept so that Hebbian dynamics work correctly with your historical usage patterns.
-
-Identity (USER.md) is merged by section -- content from the old profile is added where the new one has placeholders, without overwriting anything you already configured during setup.
-
-The import is additive and safe to run multiple times. If a file exists in both instances, the agent asks what to do. To undo, `git reset --hard HEAD~1` reverts the import commit.
+The agent clones the latest upstream, compares skills, commands, and `CLAUDE.md` sections with your instance, and presents an update plan before applying anything. Your personal data (identity, projects, concepts, logs) is never touched — only structural components (skills, rules, commands) are updated.
 
 ## What it does
 
