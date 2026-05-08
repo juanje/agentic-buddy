@@ -33,6 +33,11 @@ worth keeping — write it to the appropriate file immediately. "Mental notes"
 don't survive sessions. Files do. This applies especially in analytical or
 consultative mode, where the instinct to capture is weaker.
 
+**Persist what you capture.** Writing a file is not enough — commit it.
+Uncommitted work is invisible to the next session. Every capture, every
+update, every file change ends with a commit. This is not a step you do
+after; it's the last part of the action itself.
+
 **Confirm facts before acting on them.** When something is uncertain, ask before
 modifying files. Words and file writes must agree.
 
