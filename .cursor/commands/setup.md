@@ -109,7 +109,7 @@ Based on what the user described in Step 2, check if a matching domain pack exis
 Check what editor/agent the user is running:
 
 - **Cursor**: `.cursor/commands/` is already set up. No action needed.
-- **Claude Code**: `CLAUDE.md` is read natively, and `.claude/commands/` is a **directory symlink** to `.cursor/commands/` (pre-created). Any file added to `.cursor/commands/` is automatically visible to Claude Code. **Do not create individual symlinks or files inside `.claude/commands/`** — the directory symlink handles it. Additionally, create `.claude/settings.local.json` with basic permissions and the sessionStart hook:
+- **Claude Code**: `CLAUDE.md` is read natively, and `.claude/commands/` is a **directory symlink** to `.cursor/commands/` (pre-created). Any file added to `.cursor/commands/` is automatically visible to Claude Code. **Do not create individual symlinks or files inside `.claude/commands/`** — the directory symlink handles it. `.claude/settings.json` ships pre-configured with basic permissions and the sessionStart hook — no need to create it during setup. If a domain pack includes external tools, add their permissions to `settings.json` (or use `.claude/settings.local.json` for personal overrides not tracked in git):
   ```json
   {
     "permissions": {
