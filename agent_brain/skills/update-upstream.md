@@ -126,7 +126,10 @@ Check for new or changed infrastructure files that aren't skills or
 commands but affect how the system works:
 
 - `.cursor/hooks.json`, `.cursor/hooks/` — hook configs and scripts
-- `.claude/settings.local.json` — claude-code settings
+  (session-start, auto-reflect, auto-consolidate, config.json)
+- `.claude/settings.json` — claude-code settings (repo-committed; use
+  `.claude/settings.local.json` for personal overrides)
+- `.claude/hooks/` — symlink to `.cursor/hooks/`
 - `.cursorignore` — file visibility rules
 - Any new directories or config files at the repo root
 

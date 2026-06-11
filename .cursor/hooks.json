@@ -4,6 +4,19 @@
     "sessionStart": [
       {
         "command": "python3 .cursor/hooks/session-start.py"
+      },
+      {
+        "command": "python3 .cursor/hooks/auto-consolidate.py"
+      }
+    ],
+    "sessionEnd": [
+      {
+        "command": "python3 .cursor/hooks/auto-reflect.py"
+      }
+    ],
+    "afterAgentResponse": [
+      {
+        "command": "python3 .cursor/hooks/auto-reflect.py"
       }
     ]
   }

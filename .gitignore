@@ -6,3 +6,6 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+# Hook runtime state
+.cursor/hooks/.state/
