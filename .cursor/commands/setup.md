@@ -140,9 +140,8 @@ Execute these steps in order:
 >
 > **Quick start:**
 > - Brain dump anything: tasks, ideas, decisions, notes. I'll capture and file them.
-> - Use **/reflect** to process a conversation into your daily log.
-> - Use **/daily** at the end of the day to consolidate and learn.
-> - Use **/weekly** at the end of the week to review and plan ahead.
+> - Sessions are captured automatically on exit; consolidation runs when due.
+> - Use **/reflect**, **/daily**, or **/weekly** manually anytime for on-demand runs.
 >
 > The more you use it, the more it knows. Start talking.
 

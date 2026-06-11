@@ -11,14 +11,13 @@ A self-organizing memory for any AI agent. Brain dump tasks, decisions, ideas, a
 - [What it does](#what-it-does)
 - [Architecture: four memory zones](#architecture-four-memory-zones)
 - [Learning cycles](#learning-cycles)
+- [Automatic maintenance](#automatic-maintenance)
 - [Structure](#structure)
 - [Domain packs](#domain-packs)
 - [Example use cases](#example-use-cases)
-- [Structured workflows](#structured-workflows)
 - [Compatibility](#compatibility)
 - [Customization](#customization)
 - [Design principles: why this works](#design-principles-why-this-works)
-- [Known limitations](#known-limitations)
 - [Acknowledgments](#acknowledgments)
 - [License](#license)
 
@@ -89,18 +88,47 @@ Conversation records — the logbook. Not knowledge (that's `agent_brain/`), not
 
 ## Learning cycles
 
-The system learns through four temporal levels, modeled on how biological memory works — from short-term encoding to long-term consolidation and forgetting:
+The system learns through four temporal levels, modeled on how biological memory works — from short-term encoding to long-term consolidation and forgetting. All cycles run automatically via hooks — no manual intervention required.
 
-| Level | Command | What it does | When to run |
-|-------|---------|-------------|-------------|
-| **Encoding** | `/reflect` | Logs the conversation, detects patterns and observations | After each conversation |
-| **Consolidation** | `/daily` | Creates concepts, forms associations, creates skills/rules from mature observations, first promotions | End of day |
-| **Calibration** | `/weekly` | Calibrates promotions (reinforce or weaken), generalizes across concepts, light pruning flags | End of week |
-| **Forgetting** | `/monthly` | Archives abandoned files, prunes unused skills, deep generalization, contradiction and structure review | Monthly |
+| Level | What it does | When it runs |
+|-------|-------------|-------------|
+| **Encoding** | Logs the conversation, detects patterns and observations | Automatic on session end |
+| **Consolidation** | Creates concepts, forms associations, creates skills/rules from mature observations, first promotions | Automatic when ≥24h since last + new content |
+| **Calibration** | Calibrates promotions (reinforce or weaken), generalizes across concepts, light pruning flags | Automatic after 7 completed dailies |
+| **Forgetting** | Archives abandoned files, prunes unused skills, deep generalization, contradiction and structure review | Automatic after 28 completed dailies |
 
-Each level builds on the previous one's output. `/reflect` detects raw observations. `/daily` acts on them — creating knowledge and connections. `/weekly` checks whether those connections held up over time or were just noise. `/monthly` archives what's truly forgotten and looks for deep patterns across the full knowledge base.
+Each level builds on the previous one's output. Encoding detects raw observations. Consolidation acts on them — creating knowledge and connections. Calibration checks whether those connections held up over time or were just noise. Forgetting archives what's truly abandoned and looks for deep patterns across the full knowledge base.
 
 Specific concepts that share an underlying pattern get abstracted into general concepts — the general version handles future unknown cases, while the specific instances remain for detailed reference.
+
+All cycles can also be triggered manually via `/reflect`, `/daily`, `/weekly`, and `/monthly` commands for on-demand use.
+
+## Automatic maintenance
+
+Session capture (`auto-reflect`) fires on session end and periodically during long sessions (every 10 agent responses by default). It processes the conversation transcript and writes to the daily log.
+
+Consolidation (`auto-consolidate`) fires on session start and checks usage-based thresholds — not calendar dates — to determine if a cycle is due. Both hooks spawn background agents that do not block your session. State is tracked in `.cursor/hooks/.state/` (gitignored).
+
+### Configuration
+
+Edit `.cursor/hooks/config.json`:
+
+```json
+{
+  "auto_reflect_threshold": 10,
+  "consolidation_enabled": true,
+  "reflect_enabled": true,
+  "daily_hours_threshold": 24,
+  "weekly_dailies_threshold": 7,
+  "monthly_dailies_threshold": 28,
+  "monthly_dailies_alt_threshold": 21,
+  "monthly_weeklies_alt_threshold": 3
+}
+```
+
+- `auto_reflect_threshold` — reflect every N agent responses (in addition to session end)
+- `reflect_enabled` / `consolidation_enabled` — disable either hook independently
+- Consolidation thresholds — optional overrides for usage-based cycle triggers (defaults shown above)
 
 ## Structure
 
@@ -159,29 +187,17 @@ You discuss training plans, sessions, progress. `user/` develops a program file 
 
 In all cases, the same four learning cycles drive the system. `agent_brain/` captures what the agent learns. `user/` holds what the user acts on. The structure that emerges is different, but the mechanics are identical.
 
-## Structured workflows
-
-| Command | What it does |
-|---------|-------------|
-| `/reflect` | Processes the conversation into a structured daily log and detects learning observations |
-| `/daily` | End-of-day consolidation: creates concepts, forms associations, acts on mature observations |
-| `/weekly` | Weekly review + Hebbian calibration of promotions + generalization across concepts |
-| `/monthly` | Deep maintenance: pruning, deep generalization, contradiction detection, structure review |
-| `/refresh` | Re-reads CLAUDE.md — useful when the agent loses context in long conversations |
-
-These commands are available as slash commands in Cursor and Claude Code. For other agents, trigger them by asking directly (e.g., "do a weekly review").
-
 ## Compatibility
 
 The system uses `CLAUDE.md` as its single entry point — supported by both Cursor and Claude Code natively:
 
-- **Cursor** — full support (CLAUDE.md + slash commands + sessionStart hook)
-- **Claude Code** — full support (CLAUDE.md + `.claude/commands/` symlinks + sessionStart hook)
+- **Cursor** — full support (CLAUDE.md + slash commands + sessionStart, auto-reflect, and auto-consolidate hooks)
+- **Claude Code** — full support (CLAUDE.md + `.claude/commands/` symlinks + sessionStart, auto-reflect, and auto-consolidate hooks)
 - **GitHub Copilot, Windsurf, Zed, Gemini CLI, RooCode** — reads CLAUDE.md
 
 Slash commands are provided for Cursor (`.cursor/commands/`). Claude Code commands are pre-created as a directory symlink in `.claude/commands/` pointing to the Cursor originals — one source of truth, both agents supported. For other agents, trigger workflows by asking directly.
 
-A sessionStart hook (`.cursor/hooks/session-start.py`) injects SOUL.md, USER.md, and the latest session log automatically at the start of each conversation. This works in both Cursor and Claude Code.
+All hooks (session-start, auto-reflect, auto-consolidate) live in `.cursor/hooks/` and work in both Cursor and Claude Code via symlink (`.claude/hooks/` → `.cursor/hooks/`).
 
 ## Customization
 
@@ -328,34 +344,6 @@ Complex systems theory shows that sophisticated behavior can emerge from simple 
 - **When in doubt, capture.** A rough note is better than a lost thought.
 
 Over time, these simple rules produce a knowledge base that reflects how you actually work — not how you planned to work. A work user ends up with a board and standup skills. A writer ends up with a drafts directory and a style guide. A trainer ends up with a program file and session logs. The same core, different emergent structures.
-
-## Known limitations
-
-This system runs on top of general-purpose AI coding agents, not a dedicated application. That means some things that would ideally be automatic require manual intervention.
-
-**All learning cycles are manual.** You need to remember to run `/reflect`, `/daily`, `/weekly`, and `/monthly` at the appropriate times. There are no automatic triggers — most editors don't fire session-end events, and users typically start new conversations rather than closing existing ones. If you forget to reflect, conversation context is lost when it leaves the agent's context window.
-
-**Partial workaround (Linux/macOS + Claude Code CLI):** The consolidation cycles (`/daily`, `/weekly`, `/monthly`) can be automated via cron since they don't require an active conversation — they work from the files in the repo. `/reflect` cannot be automated this way because it processes a specific conversation.
-
-```cron
-# Common config
-PROJECT_DIR=/path/to/your/ab
-CLAUDE_BIN=/path/to/claude          # e.g. ~/.local/bin/claude
-CLAUDE_TOOLS="Bash(readonly=false),Read,Write,Edit,Glob,Grep"
-
-# Daily — every night at 23:50
-50 23 * * *   cd $PROJECT_DIR && $CLAUDE_BIN -p "/daily"   --allowedTools "$CLAUDE_TOOLS" >> logs/cron-daily.log 2>&1
-
-# Weekly — Sundays at 23:55 (after daily)
-55 23 * * 0   cd $PROJECT_DIR && $CLAUDE_BIN -p "/weekly"  --allowedTools "$CLAUDE_TOOLS" >> logs/cron-weekly.log 2>&1
-
-# Monthly — 1st of each month at 00:01
-1  0  1 * *   cd $PROJECT_DIR && $CLAUDE_BIN -p "/monthly" --allowedTools "$CLAUDE_TOOLS" >> logs/cron-monthly.log 2>&1
-```
-
-Log files land in `logs/` alongside the daily conversation logs.
-
-**Cursor-first.** The system is developed and tested primarily in Cursor. Claude Code is fully functional via pre-created symlinks (`.claude/commands/`) and native CLAUDE.md support, but some behavioral differences may exist. For other agents, workflows must be triggered by asking directly (e.g., "do a weekly review"). The core system (CLAUDE.md + skills + file structure) works everywhere.
 
 ## Acknowledgments
 
