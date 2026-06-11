@@ -9,10 +9,11 @@ created: YYYY-MM-DD
 ## When to use
 
 Triggered by the `/daily` command — either by the user manually or by the
-automated cron job (daily at 23:50). This is the "sleep" cycle — where the
-system consolidates the day's work and learns from it.
+auto-consolidate hook (when ≥24h since last daily and new content exists).
+This is the consolidation cycle — where the system summarizes recent work
+and learns from it.
 
-**Autonomous mode (cron):** All steps run without user interaction. Act with
+**Autonomous mode (hooks):** All steps run without user interaction. Act with
 judgment; log all decisions and changes made. No approval gates — the
 maintenance cycles and git history provide the correction mechanism.
 
@@ -86,7 +87,7 @@ or update it if one already exists:
 - **Key themes:** [2-3 main topics or threads of the day]
 - **Moved forward:** [what progressed]
 - **Learned:** [new knowledge acquired, if any]
-- **Open:** [unresolved threads to pick up tomorrow]
+- **Open:** [unresolved threads to pick up next session]
 ```
 
 Keep it brief — this makes the weekly review's job easier.
@@ -234,7 +235,7 @@ The visibility levels are:
 | Level | Where | Signal to promote |
 |---|---|---|
 | 0 | File in subdirectory, basic one-liner in its `index.md` | default state |
-| 1 | Prominent in its `index.md` (richer description, moved higher) | used this week |
+| 1 | Prominent in its `index.md` (richer description, moved higher) | used recently |
 | 2 | Parent directory's `index.md` highlights the subdir/project | used across weeks |
 | 3 | "Where to find things" gets a specific entry with trigger | sustained high use |
 | 4 | Active context "Files" | hot — needed in most sessions |

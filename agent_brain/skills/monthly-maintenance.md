@@ -9,11 +9,11 @@ created: YYYY-MM-DD
 ## When to use
 
 Triggered by the `/monthly` command — either by the user manually or by the
-automated cron job (1st of each month at 00:01). This is the deepest
-maintenance cycle — focused on forgetting what's abandoned, deep generalization
-across the full knowledge base, and structural cleanup.
+auto-consolidate hook (after 28 completed dailies since last monthly). This
+is the deepest maintenance cycle — focused on forgetting what's abandoned,
+deep generalization across the full knowledge base, and structural cleanup.
 
-**Autonomous mode (cron):** All phases run without user interaction. Act with
+**Autonomous mode (hooks):** All phases run without user interaction. Act with
 judgment; log all decisions and changes made. No approval gates — the git
 history and observation journal provide the correction mechanism.
 
@@ -113,7 +113,7 @@ they keep it the same way.
 
 1. Review all learned skills in `agent_brain/skills/` (skip core skills).
 2. For each learned skill, check if it was referenced or triggered in the
-   last month's logs.
+   logs since last monthly consolidation.
    - Referenced and used → keep.
    - Not referenced but less than 1 month old → keep (still new).
    - Not referenced and 1-3 months old → **archive**. Move to
@@ -201,7 +201,7 @@ use, weakening the "Memory first" principle.
 
 1. Scan concept and project files for contradictions: information in one
    file that conflicts with information in another.
-2. Check recent logs (last month) for information that contradicts existing
+2. Check recent logs (since last monthly) for information that contradicts existing
    brain files.
 3. For each contradiction:
    - Clear contradiction + reliable new info → update the old file.
