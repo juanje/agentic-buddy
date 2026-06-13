@@ -130,6 +130,12 @@ Edit `.cursor/hooks/config.json`:
 - `reflect_enabled` / `consolidation_enabled` — disable either hook independently
 - Consolidation thresholds — optional overrides for usage-based cycle triggers (defaults shown above)
 
+### Deferred queue
+
+When a maintenance cycle needs your input — a decision it can't make autonomously, a reminder about an upcoming deadline, or a notification about an action it took — it writes to `agent_brain/deferred.md`. At your next session start, the agent will present these items before proceeding with your request. Items are cleared once addressed. If no items are pending, nothing happens.
+
+The daily cycle also scans your active context for deadlines within 24 hours and surfaces them as reminders. You can also ask the agent to remind you of something ("remind me X on Friday") and it will appear at the right time.
+
 ## Structure
 
 ```
