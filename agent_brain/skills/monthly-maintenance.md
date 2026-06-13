@@ -78,9 +78,8 @@ the "forgetting" that the weekly cycle only flags.
    - Record the move.
 4. If a file hasn't been accessed in >30 days BUT has >5 accesses:
    - Don't move it. Log it as a review candidate in the monthly
-     maintenance log. Write a `decision` entry to
-     `agent_brain/deferred.md`: the file was important once — the user
-     should decide whether to archive it or keep it active.
+     maintenance log. Write to `agent_brain/deferred.md`:
+     `- **decision** (YYYY-MM-DD, monthly): [file] — stale but high access; archive or keep?`
 
 **Exception:** Never move or prune files in `agent_brain/identity/`,
 `agent_brain/skills/`, or `user/`. Those require human decision.
@@ -127,9 +126,9 @@ they keep it the same way.
    that seem to conflict with observed behavior or are consistently
    ignored?
    - Log them as candidates for review in the monthly maintenance log.
-     Write a `review` entry to `agent_brain/deferred.md` listing the
-     specific rules and the evidence of conflict or disuse — rule
-     changes require user validation.
+     Write to `agent_brain/deferred.md`:
+     `- **review** (YYYY-MM-DD, monthly): [rules and evidence of conflict or disuse].`
+     Rule changes require user validation.
 4. **Promote mature rules to character.** Review rules in CLAUDE.md that have
    been consistently active for 3+ months. If a rule applies universally, has
    never been questioned, and describes who the agent IS rather than what it

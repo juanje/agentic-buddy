@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-session-start.py — sessionStart hook for WAB instances.
+session-start.py — sessionStart hook for Agentic Buddy instances.
 
 Injects SOUL.md, USER.md, logs/index.md, and the last active session
 log into additional_context. Replaces the manual "Session start" section
 that previously relied on agent compliance.
 
-Works with both Cursor and claude-code. AGENTS.md is NOT included —
+Works with both Cursor and claude-code. CLAUDE.md is NOT included —
 the platform already loads it as a workspace/project rule.
 """
 
@@ -41,8 +41,27 @@ def find_last_active_log(workspace: Path, index_content: str) -> str:
     return read_file(log_path)
 
 
+def check_deferred(workspace: Path) -> str:
+    """Check if deferred.md has pending items; return a trigger line if so."""
+    deferred_path = workspace / "agent_brain" / "deferred.md"
+    content = read_file(deferred_path)
+    if not content:
+        return ""
+
+    entries = [l for l in content.splitlines() if l.startswith("- **")]
+    if not entries:
+        return ""
+
+    count = len(entries)
+    noun = "item" if count == 1 else "items"
+    return (
+        f"⚠️ There {'is' if count == 1 else 'are'} {count} deferred {noun} "
+        f"requiring user attention. Read agent_brain/deferred.md and present "
+        f"them to the user before proceeding with their request."
+    )
+
+
 def main() -> None:
-    # claude-code passes hook input as JSON on stdin
     try:
         raw = sys.stdin.read()
         hook_input = json.loads(raw) if raw.strip() else {}
@@ -60,6 +79,7 @@ def main() -> None:
     user = read_file(workspace / "agent_brain" / "identity" / "USER.md")
     logs_index = read_file(workspace / "logs" / "index.md")
     last_log = find_last_active_log(workspace, logs_index)
+    deferred_alert = check_deferred(workspace)
 
     parts = []
 
@@ -71,6 +91,8 @@ def main() -> None:
         parts.append(logs_index)
     if last_log:
         parts.append(last_log)
+    if deferred_alert:
+        parts.append(deferred_alert)
 
     if not parts:
         print(json.dumps({}))

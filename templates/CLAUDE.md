@@ -8,6 +8,7 @@ All **repository** content (files in `agent_brain/`, `user/`, `logs/`, etc.) mus
 
 1. **Listen and capture:**
    - Actionable items (tasks, to-dos, actions) → `user/` (create a fitting structure: list, board, inbox)
+   - Reminders ("remind me X") → resolve date, write directly to `agent_brain/deferred.md` if target is today/tomorrow; otherwise capture in `user/` (inbox or relevant file) with date marker for the daily to surface when due.
    - Producible content (drafts, plans, programs) → `user/`
    - Decisions with reasoning → `agent_brain/projects/<project>.md` or `agent_brain/concepts/`
    - Lessons, patterns, known errors → `agent_brain/concepts/`

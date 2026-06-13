@@ -105,9 +105,26 @@ If `user/` has content, do a quick check:
 If `user/` is empty, skip this step.
 
 If anything needs user attention (stale items, items that can't be routed
-without input), write to `agent_brain/deferred.md` with type `decision`.
-If purely informational findings, note them in today's log under
-Decisions. Don't wait for user interaction — act or defer.
+without input), write to `agent_brain/deferred.md`:
+`- **decision** (YYYY-MM-DD, daily): [description].` If purely informational
+findings, note them in today's log under Decisions. Don't wait for user
+interaction — act or defer.
+
+#### 3b. Surface reminders
+
+Scan for deadlines and events the user should see at the next interactive
+session (within 24h):
+
+1. If `user/inbox.md` exists, check for items with a date marker matching
+   **tomorrow** (relative to the subjective date from Step 0).
+2. Read CLAUDE.md **Active context → Right now** for deadlines or events
+   within 24h.
+3. For each match, write to `agent_brain/deferred.md`:
+   `- **reminder** (YYYY-MM-DD, daily): [description].`
+4. Remove date-triggered items from inbox once written to deferred — inbox
+   was storage; deferred is the surfacing mechanism for session start.
+
+If no inbox exists and Active context has no near-term deadlines, skip.
 
 ---
 

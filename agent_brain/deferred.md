@@ -4,14 +4,13 @@ created: YYYY-MM-DD
 
 # Deferred queue
 
-Items generated during autonomous cycles that need user attention in
-the next interactive session. Queue semantics: read → present → act →
-remove.
+Communication channel from autonomous cycles to the user. Queue semantics:
+write → present at session start → act → remove.
 
-Entry types: `decision` (needs input), `info` (FYI), `review` (validate
-autonomous action).
+Entry format: `- **type** (YYYY-MM-DD, source): description.`
+Types: `reminder`, `decision`, `info`, `review`.
+Sources: `daily`, `weekly`, `monthly`, `user`.
 
 ---
 
 (No pending entries.)
-

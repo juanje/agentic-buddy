@@ -134,8 +134,8 @@ Log changes across all levels in today's log (Decisions section):
 "Level 4: kept [X], demoted [Y]. Level 3: added [A], removed [B].
 Level 1-2: enriched [C], flagged [D]." In interactive mode, also present
 this to the user. If any demotion from Active context affects files the
-user actively references, write an `info` entry to
-`agent_brain/deferred.md`.
+user actively references, write to `agent_brain/deferred.md`:
+`- **info** (YYYY-MM-DD, weekly): [description].`
 
 ### 4b. Identity file check
 
@@ -172,12 +172,11 @@ when the topic appears. Three questions:
    maintaining?
 
 If yes to all three, track candidates in `agent_brain/observations.md`
-under "Structure candidates" until they mature. Write a `decision` entry
-to `agent_brain/deferred.md` proposing the split — structural changes to
-identity files require user approval. Don't execute the split
-autonomously. After the user approves (in a future interactive session),
-create the extension file, compress the source entry in USER.md to a
-one-line summary + link. Guideline: ~1 line for people not present in
+under "Structure candidates" until they mature. When a candidate is ready,
+execute the split autonomously: create the extension file, compress the
+source entry in USER.md to a one-line summary + link. Log the decision in
+today's log. Structural splits are internal organization — they don't
+require user approval. Guideline: ~1 line for people not present in
 most conversations, ~3 lines max for frequently present people (partner,
 immediate family). The goal is to minimize session-start token cost while
 preserving navigability.
