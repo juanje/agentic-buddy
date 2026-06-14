@@ -92,6 +92,24 @@ def save_state(path: Path, state: dict) -> None:
     path.write_text(json.dumps(state, indent=2) + "\n")
 
 
+SYSTEM_PREFIXES = (
+    "<system_reminder>",
+    "<rules>",
+    "<attached_files>",
+    "<open_and_recently_viewed_files>",
+    "<user_info>",
+    "<git_status>",
+    "<hooks_context>",
+    "<agent_transcripts>",
+    "<agent_skills>",
+    "<mcp_file_system>",
+    "<timestamp>",
+    "<code_selection",
+    "<image_files>",
+    "<cursor_commands>",
+)
+
+
 def filter_cursor_transcript(lines: list[str]) -> str:
     conversation = []
     for line in lines:
@@ -107,7 +125,7 @@ def filter_cursor_transcript(lines: list[str]) -> str:
             if block.get("type") != "text":
                 continue
             text = block.get("text", "").strip()
-            if not text or text.startswith("<"):
+            if not text or any(text.startswith(p) for p in SYSTEM_PREFIXES):
                 continue
             prefix = "USER" if role == "user" else "AGENT"
             conversation.append(f"{prefix}: {text}")
@@ -148,15 +166,40 @@ def filter_claude_transcript(lines: list[str]) -> str:
     return "\n\n".join(conversation)
 
 
-def filter_transcript(path: Path, cli: str, from_line: int = 0) -> tuple[str, int]:
+def filter_transcript_with_marker(path: Path, cli: str, marker_at_line: int) -> tuple[str, int]:
+    """Filter full transcript, inserting a NEW SEGMENT marker at marker_at_line.
+
+    Returns the combined filtered text and total line count of the raw file.
+    If marker_at_line is 0 (first reflect), no marker is inserted.
+    """
     try:
         all_lines = path.read_text().splitlines()
     except IOError:
         return "", 0
-    lines = all_lines[from_line:]
+
+    before = all_lines[:marker_at_line]
+    after = all_lines[marker_at_line:]
+
     if cli == "agent":
-        return filter_cursor_transcript(lines), len(all_lines)
-    return filter_claude_transcript(lines), len(all_lines)
+        context = filter_cursor_transcript(before) if before else ""
+        new_segment = filter_cursor_transcript(after)
+    else:
+        context = filter_claude_transcript(before) if before else ""
+        new_segment = filter_claude_transcript(after)
+
+    if not new_segment:
+        return "", len(all_lines)
+
+    if context:
+        combined = (
+            context
+            + "\n\n--- NEW SEGMENT (process only below this line) ---\n\n"
+            + new_segment
+        )
+    else:
+        combined = new_segment
+
+    return combined, len(all_lines)
 
 
 def _is_pid_alive(pid: int) -> bool:
@@ -219,12 +262,18 @@ def build_reflect_prompt(workspace: Path, skill_content: str, filtered: str) -> 
         "Run autonomously. No user interaction.\n\n"
         "Follow the process-conversation skill below, applied to the "
         "conversation transcript at the end of this prompt.\n\n"
+        "The transcript may contain a '--- NEW SEGMENT ---' marker. If present:\n"
+        "- Everything ABOVE the marker is prior context from this same session\n"
+        "  (already processed in a previous reflect pass — do not re-log it).\n"
+        "- Process ONLY the content BELOW the marker into the log.\n"
+        "- Use the prior context to understand references, continuing threads,\n"
+        "  and the overall arc of the conversation.\n"
+        "If no marker is present, process the entire transcript.\n\n"
         "Autonomous adaptations:\n"
         "- Skip Step 4 (patch stale active context) — the session is ending.\n"
         "- Always execute Step 6 (git commit).\n\n"
         f"--- SKILL: process-conversation ---\n{skill_content}\n--- END SKILL ---\n\n"
-        "Apply the skill to this conversation (not the live session — use "
-        "the transcript as your source of truth for what was discussed):\n\n"
+        "Apply the skill to this conversation:\n\n"
         f"--- CONVERSATION ---\n{filtered}\n--- END ---\n\n"
         f'After writing, run: git add logs/ agent_brain/observations.md && '
         f'git commit -m "reflect: {today_str}" 2>/dev/null || true\n'
@@ -285,7 +334,7 @@ def main() -> None:
         return
 
     from_line = state["last_processed_line"]
-    filtered, total_lines = filter_transcript(
+    filtered, total_lines = filter_transcript_with_marker(
         transcript_path, platform["cli"], from_line
     )
     if not filtered:
