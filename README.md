@@ -60,13 +60,13 @@ The system's directory structure maps to distinct cognitive functions, each with
 | Directory | Cognitive function | Contents | Lifecycle | Ownership |
 |---|---|---|---|---|
 | `CLAUDE.md` | Working memory | Active context, rules, skills index | Updated by `/daily` and `/weekly` | Agent |
-| `agent_brain/` | Semantic memory | Concepts, projects, skills, identity | Hebbian: promote, degrade, archive | Agent |
+| `agent_brain/` | Semantic memory | Concepts, projects, skills, identity | Hebbian: promote, degrade, reorganize by depth | Agent |
 | `logs/` | Episodic memory | Conversation records, session index | Rotate by count (28), archive by month | Agent |
 | `user/` | Extended mind | Lists, drafts, documents, user files | No automatic pruning — user decides | User |
 
 ### `agent_brain/` — what the agent knows
 
-The agent's internal knowledge: concepts, projects, observations, skills, identity. Subject to Hebbian plasticity — files climb through visibility levels based on sustained use (from cold storage through directory indexes to Active context) and cool back down when access drops. Abandoned files get archived. The user can inspect it, but normally doesn't edit it directly.
+The agent's internal knowledge: concepts, projects, observations, skills, identity. Subject to Hebbian plasticity — files climb through visibility levels based on sustained use (from cold storage through directory indexes to Active context) and cool back down when access drops. Cold knowledge stays discoverable at lower prominence in the hierarchy — semantic memory is never archived. The user can inspect it, but normally doesn't edit it directly.
 
 ### `user/` — the user's workspace
 
@@ -94,8 +94,8 @@ The system learns through four temporal levels, modeled on how biological memory
 |-------|-------------|-------------|
 | **Encoding** | Logs the conversation, detects patterns and observations | Automatic on session end |
 | **Consolidation** | Creates concepts, forms associations, creates skills/rules from mature observations, first promotions | Automatic when ≥24h since last + new content |
-| **Calibration** | Calibrates promotions (reinforce or weaken), generalizes across concepts, light pruning flags | Automatic after 7 completed dailies |
-| **Forgetting** | Archives abandoned files, prunes unused skills, deep generalization, contradiction and structure review | Automatic after 28 completed dailies |
+| **Calibration** | Calibrates promotions (reinforce or weaken), generalizes across concepts, reorganization flags by memory type | Automatic after 7 completed dailies |
+| **Forgetting** | Reorganizes semantic memory by depth, prunes unused skills, deep generalization, contradiction and structure review | Automatic after 28 completed dailies |
 
 Each level builds on the previous one's output. Encoding detects raw observations. Consolidation acts on them — creating knowledge and connections. Calibration checks whether those connections held up over time or were just noise. Forgetting archives what's truly abandoned and looks for deep patterns across the full knowledge base.
 
@@ -154,7 +154,7 @@ The daily cycle also scans your active context for deadlines within 24 hours and
     ├── projects/                → Active project context and decisions.
     ├── concepts/                → Lessons learned, patterns, knowledge.
     ├── ideas/                   → Ideas with lifecycle tracking.
-    └── archive/                 → Files degraded by disuse.
+    └── archive/                 → Deprecated operational state (completed projects, unused skills).
 ```
 
 The system starts nearly empty. Directories populate through use. The agent creates files and new directories inside `agent_brain/` and `user/` as needed — you don't have to set up anything manually beyond the initial configuration. The structure grows organically to match how you actually use it.
@@ -309,11 +309,11 @@ The three mechanisms reinforce each other: **indexes** provide the navigable str
 
 ### Self-regulation: the system forgets on purpose
 
-The maintenance cycles aren't just organizational — they actively prune the knowledge base. `/monthly` archives files that haven't been accessed in weeks, `/weekly` flags candidates for degradation, and `/daily` consolidates redundant observations into fewer, stronger concepts. The system scales not by accumulating everything but by continuously discarding what's no longer relevant — the same way biological memory works.
+The maintenance cycles aren't just organizational — they actively regulate the knowledge base. `/monthly` reorganizes semantic memory by depth (clustering, generalization, Hebbian demotion), prunes unused procedural skills, and archives completed operational state after knowledge extraction. `/weekly` flags reorganization candidates by memory type, and `/daily` consolidates redundant observations into fewer, stronger concepts. The system scales not by accumulating everything but by continuously cooling what's no longer prominent — the same way biological memory works.
 
-Forgetting is not a failure of maintenance; it's a core mechanism. Without it, the signal-to-noise ratio degrades and the agent's context fills with stale information. A well-maintained instance doesn't grow unboundedly — it reaches a dynamic equilibrium where new knowledge enters at roughly the same rate old knowledge is archived or absorbed into generalizations.
+Cooling is not a failure of maintenance; it's a core mechanism. Without it, the signal-to-noise ratio degrades and the agent's context fills with stale information. A well-maintained instance doesn't grow unboundedly — it reaches a dynamic equilibrium where new knowledge enters at roughly the same rate old knowledge is absorbed into generalizations or cooled to lower prominence in the hierarchy.
 
-Crucially, forgetting here doesn't mean losing information. Archived files move to `agent_brain/archive/` or `logs/archive/` — out of active memory but still searchable by the editor. A search can surface them even when the agent doesn't remember they exist. And since every change is committed to Git, the full history is always recoverable. The system forgets like a well-organized filing cabinet, not like amnesia.
+Crucially, cooling semantic memory doesn't mean losing information. Concepts and ideas stay in place — they move deeper in the hierarchy and lose index prominence. `agent_brain/archive/` is for procedural memory (unused learned skills) and operational state (completed projects after extraction), not for concepts or ideas. Archived operational files move out of active memory but remain searchable by the editor. A search can surface them even when the agent doesn't remember they exist. And since every change is committed to Git, the full history is always recoverable. The system forgets like a well-organized filing cabinet, not like amnesia.
 
 ### Learning pipeline: from observations to knowledge
 

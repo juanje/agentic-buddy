@@ -77,10 +77,11 @@ Walk through `user/` content:
 
 - Read `agent_brain/ideas/_scratchpad.md` — any items worth promoting to their own file?
 - Scan idea files in `agent_brain/ideas/`:
-  - `seed` ideas: still interesting? Promote to `developing` or archive.
+  - `seed` ideas: still interesting? Promote to `developing` or flag for user attention — **do not archive or move files**. Status lifecycle is orthogonal to location; ideas stay in `ideas/`.
   - `developing` ideas: any progress since last weekly? Anything to add from recent context?
   - `ready` ideas: should any be converted now? (create project, start task, etc.)
-- Act on what's clear; log decisions made (promotions, status changes, archives).
+  - `converted` / `archived` status: file stays in `ideas/` as documentation of outcome — no move to `archive/`.
+- Act on what's clear; log decisions made (promotions, status changes). Do not log idea archives — ideas are not moved to `archive/`.
 
 ### 3c. Link hygiene (weekly pass)
 
@@ -202,14 +203,21 @@ that can be abstracted into general knowledge.
    share a common theme or pattern.
 2. If 2-3+ specific items (A, B, C) are related and share an underlying
    principle:
-   - Create a general concept file (AA) that captures the shared pattern.
-   - In AA, explain the general principle and link to the specific instances:
+   - **Phase 1 (inline):** Create a general concept file (AA) with the
+     shared principle and a `## Specific instances` section linking to
+     specifics. Specifics stay as individual files at root — do not move
+     them into subdirectories yet.
      ```markdown
      ## Specific instances
      - [A](path/to/A.md) — how A relates to this pattern
      - [B](path/to/B.md) — how B relates to this pattern
      - [C](path/to/C.md) — how C relates to this pattern
      ```
+   - **Phase 2 (subdirectory):** When a cluster reaches 5+ related files,
+     promote to a subdirectory per Core Behavior rule 6 (3+ files →
+     subdirectory with `index.md` hub; at 5+ related concepts the general
+     becomes `index.md`, specifics move inside). Update `concepts/index.md`
+     and all cross-references.
    - For each specific file (A, B, C), consider whether a link to the
      general pattern (AA) would **serve the reader** of that file. Add it
      only if knowing about the broader principle genuinely deepens the
@@ -235,13 +243,27 @@ single review period.
    each other heavily. If 3+ files form a cluster → propose consolidation
    into a subdirectory with an `index.md` hub. See Core Behavior rule 6.
 
-### 7. Light pruning (flag only)
+### 7. Light pruning (flag only — by memory type)
 
-Scan brain files for staleness signals:
-- Files not accessed in >21 days → log them in the weekly maintenance note.
-  Don't move them — that's the monthly cycle's job.
-- If any flagged files are in Active context → demote one level per the
-  gradient (Step 4). Files untouched for 3 weeks shouldn't be at level 4.
+Scan brain files for staleness signals. **Semantic memory** (concepts,
+ideas, learnings, requests) is **never flagged for archival** — flag for
+**reorganization** instead (cluster candidates, missing generals, standalone
+concepts that could join a Phase 1 general). See Rule 6 (retention by
+memory type): depth in the hierarchy is the cooling mechanism.
+
+- **Semantic** (`concepts/`, `ideas/`, `requests/`): not accessed in >21
+  days → flag as reorganization candidate (cluster? generalization?). Do not
+  flag for archive.
+- **Procedural** (`agent_brain/skills/` learned skills): not used since
+  creation → flag for monitoring (monthly handles archival after >3 months).
+- **Operational** (`projects/`, `teams/`): project marked completed or
+  abandoned → flag for potential archival **after** knowledge extracted to
+  concepts (monthly Phase 2).
+- **Active context** semantic files untouched >3 weeks → demote one level per
+  Step 4 (Hebbian cooling), not archive.
+
+Log flags in today's log (System observations section). Don't move files —
+that's the monthly cycle's job for operational/procedural only.
 
 ### 8. Write weekly summary to journal
 

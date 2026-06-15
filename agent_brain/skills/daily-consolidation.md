@@ -154,6 +154,23 @@ agent_brain/concepts/short-descriptive-name.md
 With standard frontmatter and enough context to be useful without the
 original conversation. Link to the daily log as source.
 
+**Check cluster membership** (hierarchical depth model — semantic memory
+never archived, depth is cooling):
+
+1. Read `agent_brain/concepts/index.md` and scan existing general concepts
+   (files with a `## Specific instances` section, or cluster entries in
+   the index).
+2. If the new concept fits under an existing general → add it to that
+   general's `## Specific instances` section with a short explanation of
+   how it relates. Add a functional link from the specific to the general
+   only if it serves the reader of the specific file.
+3. If no general exists but 2+ related concepts now share a pattern →
+   consider creating a Phase 1 general (general file + "Specific instances"
+   linking to specifics; specifics stay as individual files at root). See
+   Rule 6 (retention by memory type).
+4. If standalone (domain-specific, no cluster) → leave at root; listed in
+   `concepts/index.md` thematic section when the index exists.
+
 #### 5. Form associations
 
 Look for connections between today's work and existing brain files:

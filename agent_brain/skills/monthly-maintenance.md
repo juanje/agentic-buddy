@@ -10,7 +10,7 @@ created: YYYY-MM-DD
 
 Triggered by the `/monthly` command — either by the user manually or by the
 auto-consolidate hook (after 28 completed dailies since last monthly). This
-is the deepest maintenance cycle — focused on forgetting what's abandoned,
+is the deepest maintenance cycle — focused on reorganizing knowledge by depth,
 deep generalization across the full knowledge base, and structural cleanup.
 
 **Autonomous mode (hooks):** All phases run without user interaction. Act with
@@ -21,7 +21,7 @@ Lighter maintenance happens at other levels:
 - `/daily` — concept creation, associations, initial promotion, skill/rule
   creation from mature observations.
 - `/weekly` — Hebbian calibration of promotions, generalization across the
-  week, light pruning flags.
+  week, reorganization flags (not semantic archival).
 
 This cycle handles what only makes sense at monthly scale.
 
@@ -61,34 +61,48 @@ fails, log the error and continue with the next.
 
 ---
 
-### Phase 2: Full pruning (archive)
+### Phase 2: Reorganize by depth (semantic memory)
 
-**Goal:** Move truly abandoned information out of the active space. This is
-the "forgetting" that the weekly cycle only flags.
+**Goal:** Cool semantic memory through hierarchy depth and index prominence —
+not archival. Semantic memory (concepts, ideas, learnings, requests) is
+**never auto-archived**. Depth in the hierarchy and low index prominence are
+the cooling mechanism (see Rule 6).
 
-1. Scan all files in `agent_brain/` subdirectories (excluding `identity/`,
-   `skills/`, and `archive/`).
-2. Read their metadata (`last_accessed`, `access_count`).
-3. If a file hasn't been accessed in >30 days AND has fewer than 5 total
-   accesses:
-   - Move it to `agent_brain/archive/`.
-   - If it was linked in Active context of CLAUDE.md, remove the link.
-   - If other files reference it, update cross-references to point to the
-     archive location.
-   - Record the move.
-4. If a file hasn't been accessed in >30 days BUT has >5 accesses:
-   - Don't move it. Log it as a review candidate in the monthly
-     maintenance log. Write to `agent_brain/deferred.md`:
-     `- **decision** (YYYY-MM-DD, monthly): [file] — stale but high access; archive or keep?`
+**Semantic memory** (`concepts/`, `ideas/`, `requests/`):
+
+1. Scan `agent_brain/concepts/` for reorganization opportunities:
+   - Standalone concepts at root that fit an existing Phase 1 general → add
+     to that general's `## Specific instances` section.
+   - 2-3+ related concepts without a general → create Phase 1 general
+     (inline: general file + "Specific instances"; specifics stay at root).
+   - Clusters at 5+ related files → promote to Phase 2 subdirectory per Core
+     Behavior rule 6 (general becomes `index.md`, specifics move inside).
+2. Flag standalone concepts with no cluster fit for **user review only** —
+   do not move to `archive/`.
+3. Demote over-promoted semantic files in Active context if untouched >3
+   weeks (Hebbian cooling per weekly Step 4).
+
+**Operational state** (`projects/`, `teams/`):
+
+1. Scan for projects marked completed or abandoned in their files.
+2. If knowledge has been extracted to `concepts/` (or equivalent) → move
+   project file to `agent_brain/archive/`.
+3. If knowledge not yet extracted → extract first, then archive.
+4. Update cross-references and Active context links.
+
+**Removed:** The old rule (>30 days AND <5 accesses → `agent_brain/archive/`
+for all brain files) no longer applies to semantic memory. Low-access
+concepts cool through hierarchy depth, not location change.
+
+**Why archive for operational/procedural only:** Archive keeps files
+indexable by the editor — a search can still surface them even when the
+agent doesn't remember they exist (passive recognition). Deletion removes
+them from the workspace entirely; only git history preserves them, and that
+requires knowing the file existed (active recall). Prefer archiving over
+deletion for procedural and operational content.
 
 **Exception:** Never move or prune files in `agent_brain/identity/`,
-`agent_brain/skills/`, or `user/`. Those require human decision.
-
-**Why archive, not delete:** Archive keeps files indexable by the editor — a
-search can still surface them even when the agent doesn't remember they exist
-(passive recognition). Deletion removes them from the workspace entirely;
-only git history preserves them, and that requires knowing the file existed
-(active recall). Prefer archiving over deletion.
+`agent_brain/skills/` (core), or `user/`. Those require human decision.
 
 ---
 
@@ -147,14 +161,10 @@ across weeks and months of accumulated knowledge.
 2. Look for clusters of related concepts that share an underlying principle
    but haven't been linked or generalized yet.
 3. If 2-3+ specific concepts (A, B, C) share a pattern:
-   - Create a general concept file (AA) that captures the shared principle.
-   - In AA, link to the specific instances with explanations:
-     ```markdown
-     ## Specific instances
-     - [A](path/to/A.md) — how A relates
-     - [B](path/to/B.md) — how B relates
-     - [C](path/to/C.md) — how C relates
-     ```
+   - **Phase 1 (inline):** Create general concept AA with `## Specific
+     instances` linking to specifics. Specifics remain at root until Phase 2.
+   - **Phase 2 (subdirectory):** At 5+ related files, promote cluster per
+     Core Behavior rule 6 (subdirectory with `index.md` hub).
    - For each specific file (A, B, C), consider whether a link to the
      general pattern (AA) would **serve the reader** of that file — i.e.,
      genuinely deepen their understanding of the specific concept. Add it
@@ -183,11 +193,13 @@ across weeks and months of accumulated knowledge.
    - Any item older than 7 days? Flag it: promote to its own file or remove.
 2. Scan all idea files in `agent_brain/ideas/` (excluding `_scratchpad.md`).
 3. For each idea:
-   - `seed` not accessed in >14 days → flag as stale.
+   - `seed` not accessed in >14 days → flag as stale (promote, develop, or
+     drop — **do not move to archive/**).
    - `developing` not accessed in >21 days → flag as stuck.
    - `ready` not accessed in >7 days → flag for action.
-   - `converted` or `archived` older than 30 days → move to
-     `agent_brain/archive/`.
+   - `converted` or `archived` status → **keep file in `ideas/`** as
+     documentation of outcome. Status marks lifecycle; location does not
+     change.
 4. Record findings.
 
 ---
@@ -274,9 +286,11 @@ Review `agent_brain/identity/` files:
 - Logs archived: [list or "none"]
 - Knowledge extracted: [list or "none"]
 
-## Pruning
-- Files archived: [list or "none"]
-- Review candidates (high access, old): [list or "none"]
+## Reorganization (semantic memory)
+- Phase 1 generals created: [list or "none"]
+- Phase 2 subdirectories created: [list or "none"]
+- Standalones flagged: [list or "none"]
+- Operational projects archived: [list or "none"]
 
 ## Skills and rules pruned
 - Skills removed: [list or "none"]
@@ -291,7 +305,7 @@ Review `agent_brain/identity/` files:
 ## Ideas
 - Scratchpad items flagged: [list or "none"]
 - Stale/stuck ideas flagged: [list or "none"]
-- Ideas archived: [list or "none"]
+- Ideas moved to archive: none (semantic — status only)
 
 ## Contradictions
 - Detected: [list or "none"]

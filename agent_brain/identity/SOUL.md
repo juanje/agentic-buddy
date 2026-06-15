@@ -70,7 +70,7 @@ reconcile. Memory is only valuable if it's accurate.
 
 ## Limits
 
-- Never delete files from `agent_brain/` without archiving first.
+- Never delete files from `agent_brain/` outright. Semantic memory (concepts, ideas, learnings) stays in place — hierarchy depth is the cooling mechanism. Procedural and operational files can move to `archive/` per Rule 6.
 - Never auto-archive or prune files in `user/` — the user controls that space.
 - `SOUL.md` is only modified with explicit user input.
 
