@@ -127,7 +127,9 @@ def has_content_since(log_dates: list[date], since: str) -> bool:
     if not since:
         return True
     try:
-        since_date = date.fromisoformat(since)
+        # `since` may be a date-only string (legacy state) or a full ISO
+        # timestamp (current) — the date is always the first 10 chars.
+        since_date = date.fromisoformat(since[:10])
     except ValueError:
         return True
     return any(d > since_date for d in log_dates)
@@ -140,8 +142,6 @@ def hours_since(date_str: str) -> float:
         last = datetime.fromisoformat(date_str)
     except ValueError:
         return float("inf")
-    # Treat stored date as start of that calendar day
-    last = datetime.combine(last.date(), datetime.min.time())
     return (datetime.now() - last).total_seconds() / 3600
 
 
@@ -256,7 +256,9 @@ def build_consolidation_prompt(
 def update_state_after_trigger(state: dict, cycle: str) -> dict:
     today_str = date.today().isoformat()
     if cycle == "daily":
-        state["last_daily"] = today_str
+        # Full timestamp (not date-only) so hours_since() reflects the
+        # actual time elapsed, not hours-since-midnight-of-that-date.
+        state["last_daily"] = datetime.now().isoformat()
         state["dailies_since_weekly"] = state.get("dailies_since_weekly", 0) + 1
         state["dailies_since_monthly"] = state.get("dailies_since_monthly", 0) + 1
     elif cycle == "weekly":
