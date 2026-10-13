@@ -20,6 +20,7 @@ from datetime import date, datetime
 from pathlib import Path
 
 
+STARTUP_GRACE_SECONDS = 4
 LOCK_NAME = "consolidate.lock"
 STATE_FILE = "consolidate.json"
 DAILY_HOURS_THRESHOLD = 24
@@ -135,6 +136,28 @@ def has_content_since(log_dates: list[date], since: str) -> bool:
     return any(d > since_date for d in log_dates)
 
 
+def has_commits_since(workspace: Path, since: str) -> bool:
+    """True if brain files changed in commits after `since`, ignoring cycle commits.
+
+    Covers the case where reflect failed and no new log exists but real work
+    was committed; otherwise the daily would never become due.
+    """
+    if not since:
+        return False
+    try:
+        out = subprocess.run(
+            ["git", "log", f"--since={since}", "--format=%s", "--",
+             "CLAUDE.md", "agent_brain", "logs", "user"],
+            cwd=str(workspace), capture_output=True, text=True, timeout=10,
+        ).stdout
+    except (OSError, subprocess.SubprocessError):
+        return False
+    return any(
+        line and not line.startswith(("daily:", "weekly:", "monthly:"))
+        for line in out.splitlines()
+    )
+
+
 def hours_since(date_str: str) -> float:
     if not date_str:
         return float("inf")
@@ -145,7 +168,9 @@ def hours_since(date_str: str) -> float:
     return (datetime.now() - last).total_seconds() / 3600
 
 
-def determine_cycle(state: dict, log_dates: list[date], config: dict) -> str | None:
+def determine_cycle(
+    state: dict, log_dates: list[date], config: dict, workspace: Path
+) -> str | None:
     """Return highest due cycle: monthly > weekly > daily, or None."""
     daily_hours = config.get("daily_hours_threshold", DAILY_HOURS_THRESHOLD)
     weekly_dailies = config.get("weekly_dailies_threshold", WEEKLY_DAILIES_THRESHOLD)
@@ -159,7 +184,10 @@ def determine_cycle(state: dict, log_dates: list[date], config: dict) -> str | N
 
     daily_due = (
         hours_since(state["last_daily"]) >= daily_hours
-        and has_content_since(log_dates, state["last_daily"])
+        and (
+            has_content_since(log_dates, state["last_daily"])
+            or has_commits_since(workspace, state["last_daily"])
+        )
     )
     weekly_due = state["dailies_since_weekly"] >= weekly_dailies
     monthly_due = state["dailies_since_monthly"] >= monthly_dailies or (
@@ -201,6 +229,49 @@ def _write_lock(lock_file: Path, pid: int) -> None:
     lock_file.write_text(json.dumps({"pid": pid}) + "\n")
 
 
+def spawn_logged(cmd: list[str], env: dict, workspace: Path, lock_file: Path) -> bool:
+    """Start the agent detached, logging its output; True only if it did not fail fast.
+
+    stdout/stderr go to .state/hook.log instead of /dev/null so failures such
+    as "Authentication required" leave a trace. A process that exits non-zero
+    within STARTUP_GRACE_SECONDS counts as failed (no lock, caller keeps its
+    state and retries later).
+    """
+    log_path = lock_file.parent / "hook.log"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        with open(log_path, "a") as log:
+            log.write(
+                f"\n--- {datetime.now().isoformat(timespec='seconds')} "
+                f"{lock_file.name.removesuffix('.lock')} {cmd[0]} ---\n"
+            )
+            log.flush()
+            proc = subprocess.Popen(
+                cmd,
+                env=env,
+                cwd=str(workspace),
+                stdout=log,
+                stderr=subprocess.STDOUT,
+                start_new_session=True,
+            )
+            try:
+                code = proc.wait(timeout=STARTUP_GRACE_SECONDS)
+            except subprocess.TimeoutExpired:
+                _write_lock(lock_file, proc.pid)
+                return True
+            if code != 0:
+                log.write(f"[hook] {cmd[0]} exited with code {code} at startup\n")
+                return False
+            return True
+    except (FileNotFoundError, OSError) as exc:
+        try:
+            with open(log_path, "a") as log:
+                log.write(f"[hook] could not start {cmd[0]}: {exc}\n")
+        except OSError:
+            pass
+        return False
+
+
 def invoke_consolidation_agent(
     cli: str, prompt: str, workspace: Path, lock_file: Path
 ) -> bool:
@@ -214,19 +285,7 @@ def invoke_consolidation_agent(
         cmd.extend(["--workspace", str(workspace), "--force"])
     else:
         cmd.extend(["--allowedTools", "Write", "Edit", "Bash(git *)"])
-    try:
-        proc = subprocess.Popen(
-            cmd,
-            env=env,
-            cwd=str(workspace),
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            start_new_session=True,
-        )
-        _write_lock(lock_file, proc.pid)
-        return True
-    except (FileNotFoundError, OSError):
-        return False
+    return spawn_logged(cmd, env, workspace, lock_file)
 
 
 def build_consolidation_prompt(
@@ -290,7 +349,7 @@ def main() -> None:
     state = load_consolidate_state(state_file)
 
     log_dates = parse_log_dates(workspace / "logs")
-    cycle = determine_cycle(state, log_dates, config)
+    cycle = determine_cycle(state, log_dates, config, workspace)
     if not cycle:
         return
 

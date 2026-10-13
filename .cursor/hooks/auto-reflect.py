@@ -15,11 +15,12 @@ import json
 import os
 import subprocess
 import sys
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 
 
 DEFAULT_REFLECT_THRESHOLD = 10
+STARTUP_GRACE_SECONDS = 4
 LOCK_NAME = "reflect.lock"
 SKILL_PATH = Path("agent_brain/skills/process-conversation.md")
 
@@ -227,6 +228,49 @@ def _write_lock(lock_file: Path, pid: int) -> None:
     lock_file.write_text(json.dumps({"pid": pid}) + "\n")
 
 
+def spawn_logged(cmd: list[str], env: dict, workspace: Path, lock_file: Path) -> bool:
+    """Start the agent detached, logging its output; True only if it did not fail fast.
+
+    stdout/stderr go to .state/hook.log instead of /dev/null so failures such
+    as "Authentication required" leave a trace. A process that exits non-zero
+    within STARTUP_GRACE_SECONDS counts as failed (no lock, caller keeps its
+    state and retries later).
+    """
+    log_path = lock_file.parent / "hook.log"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        with open(log_path, "a") as log:
+            log.write(
+                f"\n--- {datetime.now().isoformat(timespec='seconds')} "
+                f"{lock_file.name.removesuffix('.lock')} {cmd[0]} ---\n"
+            )
+            log.flush()
+            proc = subprocess.Popen(
+                cmd,
+                env=env,
+                cwd=str(workspace),
+                stdout=log,
+                stderr=subprocess.STDOUT,
+                start_new_session=True,
+            )
+            try:
+                code = proc.wait(timeout=STARTUP_GRACE_SECONDS)
+            except subprocess.TimeoutExpired:
+                _write_lock(lock_file, proc.pid)
+                return True
+            if code != 0:
+                log.write(f"[hook] {cmd[0]} exited with code {code} at startup\n")
+                return False
+            return True
+    except (FileNotFoundError, OSError) as exc:
+        try:
+            with open(log_path, "a") as log:
+                log.write(f"[hook] could not start {cmd[0]}: {exc}\n")
+        except OSError:
+            pass
+        return False
+
+
 def invoke_reflect_agent(cli: str, prompt: str, workspace: Path, lock_file: Path) -> bool:
     """Launch reflect agent in background."""
     if not _acquire_lock(lock_file):
@@ -239,19 +283,7 @@ def invoke_reflect_agent(cli: str, prompt: str, workspace: Path, lock_file: Path
         cmd.extend(["--workspace", str(workspace), "--force"])
     else:
         cmd.extend(["--allowedTools", "Write", "Edit", "Bash(git *)"])
-    try:
-        proc = subprocess.Popen(
-            cmd,
-            env=env,
-            cwd=str(workspace),
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            start_new_session=True,
-        )
-        _write_lock(lock_file, proc.pid)
-        return True
-    except (FileNotFoundError, OSError):
-        return False
+    return spawn_logged(cmd, env, workspace, lock_file)
 
 
 def build_reflect_prompt(workspace: Path, skill_content: str, filtered: str) -> str:
@@ -349,7 +381,10 @@ def main() -> None:
         )
 
     prompt = build_reflect_prompt(workspace, skill_content, filtered)
-    invoke_reflect_agent(platform["cli"], prompt, workspace, lock_file)
+    if not invoke_reflect_agent(platform["cli"], prompt, workspace, lock_file):
+        # Launch failed or lock held: keep last_processed_line so the same
+        # segment is retried on the next trigger instead of being lost.
+        return
 
     state["last_save_at"] = state["message_count"]
     state["last_processed_line"] = total_lines
